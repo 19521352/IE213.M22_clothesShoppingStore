@@ -1,0 +1,41 @@
+{
+  "name": "shop",
+  "version": "1.0.0",
+  "description": "Clothes Shopping Store Site Project",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon --inspect ./src/index.js",
+    "watch": "sass --watch src/resources/scss/app.scss src/public/css/app.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/19521352/IE213.M22_clothesShoppingStore.git"
+  },
+  "keywords": [
+    "nodejs",
+    "backend",
+    "clothesShoppingStore",
+    "store",
+    "ie213",
+    "uit"
+  ],
+  "author": "group1-ie213.m22",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/19521352/IE213.M22_clothesShoppingStore/issues"
+  },
+  "homepage": "https://github.com/19521352/IE213.M22_clothesShoppingStore#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.3",
+    "mongoose": "^6.2.7"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "node-sass": "^7.0.1",
+    "nodemon": "^2.0.15",
+    "sass": "^1.49.9",
+    "script": "^0.1.4"
+  }
+}
