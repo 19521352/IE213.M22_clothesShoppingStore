@@ -4,8 +4,8 @@
 * __Mã môn học:__ IE213
 * __Mã lớp:__ IE213.M22
 * __Giảng viên:__ 
-  + GV Lý Thuyết: Võ Tấn Khoa - khoavt@uit.edu.vn
-  + GV HDTH: Phạm Nhật Duy - duypn@uit.edu.vn
+  + __GV Lý Thuyết:__ Võ Tấn Khoa - khoavt@uit.edu.vn
+  + __GV HDTH:__ Phạm Nhật Duy - duypn@uit.edu.vn
 ## Thông tin nhóm
 * __STT Nhóm:__ 1
 * __Chủ đề đồ án:__ Xây dựng website bán quần áo
