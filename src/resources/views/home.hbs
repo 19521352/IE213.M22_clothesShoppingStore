@@ -6,18 +6,28 @@
 
       <div class="single-products">
         <div class="productinfo text-center">
-          <img src="{{this.image}}" alt="">
-          <h2>{{this.price}} vnđ</h2>
-          <p>{{this.name}}</p>
-          <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+          <a href="/products/{{this._id}}">
+            <img src="{{this.products_list.[0].image}}" alt="">
+          </a>
+          <a href="/products/{{this._id}}">
+            <h2>{{this.name}}</h2>
+          </a>
+          <p>{{this.products_list.[0].price.base}} vnđ</p>
+          <a href="#" class="btn btn-default add-to-cart">
+            <i class="fa fa-shopping-cart"></i>
+            Add to cart
+          </a>
         </div>
-        <div class="product-overlay">
+        {{!-- <div class="product-overlay">
           <div class="overlay-content">
-            <h2>{{this.price}} vnđ</h2>
+            <h2>{{this.products_list.[0].price.base}} vnđ</h2>
             <p>{{this.name}}</p>
-            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+            <a href="#" class="btn btn-default add-to-cart">
+              <i class="fa fa-shopping-cart"></i>
+              Add to cart
+            </a>
           </div>
-        </div>
+        </div> --}}
       </div>
       <div class="choose">
         <ul class="nav nav-pills nav-justified">

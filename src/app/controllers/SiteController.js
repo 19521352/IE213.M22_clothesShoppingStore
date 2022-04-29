@@ -1,19 +1,22 @@
-const Clothes = require('../models/Clothes');
+const Product = require('../models/Product');
+
 const { mutipleMongooseToObject } = require('../../util/mongoose');
 
 class SiteController {
+
   // [GET] /home
   index(req, res, next) {
-    Clothes.find({})
+
+    Product.find({})
       .then((clothesItems) => {
         res.render('home', {
           clothesItems: mutipleMongooseToObject(clothesItems),
         });
       })
       .catch(next);
+
   }
 
-  // res.json(Clothes)
 }
 
 

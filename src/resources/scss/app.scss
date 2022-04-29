@@ -1,9 +1,65 @@
 @import 'variables';
 
-h1 {
-  color: $red-color
+.sizes {
+  text-transform: UPPERCASE;
 }
 
-h2 {
-  color: blue
+.color {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+  height: 2em;
+  width: 2em;
+  border-radius: 2px; 
 }
+
+
+.orange {
+  background: #ff9f1a; }
+
+.green {
+  background: #85ad00; }
+
+.blue {
+  background: #0076ad; }
+
+.colors .btn span.glyphicon {    			
+  opacity: 0;				
+}
+.colors .btn.active span.glyphicon {				
+  opacity: 1;				
+}
+
+.colors .btn[disabled] span.glyphicon {
+  opacity: 1
+}
+
+.colors .btn span {
+  margin-bottom: 0px;
+}
+  
+.sizes .btn span {
+  margin-bottom: 0px;
+}
+
+.sizes .btn {    			
+  background-color: white;
+  color: orange
+}
+.sizes .btn.active {		
+  background-color: orange;
+  color: white		
+}
+
+.btn[disabled] {
+  color: white;
+}
+
+.btn-check {
+  position: absolute;
+  clip: rect(0,0,0,0);
+  pointer-events: none;
+}
+
+
+
