@@ -63,4 +63,14 @@
   pointer-events: none;
 }
 
+.orange_color {
+  color: #ff9f1a;
+}
+
+.comment-widgets {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 /*# sourceMappingURL=app.css.map */
