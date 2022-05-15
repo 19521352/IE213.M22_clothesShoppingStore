@@ -6,6 +6,8 @@ const userController = require('../app/controllers/UserController');
 // productController.index
 
 
-router.get('/login',userController.getLogin);
+router.get('/',userController.getLogin)
+      .post('/',userController.Register)
+      
 
 module.exports = router;

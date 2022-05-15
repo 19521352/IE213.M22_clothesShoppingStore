@@ -4,8 +4,8 @@ const userRouter = require('./user');
 
 function route(app) {
   app.use('/products', productsRouter);
-
-  app.use('/',userRouter);
+  app.use('/login',userRouter)
+  app.use('/',siteRouter);
   
 }
 
