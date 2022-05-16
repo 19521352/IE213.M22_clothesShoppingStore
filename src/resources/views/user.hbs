@@ -22,14 +22,14 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-
+	<h3 class={{class}}>{{status}}</h3>
 	<section id="form"><!--form-->
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->
 						<h2>Login to your account</h2>
-						<form action="/login" method="get">
+						<form action="/login" method="post">
 							<input type="email" name="email" id="email" placeholder="Email Address" />
                             <input type="password" name="password" id="password" placeholder="Password"/>
 							<span>
@@ -46,11 +46,11 @@
 				<div class="col-sm-4">
 					<div class="signup-form"><!--sign up form-->
 						<h2>New User Signup!</h2>
-						<form action="/login" method="post">
+						<form action="/login/create" method="post">
 							<input type="text" name="name" id="name" placeholder="Name"/>
 							<input type="email" name="email" id="email"placeholder="Email Address"/>
 							<input type="password" name="password" id="password"placeholder="Password"/>
-							<button type="submit" class="btn btn-default">Signup</button>
+							<button type="submit" class="btn btn-default" >Signup</button>
 						</form>
 					</div><!--/sign up form-->
 				</div>
@@ -63,5 +63,6 @@
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
+
 </body>
 </html>

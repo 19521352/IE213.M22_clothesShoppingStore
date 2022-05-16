@@ -4,8 +4,8 @@ const morgan = require('morgan')
 const { engine } = require('express-handlebars')
 const route = require('./routes')
 const db = require('./config/db')
-const timeKeeper = require('handlebars-helpers')();
-
+const timeKeeper = require('handlebars-helpers');
+const cookieparser = require('cookie-parser')
 // Connect to DB
 db.connect()
 
@@ -18,7 +18,7 @@ const port = 3000
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(cookieparser())
 // Template engine
 app.engine(
   'hbs',
