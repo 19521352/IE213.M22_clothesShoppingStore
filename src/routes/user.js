@@ -7,7 +7,8 @@ const userController = require('../app/controllers/UserController');
 
 
 router.get('/',userController.getLogin)
-      .post('/',userController.Register)
+      .post('/',userController.Login)
+      .post('/create',userController.Register)
       
 
 module.exports = router;

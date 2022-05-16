@@ -72,5 +72,14 @@
   padding: 10px;
   border-radius: 5px;
 }
-
+.success {
+  padding: 20px;
+  background-color: #009f15;
+  color: white;
+}
+.error{
+  padding: 20px;
+  background-color: #bd0101;
+  color: white;
+}
 /*# sourceMappingURL=app.css.map */
