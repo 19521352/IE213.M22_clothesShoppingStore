@@ -1,66 +1,100 @@
-.sizes {
-  text-transform: UPPERCASE;
-}
-
-.color {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-  height: 2em;
-  width: 2em;
-  border-radius: 2px;
-}
-
-.orange {
-  background: #ff9f1a;
-}
-
-.green {
-  background: #85ad00;
-}
-
-.blue {
-  background: #0076ad;
-}
-
-.colors .btn span.glyphicon {
-  opacity: 0;
-}
-
-.colors .btn.active span.glyphicon {
-  opacity: 1;
-}
-
-.colors .btn[disabled] span.glyphicon {
-  opacity: 1;
-}
-
-.colors .btn span {
-  margin-bottom: 0px;
-}
-
-.sizes .btn span {
-  margin-bottom: 0px;
-}
-
-.sizes .btn {
-  background-color: white;
-  color: orange;
-}
-
-.sizes .btn.active {
-  background-color: orange;
-  color: white;
-}
-
-.btn[disabled] {
-  color: white;
-}
-
 .btn-check {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
+}
+
+.btn-check:disabled + .btn, .btn-check[disabled] + .btn {
+  pointer-events: none;
+  filter: none;
+  opacity: 0.45;
+}
+
+#size-list {
+  text-transform: UPPERCASE;
+}
+
+#size-list .btn span {
+  margin-bottom: 0px;
+}
+
+#size-list .btn {
+  background-color: white;
+  color: orange;
+}
+
+#size-list .btn-check:checked + .btn-warning {
+  background-color: orange;
+  color: white;
+}
+
+.colors .btn-check + .btn-warning span.glyphicon-ok {
+  opacity: 0;
+  margin-top: 0px;
+}
+.colors .btn-check + .btn-warning span.glyphicon-remove {
+  display: none;
+  margin-top: 0px;
+}
+
+.colors .btn-check + .btn-warning[style="background: #ffffff"] {
+  color: orange;
+}
+
+.colors .btn-check:checked + .btn-warning span.glyphicon-ok {
+  opacity: 1;
+}
+
+.colors .btn-check:disabled + .btn, .btn-check[disabled] + .btn {
+  pointer-events: none;
+  filter: none;
+  opacity: 0.45;
+}
+.colors .btn-check:disabled + .btn span.glyphicon-remove, .btn-check[disabled] + .btn span.glyphicon-remove {
+  display: block;
+  opacity: 1;
+}
+.colors .btn-check:disabled + .btn span.glyphicon-ok, .btn-check[disabled] + .btn span.glyphicon-ok {
+  display: none;
+}
+
+.priceBefore {
+  margin-top: 10px;
+  font-size: 20px;
+  text-decoration: line-through;
+  color: #929292;
+  margin-right: 10px;
+}
+
+#similar-product .carousel-inner .item img {
+  max-width: 75px;
+  cursor: pointer;
+}
+
+#quantity {
+  margin: 0;
+}
+
+#details pre {
+  color: #363432;
+  background-color: white;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  line-height: 1.428571429;
+  padding: 0 20px;
+  border: none;
+}
+
+.product-name {
+  color: #363432;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  line-height: 40px;
 }
 
 /*# sourceMappingURL=app.css.map */

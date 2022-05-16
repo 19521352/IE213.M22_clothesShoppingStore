@@ -17,11 +17,34 @@ const port = 3000
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Pjax
+// const pjax = require('express-pjax');
+// app.use(pjax())
+
+
 // Template engine
 app.engine(
   'hbs',
   engine({
-    extname: '.hbs'
+    extname: '.hbs',
+    helpers: {
+      json: function (context) {
+        return JSON.stringify(context);
+      },
+      eq: (v1, v2) => v1 === v2,
+      ne: (v1, v2) => v1 !== v2,
+      lt: (v1, v2) => v1 < v2,
+      gt: (v1, v2) => v1 > v2,
+      lte: (v1, v2) => v1 <= v2,
+      gte: (v1, v2) => v1 >= v2,
+      and() {
+        return Array.prototype.every.call(arguments, Boolean);
+      },
+      or() {
+        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+      }
+    }
+
   }
   ));
 app.set('view engine', 'hbs');
