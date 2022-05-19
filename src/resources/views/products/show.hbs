@@ -47,68 +47,72 @@
         {{/if}}
         {{/if}}
         <h2>{{product.name}}</h2>
-        <p>Web ID: <span class="size" id="productId">{{product._id}}</span></p>
-        <p><img src="/images/product-details/rating.png" alt="" /></p>
-        {{#if (or (ne priceDetail.minPrice priceDetail.minPriceBase) (ne priceDetail.maxPrice
-        priceDetail.maxPriceBase))}}
-        {{#if (ne priceDetail.minPriceBase priceDetail.maxPriceBase)}}
-        <p class="priceBefore" id="priceBefore">{{priceDetail.minPriceBase}} - {{priceDetail.maxPriceBase}}
-          {{product.skus.[0].price.currency}}</p>
-        {{else}}
-        <p class="priceBefore" id="priceBefore">{{priceDetail.maxPriceBase}} {{product.skus.[0].price.currency}}</p>
-        {{/if}}
-        {{/if}}
-
-        <span style="margin: 0px; ">
-          {{#if (ne priceDetail.minPrice priceDetail.maxPrice)}}
-          <span style="display:block; margin: 0px" id="priceCurrent">{{priceDetail.minPrice}} - {{priceDetail.maxPrice}}
-            {{product.skus.[0].price.currency}}</span>
+        <form method="POST" action="/cart">
+          <p>Web ID:<input type="text" id="productId" value="{{product._id}}" disabled /></p>
+          <p><img src="/images/product-details/rating.png" alt="" /></p>
+          {{#if (or (ne priceDetail.minPrice priceDetail.minPriceBase) (ne priceDetail.maxPrice
+          priceDetail.maxPriceBase))}}
+          {{#if (ne priceDetail.minPriceBase priceDetail.maxPriceBase)}}
+          <p class="priceBefore" id="priceBefore">{{priceDetail.minPriceBase}} - {{priceDetail.maxPriceBase}}
+            {{product.skus.[0].price.currency}}</p>
           {{else}}
-          <span style="display:block; margin: 0px" id="priceCurrent">{{priceDetail.maxPrice}}
-            {{product.skus.[0].price.currency}}</span>
+          <p class="priceBefore" id="priceBefore">{{priceDetail.maxPriceBase}} {{product.skus.[0].price.currency}}
+          </p>
           {{/if}}
-        </span>
+          {{/if}}
 
-        <p>
           <span style="margin: 0px; ">
-            <input type=" text" value="3" />
+            {{#if (ne priceDetail.minPrice priceDetail.maxPrice)}}
+            <span style="display:block; margin: 0px" id="priceCurrent">{{priceDetail.minPrice}} -
+              {{priceDetail.maxPrice}}
+              {{product.skus.[0].price.currency}}</span>
+            {{else}}
+            <span style="display:block; margin: 0px" id="priceCurrent">{{priceDetail.maxPrice}}
+              {{product.skus.[0].price.currency}}</span>
+            {{/if}}
           </span>
 
-          <button type="button" class="btn btn-fefault cart" id="cart-btn">
-            <i class="fa fa-shopping-cart"></i>
-            Add to cart
-          </button>
-        </p>
-        <p>
-          <b>Quantity: </b><span id="quantity">{{totalQuantity}}</span>
-        </p>
-        <p><b>Availability:</b> In Stock</p>
-        <p><b>Condition:</b> New</p>
-        <p><b>Sizes:</b></p>
-        <div id="size-list">
-          {{#each sizeList}}
-          <input class="btn-check" type="radio" value="{{this.[0].size.[size_type]}}"
-            id="size-{{this.[0].size.[size_type]}}" name="productSizeList[]" autocomplete="off"
-            onchange="sizeBtnClick({{json this}})">
-          <label class="btn btn-warning size-btn"
-            for="size-{{this.[0].size.[size_type]}}">{{this.[0].size.[size_type]}}</label>
-          {{/each}}
-        </div>
+          <p>
+            <span style="margin: 0px; ">
+              <input type=" text" value="3" />
+            </span>
 
-        <p><b>Colors:</b></p>
-        <div class="colors">
-          {{#each colorList}}
-          <input class="btn-check" value="{{this.[0].color.color}}" type="radio" name="productColorList[]"
-            id="color-{{this.[0].color.color}}" autocomplete="off" onchange="colorBtnClick({{json this}})">
-          <label class="btn btn-warning" style="background: {{this.[0].color.colorHex}}"
-            for="color-{{this.[0].color.color}}">
-            <span class="glyphicon glyphicon-ok"></span>
-            <span class="glyphicon glyphicon-remove"></span>
-          </label>
-          {{/each}}
-        </div>
+            <button type="button" class="btn btn-fefault cart" id="cart-btn">
+              <i class="fa fa-shopping-cart"></i>
+              Add to cart
+            </button>
+          </p>
+          <p>
+            <b>Quantity: </b><span id="quantity">{{totalQuantity}}</span>
+          </p>
+          <p><b>Availability:</b> In Stock</p>
+          <p><b>Condition:</b> New</p>
+          <p><b>Sizes:</b></p>
+          <div id="size-list">
+            {{#each sizeList}}
+            <input class="btn-check" type="radio" value="{{this.[0].size.[size_type]}}"
+              id="size-{{this.[0].size.[size_type]}}" name="productSizeList[]" autocomplete="off"
+              onchange="sizeBtnClick({{json this}})">
+            <label class="btn btn-warning size-btn"
+              for="size-{{this.[0].size.[size_type]}}">{{this.[0].size.[size_type]}}</label>
+            {{/each}}
+          </div>
 
-        <a href=""><img src="/images/product-details/share.png" class="share img-responsive" alt="" /></a>
+          <p><b>Colors:</b></p>
+          <div class="colors">
+            {{#each colorList}}
+            <input class="btn-check" value="{{this.[0].color.color}}" type="radio" name="productColorList[]"
+              id="color-{{this.[0].color.color}}" autocomplete="off" onchange="colorBtnClick({{json this}})">
+            <label class="btn btn-warning" style="background: {{this.[0].color.colorHex}}"
+              for="color-{{this.[0].color.color}}">
+              <span class="glyphicon glyphicon-ok"></span>
+              <span class="glyphicon glyphicon-remove"></span>
+            </label>
+            {{/each}}
+          </div>
+
+          <a href=""><img src="/images/product-details/share.png" class="share img-responsive" alt="" /></a>
+        </form>
       </div>
       <!--/product-information-->
     </div>

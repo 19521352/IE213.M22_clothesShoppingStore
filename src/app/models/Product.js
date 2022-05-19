@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const slug = require('mongoose-slug-generator');
+const slug = require('mongoose-slug-generator');
 
 // mongoose.plugin(slug);
 
@@ -51,6 +51,7 @@ const Product = new Schema(
     skus: [
       { type: Sku }
     ],
+    slug: { type: String, slug: 'name', unique: true }
   },
   {
     timestamps: true,

@@ -6,10 +6,10 @@
 
       <div class="single-products">
         <div class="productinfo text-center">
-          <a href="/products/{{this._id}}">
+          <a href="/products/{{this.slug}}">
             <img src="{{this.skus.[0].image.[0]}}" alt="">
           </a>
-          <a href="/products/{{this._id}}">
+          <a href="/products/{{this.slug}}">
             <span class="product-name">{{this.name}}</span>
           </a>
           {{#if (or (ne this.minPrice this.minPriceBase) (ne this.maxPrice

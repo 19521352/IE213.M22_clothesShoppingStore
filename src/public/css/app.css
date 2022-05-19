@@ -97,4 +97,11 @@
   line-height: 40px;
 }
 
+input[type=text]#productId {
+  -webkit-appearance: none !important;
+  border: 0;
+  background: white;
+  width: 100%;
+}
+
 /*# sourceMappingURL=app.css.map */

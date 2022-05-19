@@ -11,6 +11,8 @@ class SiteController {
     Product.find({}).lean()
       .then((clothesItems) => {
         res.render('home', {
+          layout: 'main',
+          title: 'Trang chủ',
           clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus)))
 
         });
