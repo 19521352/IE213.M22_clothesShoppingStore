@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const morgan = require('morgan')
 const { engine } = require('express-handlebars')
+var bodyParser = require('body-parser')
 
 const route = require('./routes')
 const db = require('./config/db')
@@ -42,13 +43,18 @@ app.engine(
       },
       or() {
         return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-      }
+      },
+      sum: (a, b) => a + b
     }
 
   }
   ));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
+
+
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 
 // Route init
 route(app);

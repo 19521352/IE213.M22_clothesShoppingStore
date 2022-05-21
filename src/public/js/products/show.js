@@ -30,13 +30,13 @@ function setPrice(obj) {
 function sizeBtnClick(data) {
   const colorItemBtn = $('input[name="productColorList[]"]:checked')
   if (colorItemBtn.length) {
-    reRenderDetail(data.find(e => e.color.color == colorItemBtn[0].value))
+    reRenderDetail(data.find(e => e.color.color_type == colorItemBtn[0].value))
   } else {
     var dataObj = setPrice(data)
     dataObj = Object.assign(dataObj, { 'quantity': getTotalQuantity(data) })
     reRenderDetail(dataObj)
   }
-  const colorArr = data.map(e => (e.color.color))
+  const colorArr = data.map(e => (e.color.color_type))
   disableBtn(colorArr, "productColorList[]")
 }
 

@@ -1,171 +1,140 @@
-<div class="row">
-  <div class="col-sm-3">
-    <div class="left-sidebar">
-      <h2>Category</h2>
-      <div class="panel-group category-products" id="accordian">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordian" href="#createProduct">
-                <span class="badge pull-right"></span>
-                Create Product
-              </a>
-            </h4>
+<div id="create-product-page">
+  <div class="bg">
+    <div class="row">
+      <div class="create-product-form">
+        <h2 class="title text-center">Create Product</h2>
+        <div class="status alert alert-success" style="display: none"></div>
+        {{!-- Create Product Form --}}
+        <form id="create-product" class="create-product row" name="create-product-form" method="POST"
+          action="/products/create">
+          <div class="form-group col-md-12">
+            <label for="name">Tên sản phẩm
+            </label>
+            <input type="text" name="name" class="form-control" id="formName" required="required">
           </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordian" href="#createSku">
-                <span class="badge pull-right"></span>
-                Create Sku
-              </a>
-            </h4>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordian" href="#womens">
-                <span class="badge pull-right"></span>
-                Update Product
-              </a>
-            </h4>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordian" href="#womens">
-                <span class="badge pull-right"></span>
-                Update Skus
-              </a>
-            </h4>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-9">
-    <div id="contact-page">
-      <div class="bg">
-        <div class="row">
-          <div class="create-product-form">
-            <h2 class="title text-center">Create Product</h2>
-            <div class="status alert alert-success" style="display: none"></div>
-            {{!-- Create Product Form --}}
-            <form id="create-product" class="create-productcreate-product row" name="create-product-form" method="POST"
-              action="/products/store">
-              <div class="form-group col-md-12">
-                <label for="name">Ten san pham</label>
-                <input type="text" name="name" class="form-control" required="required">
-              </div>
-              <div class="form-group col-md-12">
-                <label for="condition">Trạng thái</label>
-                <select class="form-control" id="condition">
-                  <option>Default select</option>
-                </select>
-              </div>
-              <div class="form-group col-md-12">
-                <label for="description">Mô tả</label>
-                <input type="text" name="description" class="form-control" required="required">
-              </div>
-              <div class="form-group col-md-12">
-                <fieldset class="form-group row">
-                  <legend class="col-form-label col-sm-2 float-sm-left pt-0">Thể loại</legend>
-                </fieldset>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="sportSwearCheckbox" value="sport-swear">
-                  <label class="form-check-label" for="sportSwearCheckbox"></label>Đồ thể thao</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                  <label class="form-check-label" for="inlineCheckbox2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                  <label class="form-check-label" for="inlineCheckbox1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                  <label class="form-check-label" for="inlineCheckbox2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                  <label class="form-check-label" for="inlineCheckbox1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                  <label class="form-check-label" for="inlineCheckbox2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                  <label class="form-check-label" for="inlineCheckbox1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                  <label class="form-check-label" for="inlineCheckbox2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                  <label class="form-check-label" for="inlineCheckbox1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                  <label class="form-check-label" for="inlineCheckbox2">2</label>
-                </div>
-              </div>
-              <div class="form-group col-md-12">
-                <input type="checkbox" name="subject" class="form-control" required="required" placeholder="Subject">
-              </div>
-              <div class="form-group col-md-12">
-                <textarea name="message" id="message" required="required" class="form-control" rows="8"
-                  placeholder="Your Message Here"></textarea>
-              </div>
-              <div class="form-group col-md-12">
-                <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">
-              </div>
-            </form>
-          </div>
-        </div>
-        {{!-- <div class="row">
-          <div class="col-sm-8">
+          <div class="form-group col-md-12">
+            <label for="condition">Trạng thái</label>
+            <select class="form-control" id="formCondition" required="required" name="condition">
+              <option value="">Chọn trạng thái</option>
+              <option value="new">Mới</option>
+              <option value="out-of-stock">Hết hàng</option>
+              <option value="sale">Giảm giá</option>
 
+            </select>
           </div>
-          <div class="col-sm-4">
-            <div class="contact-info">
-              <h2 class="title text-center">Contact Info</h2>
-              <address>
-                <p>E-Shopper Inc.</p>
-                <p>935 W. Webster Ave New Streets Chicago, IL 60614, NY</p>
-                <p>Newyork USA</p>
-                <p>Mobile: +2346 17 38 93</p>
-                <p>Fax: 1-714-252-0026</p>
-                <p>Email: info@e-shopper.com</p>
-              </address>
-              <div class="social-networks">
-                <h2 class="title text-center">Social Networking</h2>
-                <ul>
-                  <li>
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fa fa-youtube"></i></a>
-                  </li>
-                </ul>
+          <div class="form-group col-md-12">
+            <p><label>Phân loại</label></p>
+            <fieldset class="form-group row col-md-4">
+              <legend class="col-form-label">Tops</legend>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="t-shirtsCheckbox" value="t-shirts">
+                  <label class="form-check-label" for="t-shirtsCheckbox">
+                    T-shirts & Polo shirts
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="shirtsCheckbox" value="shirts">
+                  <label class="form-check-label" for="shirtsCheckbox">
+                    Shirts
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="longsleevesCheckbox"
+                    value="longsleeves">
+                  <label class="form-check-label" for="longsleevesCheckbox">
+                    Longsleeves
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="sweaterAndCardigansCheckbox"
+                    value="sweaterAndCardigans">
+                  <label class="form-check-label" for="sweaterAndCardigansCheckbox">
+                    Sweater & Cardigans
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="sweattshirstsAndHoddiesCheckbox"
+                    value="sweattshirstsAndHoddies">
+                  <label class="form-check-label" for="sweattshirstsAndHoddiesCheckbox">
+                    Sweattshirsts & Hoddies
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="outerwearCheckbox"
+                    value="outerwear">
+                  <label class="form-check-label" for="outerwearCheckbox">
+                    Outerwear
+                  </label>
+                </div>
               </div>
-            </div>
+            </fieldset>
+            <fieldset class="form-group row col-md-4">
+              <legend class="col-form-label">Bottom</legend>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="dressesAndSkirtsCheckbox"
+                  value="dressesAndSkirts">
+                <label class="form-check-label" for="dressesAndSkirtsCheckbox">
+                  Dresses & Skirts
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="pantsCheckbox" value="pants">
+                <label class="form-check-label" for="pantsCheckbox">
+                  Pants
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="shortsCheckbox" value="shorts">
+                <label class="form-check-label" for="shortsCheckbox">
+                  Shorts
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="form-group row col-md-4">
+              <legend class="col-form-label">Accessories</legend>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="capsHatsCheckbox" value="capsHats">
+                <label class="form-check-label" for="capsHatsCheckbox">
+                  Caps/Hats
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="walletsCheckbox" value="wallets">
+                <label class="form-check-label" for="walletsCheckbox">
+                  Wallets
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="socksCheckbox" value="socks">
+                <label class="form-check-label" for="socksCheckbox">
+                  Socks
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="otherAccessoriesCheckbox"
+                  value="otherAccessories">
+                <label class="form-check-label" for="otherAccessoriesCheckbox">
+                  Other Accessories
+                </label>
+              </div>
+            </fieldset>
           </div>
-        </div> --}}
+          <div class="form-group col-md-12">
+            <label for="description">Mô tả</label>
+            <textarea name="description" id="descriptionTextarea" required="required" class="form-control"
+              rows="8"></textarea>
+          </div>
+          <div class="form-group col-md-12">
+            <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+
 
 <!--/#contact-page-->

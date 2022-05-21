@@ -101,10 +101,10 @@
           <p><b>Colors:</b></p>
           <div class="colors">
             {{#each colorList}}
-            <input class="btn-check" value="{{this.[0].color.color}}" type="radio" name="productColorList[]"
-              id="color-{{this.[0].color.color}}" autocomplete="off" onchange="colorBtnClick({{json this}})">
-            <label class="btn btn-warning" style="background: {{this.[0].color.colorHex}}"
-              for="color-{{this.[0].color.color}}">
+            <input class="btn-check" value="{{this.[0].color.color_type}}" type="radio" name="productColorList[]"
+              id="color-{{this.[0].color.color_type}}" autocomplete="off" onchange="colorBtnClick({{json this}})">
+            <label class="btn btn-warning" style="background: {{this.[0].color.color_hex}}"
+              for="color-{{this.[0].color.color_type}}">
               <span class="glyphicon glyphicon-ok"></span>
               <span class="glyphicon glyphicon-remove"></span>
             </label>
