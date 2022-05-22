@@ -1,3 +1,5 @@
+var Handlebars = require("handlebars");
+var MomentHandler = require("handlebars.moment");
 const express = require('express')
 const path = require('path')
 const morgan = require('morgan')
@@ -6,6 +8,7 @@ const route = require('./routes')
 const db = require('./config/db')
 const timeKeeper = require('handlebars-helpers');
 const cookieparser = require('cookie-parser')
+
 // Connect to DB
 db.connect()
 
@@ -26,9 +29,15 @@ app.engine(
     extname: '.hbs'
   }
   ));
-
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources', 'views'));
+  
+  app.set('view engine', 'hbs');
+  app.set('views', path.join(__dirname, 'resources', 'views'));
+  
+// handlebar helpers
+MomentHandler.registerHelpers(Handlebars);
+Handlebars.registerHelper('compareString', function(String1, String2){
+  return String1 == String2;
+})
 
 // Route init
 route(app);

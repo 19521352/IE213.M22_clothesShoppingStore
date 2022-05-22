@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const Comments = new Schema({
   name: {type: String},
   email: {type: String},
-  comment: {type: String, minlength: 10},
+  comment: {type: String, minlength: 4},
   rate: {type: Number, min:0, max:5, default:5},
   productId: {type: String, required: true},
 }, {

@@ -11,6 +11,7 @@ class SiteController {
       .then((clothesItems) => {
         res.render('home', {
           clothesItems: mutipleMongooseToObject(clothesItems),
+          isSignin: req.user,
         });
       })
       .catch(next);

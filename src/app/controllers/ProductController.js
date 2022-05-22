@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const Comments = require('../models/Comments');
+const User = require('../models/User');
 const { groupByField } = require('../../util/groupByField')
 const { mongooseToObject } = require('../../util/mongoose');
 const { mutipleMongooseToObject } =require('../../util/mongoose');
@@ -16,19 +17,27 @@ class ProductController {
             colorList: Object.keys(groupByField(product.products_list, 'color.color')),
             sizeList: Object.keys(groupByField(product.products_list, 'size_type')),
             comment: mutipleMongooseToObject(comment),
+            islogin: req.user,
           });
+          
         })
 
       })
       .catch(next);
+    
   }
 
   postComment(req, res, next) {
-    const Data = req.body;
-    Data.rate = 5;
+    // console.log(req.body);
+    User.findOne({email: req.body.email}).then((user) => {
+      const Data = req.body;
+      Data.name = user.name;
+      const comment = new Comments(Data);
+      console.log(comment)
+      comment.save();
+    })
 
-    const comment = new Comments(Data);
-    comment.save();
+
 
     Product.findOne({ _id: req.params.slug })
       .then((product) => {

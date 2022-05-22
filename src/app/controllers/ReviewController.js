@@ -16,6 +16,7 @@ class ReviewController {
   }
 
   postComment(req, res, next) {
+
     const Data = req.body
     Data.rate = 5;
     const comment = new Comments(Data);

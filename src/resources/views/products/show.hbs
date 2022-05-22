@@ -1,5 +1,5 @@
+<link rel="stylesheet" href="/css/addons/rating.css">
 <div class="product-details">
-
   <!--product-details-->
   <div class="col-sm-5">
     <div class="view-product">
@@ -301,7 +301,7 @@
                                                         <li>
                                                             <a href=""><i class="fa fa-calendar-o orange_color"></i>{{moment this.createdAt format="DD MMM YYYY"}}</a> 
                                                         </li>
-                                                        <span class="action-icons"> <a href="#" data-abc="true"><i class="fa fa-pencil orange_color"></i></a> <a href="#" data-abc="true"><i class="fa fa-rotate-right orange_color"></i></a> <a href="#" data-abc="true"><i class="fa fa-heart orange_color"></i></a> </span> 
+                                                        <span class="action-icons"> {{#if (compareString this.email ../islogin)}}<a href="#" data-abc="true"><i class="fa fa-pencil orange_color"></i></a>{{/if}} &nbsp <a href="#" data-abc="true"><i class="fa fa-heart orange_color"></i></a> </span> 
                                                     </ul>
                                                 </div>
                                                 <p class="m-b-5 m-t-0">{{this.comment}}</p>
@@ -313,20 +313,49 @@
                             </div>
                         </div>
                     </div>
-                    <p><b>Write Your Review</b></p>
-                    <form action="/products/{{product._id}}" method="post">
-                        <input type="hidden" name="productId" value="{{product._id}}" />
-
-                        <span>
-                            <input name="name" type="text" placeholder="Your Name"/>
-                            <input name="email" type="email" placeholder="Email Address"/>
-                        </span>
-                        <textarea name="comment" ></textarea>
-                        <b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
-                        <button type="submit" class="btn btn-default pull-right">
-                            Submit
-                        </button>
-                    </form>
+                    {{#if islogin}}
+                        <p><b>Write Your Review</b></p>
+                        <form action="/products/{{product._id}}" method="post" onsubmit="return validateForm()">
+                            <input type="hidden" name="productId" value="{{product._id}}" />
+                            <input type="hidden" name="email" value="{{islogin}}" />
+                            
+                            <textarea name="comment" id="mycomment"></textarea>
+                            <div class="modal fade" id="genericModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h5 class="modal-title">Quá ít kí tự.</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Cảm ơn bạn đã dành thời gian review. Vui lòng viết thêm vài lời review cho sản phẩm này nhé.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rate">
+                                <span class="ratelabel"><b>Rating: </b></span>
+                                <input type="radio" id="star5" name="rate" value="5" checked/>
+                                <label for="star5" title="5 sao">5 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4" title="4 sao">4 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="3 sao">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="2 sao">2 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="1 sao">1 star</label>
+                            </div>
+                            <button type="submit" class="btn btn-default pull-right" id="submit_btn" >
+                                Submit
+                            </button>
+                        </form>
+                    {{else}}
+                        <p><b>Log in to write Your Review</b></p>
+                        <a href="/login"><button type="button" class="btn btn-default btn-lg btn-block">Login here</button></a>
+                    {{/if}}
                 </div>
             
         </div>
@@ -335,3 +364,4 @@
 </div><!--/category-tab-->
 
 <script src="/js/products/show.js"></script>
+<script src="/js/addons/checkcmt.js"></script>
