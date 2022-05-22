@@ -18,12 +18,11 @@ class ProductController {
           priceDetail: getPrice(product.skus),
           totalQuantity: getTotalQuantity(product.skus)
         })
-        // res.json(product)
       },
       )
       .catch(next)
       .catch((error) => res.render('404', {
-        layout: none,
+        layout: false,
         title: '404 error'
       }));
   }
@@ -44,7 +43,7 @@ class ProductController {
       .save()
       .then(() => res.redirect(`/products/getCreate`))
       .catch((error) => res.render('404', {
-        // layout: none,
+        layout: false,
         title: '404 error'
       }));
   }
@@ -61,9 +60,11 @@ class ProductController {
           sizeList: groupByField(product.skus, 'size.size_type'),
           title: 'Thêm SKU'
         })
-
-        // res.json(groupByField(product.skus, 'color.color_type'))
       })
+      .catch((error) => res.render('404', {
+        layout: false,
+        title: '404 error'
+      }));
   }
 
   // [POST] /products/:id/createSku
@@ -90,7 +91,7 @@ class ProductController {
       currency: obj.priceCurrency,
       discount: JSON.parse(obj.priceDiscount)
     }
-    obj.image = "/images/product-details/" + obj.image
+    obj.image = obj.image.map((item) => "/images/product-details/" + item)
     delete obj.priceBase
     delete obj.priceDiscount
     delete obj.priceCurrency
@@ -99,23 +100,23 @@ class ProductController {
     delete obj.inputOtherSizeType
 
     console.log(req.params.id)
-    // res.json(obj);
+    // res.json(obj.image);
     Product
       .findOneAndUpdate(
         { _id: req.params.id },
         { $push: { skus: obj } },
       )
-      .save()
-      .then(() => res.redirect(`/products/getCreate`))
+      .then(() => res.redirect(`/products/${req.params.id}/getUpdate`))
       .catch((error) => res.render('404', {
-        // layout: none,
+        layout: false,
         title: '404 error'
       }));
   }
 
   // [GET] /products/stored-products
   storedProducts(req, res, next) {
-    Product.find({}).lean()
+    Product
+      .find({}).lean()
       .then((clothesItems) => {
         res.render('products/stored-products', {
           layout: 'subordinate',
@@ -124,12 +125,16 @@ class ProductController {
         });
         // res.json(clothesItems.map(e => Object.assign(e, getPrice(e.skus))))
       })
-      .catch(next);
+      .catch((error) => res.render('404', {
+        layout: false,
+        title: '404 error'
+      }));
   }
 
   // [GET] /products/:id/getUpdate
   getUpdate(req, res, next) {
-    Product.findOne({ _id: req.params.id }).lean()
+    Product
+      .findOne({ _id: req.params.id }).lean()
       .then((product) => {
         res.render('products/update', {
           layout: 'subordinate',
@@ -139,6 +144,10 @@ class ProductController {
 
         // res.json(groupByField(product.skus, 'color.color_type'))
       })
+      .catch((error) => res.render('404', {
+        layout: false,
+        title: '404 error'
+      }));
   }
 
   // [POST] /products/:id/update
@@ -158,14 +167,15 @@ class ProductController {
       )
       .then(() => res.redirect(`/products/getCreate`))
       .catch((error) => res.render('404', {
-        // layout: none,
+        layout: false,
         title: '404 error'
       }));
   }
 
   // [GET] /products/:id/getUpdateSku/:skuID
   getUpdateSku(req, res, next) {
-    Product.findOne({ _id: req.params.id }).lean()
+    Product
+      .findOne({ _id: req.params.id }).lean()
       .then((product) => {
         res.render('products/updateSku', {
           layout: 'subordinate',
@@ -177,8 +187,11 @@ class ProductController {
           }),
           title: 'Thêm SKU'
         })
-
       })
+      .catch((error) => res.render('404', {
+        layout: false,
+        title: '404 error'
+      }));
   }
 
   // [POST] /products/:id/updateSku/:sku
@@ -205,7 +218,8 @@ class ProductController {
       currency: obj.priceCurrency,
       discount: JSON.parse(obj.priceDiscount)
     }
-    obj.image = "/images/product-details/" + obj.image
+    obj.image = obj.image.map((item) => "/images/product-details/" + item)
+
     delete obj.priceBase
     delete obj.priceDiscount
     delete obj.priceCurrency
@@ -213,49 +227,37 @@ class ProductController {
     delete obj.inputOtherColorHex
     delete obj.inputOtherSizeType
 
-    // console.log(req.params.id)
-    // res.json(obj);
-    // Product.updateOne(
-    //   { _id: req.params.id, 'skus._id': req.params.sku },
-    //   {
-    //     '$set': {
-    //       'skus.$': obj
-    //     }
-    //   })
-    //   .then(() => res.redirect(`/products/getCreate`))
-    //   .catch((error) => res.render('404', {
-    //     // layout: none,
-    //     title: '404 error'
-    //   }));
-    Product.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $set: {
-          'skus.$[el].color': obj.color,
-          'skus.$[el].size': obj.size,
-          'skus.$[el].quantity': obj.quantity,
-          'skus.$[el].image': obj.image,
-          'skus.$[el].price': obj.price,
+    Product
+      .findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $set: {
+            'skus.$[el].color': obj.color,
+            'skus.$[el].size': obj.size,
+            'skus.$[el].quantity': obj.quantity,
+            'skus.$[el].image': obj.image,
+            'skus.$[el].price': obj.price,
+          }
+        },
+        {
+          arrayFilters: [{ 'el._id': req.params.skuId }],
+          new: true
         }
-      },
-      {
-        arrayFilters: [{ 'el._id': req.params.skuId }],
-        new: true
-      }
-    )
+      )
       .then(() => res.redirect(`/products/${req.params.id}/getUpdate`))
       .catch((error) => res.render('404', {
-        // layout: none,
+        layout: false,
         title: '404 error'
       }));
   }
 
   // [DELETE] /products/:id
   delete(req, res, next) {
-    Product.deleteOne({ _id: req.params.id })
+    Product
+      .deleteOne({ _id: req.params.id })
       .then(() => res.redirect(`back`))
       .catch((error) => res.render('404', {
-        // layout: none,
+        layout: false,
         title: '404 error'
       }))
   }
@@ -272,7 +274,7 @@ class ProductController {
         })
       .then(() => res.redirect(`back`))
       .catch((error) => res.render('404', {
-        // layout: none,
+        layout: false,
         title: '404 error'
       }));
   }

@@ -16,9 +16,11 @@ class SiteController {
           clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus)))
 
         });
-        // res.json(clothesItems.map(e => Object.assign(e, getPrice(e.skus))))
       })
-      .catch(next);
+      .catch((error) => res.render('404', {
+        layout: false,
+        title: '404 error'
+      }));
 
   }
 
