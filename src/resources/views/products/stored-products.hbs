@@ -20,13 +20,13 @@
               <th scope="col">Phân loại
                 {{!-- {{{sortable 'type' _sort}}} --}}
               </th>
-              <th scope="col">Mô tả
-                {{!-- {{{sortable 'type' _sort}}} --}}
-              </th>
               <th scope="col">Số lượng Sku
                 {{!-- {{{sortable 'type' _sort}}} --}}
               </th>
-              <th scope="col" colspan="2">Thời gian tạo
+              <th scope="col">Thời gian tạo
+                {{!-- {{{sortable 'createdAt' _sort}}} --}}
+              </th>
+              <th scope="col" colspan="2">Lần cập nhật cuối
                 {{!-- {{{sortable 'createdAt' _sort}}} --}}
               </th>
             </tr>
@@ -43,20 +43,20 @@
               <td>{{this.name}}</td>
               <td>{{this.condition}}</td>
               <td>{{this.categories}}</td>
-              <td>{{this.description}}</td>
               <td>{{this.skus.length}}</td>
               <td>{{this.createdAt}}</td>
+              <td>{{this.updatedAt}}</td>
               <td>
                 <a href="/products/{{this._id}}/getUpdate" class="btn btn-link">Xem</a>
                 <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
-                  data-target="#delete-course-modal">Xóa</a>
+                  data-target="#delete-product-modal">Xóa</a>
               </td>
             </tr>
             {{else}}
             <tr>
               <td colspan="5" class="text-center">
-                Bạn chưa đăng khóa học nào.
-                <a href="/courses/create">Đăng khóa học</a>
+                Bạn chưa tạo sản phẩm nào.
+                <a href="/courses/create">Tạo sản phẩm</a>
               </td>
             </tr>
           </tbody>
@@ -66,3 +66,30 @@
     </div>
   </div>
 </div>
+
+{{!-- Confirm delete product --}}
+<div id="delete-product-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xóa sản phẩm ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa sản phẩm này
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-product" type="button" class="btn btn-danger">Xóa bỏ</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Delete hidden forn --}}
+<form name="delete-product-form" method="POST">
+
+</form>
+<script src='/js/products/stored-products.js'></script>

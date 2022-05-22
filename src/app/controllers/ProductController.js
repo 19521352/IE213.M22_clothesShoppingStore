@@ -249,6 +249,33 @@ class ProductController {
         title: '404 error'
       }));
   }
+
+  // [DELETE] /products/:id
+  delete(req, res, next) {
+    Product.deleteOne({ _id: req.params.id })
+      .then(() => res.redirect(`back`))
+      .catch((error) => res.render('404', {
+        // layout: none,
+        title: '404 error'
+      }))
+  }
+
+  // [DELETE] /products/:id/deleteSku/:skuId
+  deleteSku(req, res, next) {
+    Product
+      .updateOne(
+        { _id: req.params.id },
+        {
+          $pull: {
+            skus: { _id: req.params.skuId },
+          },
+        })
+      .then(() => res.redirect(`back`))
+      .catch((error) => res.render('404', {
+        // layout: none,
+        title: '404 error'
+      }));
+  }
 }
 
 

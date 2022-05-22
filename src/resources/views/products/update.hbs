@@ -140,6 +140,7 @@
           </div>
         </form>
         <label for="">Skus</label>
+        <p><a href="/products/{{product._id}}/getCreateSku">Thêm Sku</a></p>
         <table class=" table mt-4">
           <thead>
             <tr>
@@ -187,15 +188,15 @@
               <td>{{this.createdAt}}</td>
               <td>
                 <a href="/products/{{../this.product._id}}/getUpdateSku/{{this._id}}" class="btn btn-link">Sửa</a>
-                <a href="" class="btn btn-link" data-toggle="modal" data-id="{{../this.product._id}}"
-                  data-target="#delete-course-modal">Xóa</a>
+                <a href="" class="btn btn-link" data-toggle="modal" data-id="{{../this.product._id}} {{this._id}}"
+                  data-target="#delete-sku-modal">Xóa</a>
               </td>
             </tr>
             {{else}}
             <tr>
               <td colspan="5" class="text-center">
-                Bạn chưa đăng khóa học nào.
-                <a href="/courses/create">Đăng khóa học</a>
+                Bạn chưa tạo Sku nào.
+                <a href="/products/{{product._id}}/getCreateSku">Tạo Sku</a>
               </td>
             </tr>
           </tbody>
@@ -205,3 +206,31 @@
     </div>
   </div>
 </div>
+
+{{!-- Confirm delete product --}}
+<div id="delete-sku-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xóa sản phẩm ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa sản phẩm này
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-sku" type="button" class="btn btn-danger">Xóa bỏ</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Delete hidden forn --}}
+<form name="delete-sku-form" method="POST">
+
+</form>
+
+<script src='/js/products/update.js'></script>
