@@ -2,7 +2,7 @@
   <div class="bg">
     <div class="row">
       <div class="create-sku-form">
-        <h2 class="title text-center">Create SKU</h2>
+        <h2 class="title text-center">Cập nhật SKU</h2>
         <div class="status alert alert-success" style="display: none"></div>
         {{!-- Create Sku Form --}}
         <form id="update-sku" class="update-sku row" name="update-sku-form" method="POST"
@@ -22,7 +22,8 @@
                 </div>
                 {{/each}}
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" id="otherColorCheckbox" value='other'>
+                  <input class="form-check-input" type="radio" name="color" id="otherColorCheckbox" value='other'
+                    required="required">
                   <label class="form-check-label labelOtherCheckbox" for="otherColorCheckbox">
                     New:
                   </label>
@@ -53,7 +54,8 @@
                 </div>
                 {{/each}}
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="size" id="otherSizeCheckbox" value="other">
+                  <input class="form-check-input" type="radio" name="size" id="otherSizeCheckbox" required="required"
+                    value="other">
                   <label class="form-check-label labelOtherCheckbox" for="otherSizeCheckbox">
                     New:
                   </label>
@@ -103,7 +105,7 @@
                 <span class="input-group-text">Upload</span>
               </div> --}}
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="imageInputGroupFile" name="image">
+                <input type="file" class="custom-file-input" id="imageInputGroupFile" name="image" multiple="multiple">
                 <label class="custom-file-label" for="imageInputGroupFile">Choose file</label>
               </div>
             </div>

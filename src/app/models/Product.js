@@ -48,9 +48,6 @@ const Product = new Schema(
     name: { type: String, maxLength: 255, required: true },
     categories: { type: String },// ( Shirt, skirt, jeans, accessories, shoes…. )
     description: { type: String },
-    features: [{
-      type: String
-    }],
     size_list: [
       { type: Size }
     ],
@@ -77,13 +74,18 @@ mongoose.plugin(slug);
 //   overrideMethods: 'all',
 // });
 
-Product.pre('save', (next) => {
-  if (!this.skus) this.total_quantity = 0
-  else {
-    this.total_quantity = (this.skus.map(d => d.quantity)).reduce((total, num) => total + num)
-    this.color_list = groupByField(this.skus, 'color')
-    this.size_list = groupByField(this.skus, 'size')
-  }
+Product.post('save', (doc) => {
+  // if (!this.skus) {
+  //   console.log(this.name)
+  //   // this.total_quantity = 0
+  // }
+  // else {
+  //   console.log('b')
+  //   this.total_quantity = (this.skus.map(d => d.quantity)).reduce((total, num) => total + num)
+  //   this.color_list = groupByField(this.skus, 'color')
+  //   this.size_list = groupByField(this.skus, 'size')
+  // }
+  console.log(doc)
 })
 
 function groupByField(object, field) {

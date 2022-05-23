@@ -37,15 +37,15 @@ class ProductController {
 
   // [POST] /products/create
   create(req, res, next) {
-    // res.json(req.body);
     const product = new Product(req.body);
-    product
-      .save()
-      .then(() => res.redirect(`/products/getCreate`))
-      .catch((error) => res.render('404', {
-        layout: false,
-        title: '404 error'
-      }));
+    // res.json(product)
+    product.save()
+      .then(() => res.redirect(`back`))
+      // .catch((error) => res.render('404', {
+      //   layout: false,
+      //   title: '404 error'
+      // }));
+      .catch((error) => res.json(error))
   }
 
 
@@ -152,7 +152,6 @@ class ProductController {
 
   // [POST] /products/:id/update
   update(req, res, next) {
-    const product = new Product(req.body);
     Product
       .findOneAndUpdate(
         { _id: req.params.id },
@@ -165,7 +164,7 @@ class ProductController {
           }
         }
       )
-      .then(() => res.redirect(`/products/getCreate`))
+      .then(() => res.redirect(`/products/${req.params.id}/getUpdate`))
       .catch((error) => res.render('404', {
         layout: false,
         title: '404 error'
@@ -251,7 +250,7 @@ class ProductController {
       }));
   }
 
-  // [DELETE] /products/:id
+  // [DELETE] /products/:id/delete
   delete(req, res, next) {
     Product
       .deleteOne({ _id: req.params.id })

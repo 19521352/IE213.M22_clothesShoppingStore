@@ -13,15 +13,16 @@
               <div class="col-sm-10">
                 {{#each colorList}}
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" id="yellowCheckbox"
+                  <input class="form-check-input" type="radio" name="color" id="{{this.[0].color.color_type}}Checkbox"
                     value='{"color_type": "{{this.[0].color.color_type}}","color_hex": "{{this.[0].color.color_hex}}"}'>
-                  <label class="form-check-label" for="yellowCheckbox">
+                  <label class="form-check-label" for="{{this.[0].color.color_type}}Checkbox">
                     {{this.[0].color.color_type}}
                   </label>
                 </div>
                 {{/each}}
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" id="otherColorCheckbox" value='other'>
+                  <input class="form-check-input" type="radio" name="color" id="otherColorCheckbox" value='other'
+                    required="required">
                   <label class="form-check-label labelOtherCheckbox" for="otherColorCheckbox">
                     New:
                   </label>
@@ -43,15 +44,17 @@
               <div class="col-sm-10">
                 {{#each sizeList}}
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="size" id="sizeLCheckbox"
+                  <input class="form-check-input" type="radio" name="size"
+                    id="size{{this.[0].size.[size_type]}}Checkbox"
                     value='{"size_type":"{{this.[0].size.[size_type]}}","size_details": {}}'>
-                  <label class="form-check-label" for="sizeLCheckbox">
+                  <label class="form-check-label" for="size{{this.[0].size.[size_type]}}Checkbox">
                     Size {{this.[0].size.[size_type]}}
                   </label>
                 </div>
                 {{/each}}
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="size" id="otherSizeCheckbox" value="other">
+                  <input class="form-check-input" type="radio" name="size" id="otherSizeCheckbox" value="other"
+                    required="required" required="required">
                   <label class="form-check-label labelOtherCheckbox" for="otherSizeCheckbox">
                     New:
                   </label>

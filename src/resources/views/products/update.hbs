@@ -15,7 +15,7 @@
           </div>
           <div class="form-group col-md-12">
             <label for="condition">Trạng thái</label>
-            <select class="form-control" id="formCondition" required="required" name="condition">
+            <select class="form-control" id="formCondition" required="required" name="condition" required="required">
               <option {{#if (eq product.categories '' )}}checked{{/if}}>Chọn trạng thái</option>
               <option value="new" {{#if (eq product.categories 'new' )}}checked{{/if}}>Mới</option>
               <option value="out-of-stock" {{#if (eq product.categories 'out-of-stock' )}}checked{{/if}}>Hết hàng
@@ -31,7 +31,7 @@
               <div class="col-sm-10">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="categories" id="t-shirtsCheckbox" value="t-shirts"
-                    {{#if (eq product.categories 't-shirts' )}}checked{{/if}}>
+                    required="required" {{#if (eq product.categories 't-shirts' )}}checked{{/if}}>
                   <label class="form-check-label" for="t-shirtsCheckbox">
                     T-shirts & Polo shirts
                   </label>
