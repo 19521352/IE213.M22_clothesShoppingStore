@@ -33,10 +33,7 @@ const Sku = new Schema(
       discount: { type: mongoose.Decimal128 }
     },
     quantity: { type: Number },
-    size: { type: Size },
-    image: [
-      { type: String }
-    ]
+    size: { type: Size }
   },
   {
     timestamps: true,
@@ -59,6 +56,9 @@ const Product = new Schema(
     condition: { type: String },
     skus: [
       { type: Sku }
+    ],
+    image: [
+      { type: String }
     ],
     slug: { type: String, slug: 'name', unique: true }
   },
@@ -85,7 +85,7 @@ Product.post('save', (doc) => {
   //   this.color_list = groupByField(this.skus, 'color')
   //   this.size_list = groupByField(this.skus, 'size')
   // }
-  console.log(doc)
+  console.log('post: ', doc)
 })
 
 function groupByField(object, field) {

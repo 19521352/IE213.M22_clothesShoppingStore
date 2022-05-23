@@ -37,7 +37,8 @@ class ProductController {
 
   // [POST] /products/create
   create(req, res, next) {
-    const product = new Product(req.body);
+    var product = new Product(req.body);
+    if (product.image) product.image = product.image.map((item) => "/images/product-details/" + item)
     // res.json(product)
     product.save()
       .then(() => res.redirect(`back`))
@@ -87,11 +88,11 @@ class ProductController {
 
     obj.quantity = JSON.parse(obj.quantity)
     obj.price = {
-      base: JSON.parse(obj.priceBase),
+      base: parseFloat(JSON.parse(obj.priceBase)),
       currency: obj.priceCurrency,
-      discount: JSON.parse(obj.priceDiscount)
+      discount: parseFloat(JSON.parse(obj.priceDiscount))
     }
-    obj.image = obj.image.map((item) => "/images/product-details/" + item)
+    if (obj.img) obj.image = obj.image.map((item) => "/images/product-details/" + item)
     delete obj.priceBase
     delete obj.priceDiscount
     delete obj.priceCurrency
@@ -152,15 +153,19 @@ class ProductController {
 
   // [POST] /products/:id/update
   update(req, res, next) {
+    const product = req.body;
+    if (product.image) product.image = product.image.map((item) => "/images/product-details/" + item)
+    // res.json(product)
     Product
       .findOneAndUpdate(
         { _id: req.params.id },
         {
           "$set": {
-            "name": req.body.name,
-            "categories": req.body.categories,
-            "description": req.body.description,
-            "condition": req.body.condition
+            "name": products.name,
+            "categories": products.categories,
+            "description": products.description,
+            "condition": products.condition,
+            "image": products.image
           }
         }
       )
@@ -213,11 +218,10 @@ class ProductController {
 
     obj.quantity = JSON.parse(obj.quantity)
     obj.price = {
-      base: JSON.parse(obj.priceBase),
+      base: parseFloat(JSON.parse(obj.priceBase)),
       currency: obj.priceCurrency,
-      discount: JSON.parse(obj.priceDiscount)
+      discount: parseFloat(JSON.parse(obj.priceDiscount))
     }
-    obj.image = obj.image.map((item) => "/images/product-details/" + item)
 
     delete obj.priceBase
     delete obj.priceDiscount

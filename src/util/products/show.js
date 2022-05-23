@@ -11,7 +11,9 @@ module.exports = {
     return { minPriceBase, maxPriceBase, minPrice, maxPrice }
   },
   getTotalQuantity: function (object) {
-    const quantity = (object.map(d => d.quantity)).reduce((total, num) => total + num)
+    var quantity = 0
+    if (object.length) quantity = (object.map(d => d.quantity)).reduce((total, num) => total + num)
     return quantity
   }
 }
+

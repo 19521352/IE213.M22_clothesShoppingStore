@@ -128,6 +128,18 @@
               rows="8"></textarea>
           </div>
           <div class="form-group col-md-12">
+            <legend class="col-form-label" for="img">Hình ảnh</legend>
+            <div class="input-group mb-3">
+              {{!-- <div class="input-group-prepend">
+                <span class="input-group-text">Upload</span>
+              </div> --}}
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="imageInputGroupFile" name="image" multiple="multiple">
+                <label class="custom-file-label" for="imageInputGroupFile">Choose file</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
             <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">
           </div>
         </form>
