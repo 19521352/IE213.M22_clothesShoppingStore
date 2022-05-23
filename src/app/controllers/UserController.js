@@ -53,7 +53,7 @@ class userController {
                             name : usr.name
                         }
                     );
-                    console.log(user)
+                    
                     user.save()
                     .then(data => {
                         res.render('user', {status : 'Tạo tài khoản thành công <3 ',class:'success'});

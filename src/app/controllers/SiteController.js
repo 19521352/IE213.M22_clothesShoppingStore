@@ -6,7 +6,7 @@ class SiteController {
 
   // [GET] /home
   index(req, res, next) {
-    console.log(req.user)
+    
       Product.find({})
       .then((clothesItems) => {
         res.render('home', {
