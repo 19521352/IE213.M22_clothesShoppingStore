@@ -31,6 +31,7 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
+    "handlebars": "^4.7.7",
     "handlebars-helpers": "^0.9.8",
     "handlebars.moment": "^1.0.4",
     "jsonwebtoken": "^8.5.1",

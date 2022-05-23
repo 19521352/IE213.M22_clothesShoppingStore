@@ -4,8 +4,9 @@ const { mutipleMongooseToObject, mongooseToObject } = require('../../util/mongoo
 const mongoose = require('mongoose');
 const crypto = require('crypto')
 const bcrypt = require('bcrypt')
+const Handlebars = require("handlebars")
 const authTokens = {};
-
+app.locals.copyright = '2014'
 
 class userController {
     getLogin = async (req, res) => {
@@ -21,7 +22,16 @@ class userController {
             if(bcrypt.compareSync(password, data.password))
             {
                 authTokens[authToken] = req.body.email
-                res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true }).redirect("/")
+                Product.find({}).exec().then((clothesItems) =>{
+                    res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true })
+                    .render('home',{
+                        layout: 'main',
+                        user:req.body.email, 
+                        clothesItems: mutipleMongooseToObject(clothesItems),
+                        isLogin: true,})
+                        
+                })
+
             }
             else {
                 res.render('user', {
@@ -73,15 +83,14 @@ class userController {
     requireAuth(req, res, next){
         const authToken = req.cookies['AuthToken'];
         req.user = authTokens[authToken];
-        next();
-        // if (req.user) {
-        //     next();
-        // } else {
-        //     res.render('user', {
-        //         status : 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
-        //         class : 'error'
-        //     });
-        // }
+        if (req.user) {
+            next();
+        } else {
+            res.render('user', {
+                status : 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
+                class : 'error'
+            });
+        }
     };
 
     accountInfo(req, res, next) {

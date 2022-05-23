@@ -5,6 +5,6 @@ const siteController = require('../app/controllers/SiteController');
 const userController = require('../app/controllers/UserController');
 // siteController.index
 
-router.get('/', userController.requireAuth, siteController.index);
+router.get('/', siteController.index);
 
 module.exports = router;

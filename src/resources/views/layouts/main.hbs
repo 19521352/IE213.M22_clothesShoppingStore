@@ -34,7 +34,7 @@
 
 <body>
   <div class="app">
-    {{> header isSignin}}
+    {{> header isLogin= locals.isSignin locals.user= user}}
 
     <div class="container">
       <div class="row">
