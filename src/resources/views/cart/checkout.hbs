@@ -1,0 +1,107 @@
+<style>
+  .cart-item__image {
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .total-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+</style>
+
+<div class='container'>
+
+  {{#if cart}}
+  <div class='row'>
+
+    <div class='col-sm-6'>
+
+      <ul class='cart__item--list'>
+        {{#each cart.cartItems}}
+        <li style='display:flex; flex-direction:row; gap: 1rem'>
+          <a href='/products/{{this.productId._id}}' class='product__thumbnail' class='d-block'>
+            <img src='{{this.image}}' class='img-thumbnail cart-item__image' />
+          </a>
+          <div>
+            <h6 class='cart-item__name'>{{this.productId.name}}</h6>
+            <span class='product__variation text-uppercase'>
+              <p style='text-transform: uppercase;'>{{this.color}},
+                {{this.size}}</p>
+            </span>
+            <div class='price'>
+              <p style='text-decoration: line-through;'>
+                <span>{{this.price.base}}</span>
+                <span class='currency-symbol'>{{this.price.currency}}</span>
+              </p>
+              <p>
+                <span>{{this.price.discount}}</span>
+                <span class='currency-symbol'>{{this.price.currency}}</span>
+              </p>
+            </div>
+            <div class='add__product'>
+              <a
+                href='/cart/update?action=sub&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'><button
+                  class='btn'> - </button></a>
+              <span>{{this.quantity}}</span>
+              <a
+                href='/cart/update?action=add&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'><button
+                  class='btn'> + </button></a>
+            </div>
+          </div>
+        </li>
+        {{/each}}
+
+      </ul>
+
+      <div class='cart__total mt-5 p-3'>
+        <p class='total-item total-item--total'><span>Tổng:</span>
+          <span>${{cart.subTotal}}</span>
+        </p>
+        <p class='total-item total-item--muted text-muted'><span>Phí vận
+            chuyển:</span>
+          <span>${{cart.shippingFee}}</span>
+        </p>
+        <p class='total-item total-item--total'><span>Thành tiền:</span>
+          <span>${{total}}</span>
+        </p>
+      </div>
+
+    </div>
+    <form action='/order' class='col-sm-6 needs-validation' method='post' novalidate>
+      <h2>Thông tin giao hàng</h2>
+      <div class='mb-3'>
+        <label for='name' class='form-label'>Tên người nhận</label>
+        <input type='text' class='form-control' id='name' name='name' required />
+      </div>
+      <div class='mb-3'>
+        <label for='phoneNumber' class='form-label'>Số điện thoại</label>
+        <input type='tel' class='form-control' id='phoneNumber' name='phoneNumber' required />
+      </div>
+      <div class='mb-3'>
+        <label for='address[city]' class='form-label'>Thành phố</label>
+        <input type='pssword' class='form-control' id='address[city]' name='address[city]' required />
+      </div>
+      <div class='mb-3'>
+        <label for='address[district]' class='form-label'>Quận/Huyện</label>
+        <input type='text' class='form-control' id='address[district]' name='address[district]' required />
+      </div>
+      <div class='mb-3'>
+        <label for='address[sub-district]' class='form-label'>Phường/Xã</label>
+        <input type='text' class='form-control' id='address[sub-district]' name='address[sub-district]' required />
+      </div>
+      <div class='mb-3'>
+        <label for='address[street]' class='form-label'>Số nhà tên đường</label>
+        <input type='text' class='form-control' id='address[street]' name='address[street]' required />
+      </div>
+      <button type='submit' class='btn btn-primary'>Đặt hàng</button>
+    </form>
+  </div>
+
+  {{else}}
+
+  <h1>Không có sản phẩm nào trong giỏ hàng</h1>
+
+  {{/if}}
+</div>
