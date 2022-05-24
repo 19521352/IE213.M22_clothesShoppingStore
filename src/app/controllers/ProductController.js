@@ -13,17 +13,20 @@ class ProductController {
   show(req, res, next) {
     Product.findOne({ slug: req.params.slug }).lean()
       .then((product) => {
-        res.render('products/show', {
-          layout: 'main',
-          title: product.name,
-          product: product,
-          colorList: groupByField(product.skus, 'color.color_type'),
-          sizeList: groupByField(product.skus, 'size.size_type'),
-          priceDetail: getPrice(product.skus),
-          totalQuantity: getTotalQuantity(product.skus),
-          comment: mutipleMongooseToObject(comment),
-          user:req.user, 
-          isLogin: req.user,
+        Comments.find({ productId: req.params.slug })
+        .then((comment) => {
+          res.render('products/show', {
+            layout: 'main',
+            title: product.name,
+            product: product,
+            colorList: groupByField(product.skus, 'color.color_type'),
+            sizeList: groupByField(product.skus, 'size.size_type'),
+            priceDetail: getPrice(product.skus),
+            totalQuantity: getTotalQuantity(product.skus),
+            comment: mutipleMongooseToObject(comment),
+            user:req.user, 
+            isLogin: req.user,
+          })
         })
       },
       )

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const siteController = require('../app/controllers/SiteController');
+const filterController = require('../app/controllers/FilterController');
 const userController = require('../app/controllers/UserController');
 
-router.get('/', userController.requireUser, siteController.index);
+router.get('/', userController.requireUser, filterController.filter);
 
 
 module.exports = router;
