@@ -9,7 +9,9 @@ class SiteController {
       Product.find({})
       .then((clothesItems) => {
         res.render('home', {
-          clothesItems: mutipleMongooseToObject(clothesItems)
+          clothesItems: mutipleMongooseToObject(clothesItems),
+          user:req.user, 
+          isLogin: req.user,
         });
       })
       .catch(next);

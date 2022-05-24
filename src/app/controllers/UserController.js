@@ -110,7 +110,9 @@ class userController {
             // console.log(user);
             res.render('profile', {
                 layout: 'no-left-sidebar',
-                user: mongooseToObject(user),
+                userInfo: mongooseToObject(user),
+                user:req.user, 
+                isLogin: req.user,
             });
           })
     }
