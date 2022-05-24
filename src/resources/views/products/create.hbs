@@ -1,0 +1,153 @@
+<div id="create-product-page">
+  <div class="bg">
+    <div class="row">
+      <div class="create-product-form">
+        <h2 class="title text-center">Create Product</h2>
+        <div class="status alert alert-success" style="display: none"></div>
+        {{!-- Create Product Form --}}
+        <form id="create-product" class="create-product row" name="create-product-form" method="POST"
+          action="/products/create">
+          <div class="form-group col-md-12">
+            <label for="name">Tên sản phẩm
+            </label>
+            <input type="text" name="name" class="form-control" id="formName" required="required">
+          </div>
+          <div class="form-group col-md-12">
+            <label for="condition">Trạng thái</label>
+            <select class="form-control" id="formCondition" required="required" name="condition">
+              <option value="">Chọn trạng thái</option>
+              <option value="new">Mới</option>
+              <option value="out-of-stock">Hết hàng</option>
+              <option value="sale">Giảm giá</option>
+
+            </select>
+          </div>
+          <div class="form-group col-md-12">
+            <p><label>Phân loại</label></p>
+            <fieldset class="form-group row col-md-4">
+              <legend class="col-form-label">Tops</legend>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="t-shirtsCheckbox"
+                    value="t-shirtsAndPoloShirts" required="required">
+                  <label class="form-check-label" for="t-shirtsCheckbox">
+                    T-shirts & Polo shirts
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="shirtsCheckbox" value="shirts">
+                  <label class="form-check-label" for="shirtsCheckbox">
+                    Shirts
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="longsleevesCheckbox"
+                    value="longsleeves">
+                  <label class="form-check-label" for="longsleevesCheckbox">
+                    Longsleeves
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="sweaterAndCardigansCheckbox"
+                    value="sweaterAndCardigans">
+                  <label class="form-check-label" for="sweaterAndCardigansCheckbox">
+                    Sweater & Cardigans
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="sweattshirstsAndHoddiesCheckbox"
+                    value="sweattshirstsAndHoddies">
+                  <label class="form-check-label" for="sweattshirstsAndHoddiesCheckbox">
+                    Sweattshirsts & Hoddies
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categories" id="outerwearCheckbox"
+                    value="outerwear">
+                  <label class="form-check-label" for="outerwearCheckbox">
+                    Outerwear
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group row col-md-4">
+              <legend class="col-form-label">Bottom</legend>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="dressesAndSkirtsCheckbox"
+                  value="dressesAndSkirts">
+                <label class="form-check-label" for="dressesAndSkirtsCheckbox">
+                  Dresses & Skirts
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="pantsCheckbox" value="pants">
+                <label class="form-check-label" for="pantsCheckbox">
+                  Pants
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="shortsCheckbox" value="shorts">
+                <label class="form-check-label" for="shortsCheckbox">
+                  Shorts
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="form-group row col-md-4">
+              <legend class="col-form-label">Accessories</legend>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="capsHatsCheckbox" value="capsHats">
+                <label class="form-check-label" for="capsHatsCheckbox">
+                  Caps/Hats
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="walletsCheckbox" value="wallets">
+                <label class="form-check-label" for="walletsCheckbox">
+                  Wallets
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="socksCheckbox" value="socks">
+                <label class="form-check-label" for="socksCheckbox">
+                  Socks
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="categories" id="otherAccessoriesCheckbox"
+                  value="otherAccessories">
+                <label class="form-check-label" for="otherAccessoriesCheckbox">
+                  Other Accessories
+                </label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="description">Mô tả</label>
+            <textarea name="description" id="descriptionTextarea" required="required" class="form-control"
+              rows="8"></textarea>
+          </div>
+          <div class="form-group col-md-12">
+            <legend class="col-form-label" for="img">Hình ảnh</legend>
+            <div class="input-group mb-3">
+              {{!-- <div class="input-group-prepend">
+                <span class="input-group-text">Upload</span>
+              </div> --}}
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="imageInputGroupFile" name="image" multiple="multiple">
+                <label class="custom-file-label" for="imageInputGroupFile">Choose file</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--/#contact-page-->

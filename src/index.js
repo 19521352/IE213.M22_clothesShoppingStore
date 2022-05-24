@@ -3,7 +3,9 @@ var MomentHandler = require("handlebars.moment");
 const express = require('express')
 const path = require('path')
 const morgan = require('morgan')
-const { engine , create } = require('express-handlebars')
+const { engine } = require('express-handlebars')
+var bodyParser = require('body-parser')
+
 const route = require('./routes')
 const db = require('./config/db')
 const timeKeeper = require('handlebars-helpers');
@@ -27,7 +29,26 @@ app.locals.user = '12'
 app.engine(
   'hbs',
   engine({
-    extname: '.hbs'
+    extname: '.hbs',
+    helpers: {
+      json: function (context) {
+        return JSON.stringify(context);
+      },
+      eq: (v1, v2) => v1 === v2,
+      ne: (v1, v2) => v1 !== v2,
+      lt: (v1, v2) => v1 < v2,
+      gt: (v1, v2) => v1 > v2,
+      lte: (v1, v2) => v1 <= v2,
+      gte: (v1, v2) => v1 >= v2,
+      and() {
+        return Array.prototype.every.call(arguments, Boolean);
+      },
+      or() {
+        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+      },
+      sum: (a, b) => a + b
+    }
+
   }
   ));
   
@@ -39,6 +60,10 @@ MomentHandler.registerHelpers(Handlebars);
 Handlebars.registerHelper('compareString', function(String1, String2){
   return String1 == String2;
 })
+
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Route init
 route(app);

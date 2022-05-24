@@ -8,10 +8,11 @@ async function connect() {
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true
     };
     console.log('Connect successfully!!!');
   } catch (error) {
-    console.log('Connect failure!!!');
+    console.log('Connect failure!!!', error);
   }
 }
 
