@@ -6,7 +6,7 @@ const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const Handlebars = require("handlebars")
 const authTokens = {};
-app.locals.copyright = '2014'
+
 
 class userController {
     getLogin = async (req, res) => {
