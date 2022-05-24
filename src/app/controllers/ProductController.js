@@ -18,7 +18,7 @@ class ProductController {
             sizeList: Object.keys(groupByField(product.products_list, 'size_type')),
             comment: mutipleMongooseToObject(comment),
             user:req.user, 
-            isLogin: req.isLogin,
+            isLogin: req.user,
           });
           
         })
@@ -49,6 +49,7 @@ class ProductController {
             colorList: Object.keys(groupByField(product.products_list, 'color.color')),
             sizeList: Object.keys(groupByField(product.products_list, 'size_type')),
             comment: mutipleMongooseToObject(comment),
+            isLogin: req.user,
           });
         })
 

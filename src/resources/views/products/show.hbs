@@ -313,11 +313,11 @@
                             </div>
                         </div>
                     </div>
-                    {{#if islogin}}
+                    {{#if isLogin}}
                         <p><b>Write Your Review</b></p>
                         <form action="/products/{{product._id}}" method="post" onsubmit="return validateForm()">
                             <input type="hidden" name="productId" value="{{product._id}}" />
-                            <input type="hidden" name="email" value="{{islogin}}" />
+                            <input type="hidden" name="email" value="{{isLogin}}" />
                             
                             <textarea name="comment" id="mycomment"></textarea>
                             <div class="modal fade" id="genericModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
