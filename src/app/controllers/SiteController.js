@@ -5,13 +5,11 @@ const { mutipleMongooseToObject } = require('../../util/mongoose');
 class SiteController {
 
   // [GET] /home
-  index(req, res, next) {
-    console.log(req.user)
+  index(req, res, next) {   
       Product.find({})
       .then((clothesItems) => {
         res.render('home', {
-          clothesItems: mutipleMongooseToObject(clothesItems),
-          isSignin: req.user,
+          clothesItems: mutipleMongooseToObject(clothesItems)
         });
       })
       .catch(next);

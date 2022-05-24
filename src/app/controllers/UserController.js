@@ -4,6 +4,8 @@ const { mutipleMongooseToObject, mongooseToObject } = require('../../util/mongoo
 const mongoose = require('mongoose');
 const crypto = require('crypto')
 const bcrypt = require('bcrypt')
+const Handlebars = require("handlebars")
+const app = require('express')
 const authTokens = {};
 
 
@@ -21,7 +23,16 @@ class userController {
             if(bcrypt.compareSync(password, data.password))
             {
                 authTokens[authToken] = req.body.email
-                res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true }).redirect("/")
+                Product.find({}).exec().then((clothesItems) =>{
+                    res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true })
+                    .render('home',{
+                        layout: 'main',
+                        clothesItems: mutipleMongooseToObject(clothesItems),
+                        user:req.body.email, 
+                        isLogin: true,})
+                        
+                })
+
             }
             else {
                 res.render('user', {
@@ -53,7 +64,7 @@ class userController {
                             name : usr.name
                         }
                     );
-                    console.log(user)
+                    
                     user.save()
                     .then(data => {
                         res.render('user', {status : 'Tạo tài khoản thành công <3 ',class:'success'});
@@ -73,15 +84,25 @@ class userController {
     requireAuth(req, res, next){
         const authToken = req.cookies['AuthToken'];
         req.user = authTokens[authToken];
-        next();
-        // if (req.user) {
-        //     next();
-        // } else {
-        //     res.render('user', {
-        //         status : 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
-        //         class : 'error'
-        //     });
-        // }
+        if (req.user) {
+            next();
+        } else {
+            res.render('user', {
+                status : 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
+                class : 'error'
+            });
+        }
+    };
+    requireUser(req, res, next){
+        const authToken = req.cookies['AuthToken'];
+        req.user = authTokens[authToken];
+        if (req.user) {
+            req.isLogin = true;
+            next();
+        } else {
+            req.isLogin = false;
+            next();
+        }
     };
 
     accountInfo(req, res, next) {

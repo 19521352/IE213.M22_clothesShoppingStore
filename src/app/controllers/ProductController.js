@@ -17,7 +17,8 @@ class ProductController {
             colorList: Object.keys(groupByField(product.products_list, 'color.color')),
             sizeList: Object.keys(groupByField(product.products_list, 'size_type')),
             comment: mutipleMongooseToObject(comment),
-            islogin: req.user,
+            user:req.user, 
+            isLogin: req.isLogin,
           });
           
         })
