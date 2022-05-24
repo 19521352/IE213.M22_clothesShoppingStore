@@ -1,4 +1,6 @@
 const Product = require('../models/Product');
+const Comments = require('../models/Comments');
+const User = require('../models/User');
 const { groupByField } = require('../../util/groupByField')
 const { getPrice, getTotalQuantity } = require('../../util/products/show')
 // const { mongooseToObject } = require('../../util/mongoose');

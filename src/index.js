@@ -1,11 +1,15 @@
+var Handlebars = require("handlebars");
+var MomentHandler = require("handlebars.moment");
 const express = require('express')
 const path = require('path')
 const morgan = require('morgan')
-const { engine } = require('express-handlebars')
+const { engine , create } = require('express-handlebars')
 var bodyParser = require('body-parser')
 
 const route = require('./routes')
 const db = require('./config/db')
+const timeKeeper = require('handlebars-helpers');
+const cookieparser = require('cookie-parser')
 
 // Connect to DB
 db.connect()
@@ -23,6 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(pjax())
 
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieparser())
+app.locals.user = '12'
 // Template engine
 app.engine(
   'hbs',
@@ -49,8 +57,15 @@ app.engine(
 
   }
   ));
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+  
+  app.set('view engine', 'hbs');
+  app.set('views', path.join(__dirname, 'resources', 'views'));
+  
+// handlebar helpers
+MomentHandler.registerHelpers(Handlebars);
+Handlebars.registerHelper('compareString', function(String1, String2){
+  return String1 == String2;
+})
 
 
 app.use(express.urlencoded({ extended: true }));
