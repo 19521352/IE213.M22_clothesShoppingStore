@@ -6,6 +6,6 @@ const userController = require('../app/controllers/UserController');
 // productController.index
 
 router.post('/:slug', productController.postComment);
-router.get('/:slug', productController.show);
+router.get('/:slug',userController.requireUser ,productController.show);
 
 module.exports = router;

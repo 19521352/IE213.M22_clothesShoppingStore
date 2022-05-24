@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const Handlebars = require("handlebars")
+const app = require('express')
 const authTokens = {};
 
 
@@ -26,8 +27,8 @@ class userController {
                     res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true })
                     .render('home',{
                         layout: 'main',
-                        user:req.body.email, 
                         clothesItems: mutipleMongooseToObject(clothesItems),
+                        user:req.body.email, 
                         isLogin: true,})
                         
                 })
@@ -90,6 +91,17 @@ class userController {
                 status : 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
                 class : 'error'
             });
+        }
+    };
+    requireUser(req, res, next){
+        const authToken = req.cookies['AuthToken'];
+        req.user = authTokens[authToken];
+        if (req.user) {
+            req.isLogin = true;
+            next();
+        } else {
+            req.isLogin = false;
+            next();
         }
     };
 
