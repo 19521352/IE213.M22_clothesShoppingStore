@@ -5,8 +5,8 @@ const {
   createOrder,
   getCurrentUserOrders,
 } = require('../app/controllers/OrderController')
-
-router.post('/', createOrder)
-router.get('/my-order', getCurrentUserOrders)
+const userController = require('../app/controllers/UserController');
+router.post('/',userController.requireAuth, createOrder)
+router.get('/my-order',userController.requireAuth, getCurrentUserOrders)
 
 module.exports = router

@@ -106,7 +106,7 @@ const createCartItem = async (req, res, next) => {
     return res.send('Quantity not valid')
   }
 
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user // TODO: use userId from authentication middleware
   let cart = await Cart.findOne({ userId })
   if (!cart) {
     cart = await Cart.create({
@@ -153,7 +153,7 @@ const createCartItem = async (req, res, next) => {
 
 // GET /cart
 const getAllCartItems = async (req, res, next) => {
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user // TODO: use userId from authentication middleware
 
   const cart = await Cart.findOne({ userId }).populate(
     'cartItems.productId',
@@ -166,6 +166,8 @@ const getAllCartItems = async (req, res, next) => {
   res.render('cart/checkout', {
     cart: cart.cartItems.length < 1 ? null : cart.toObject(),
     total: cart.shippingFee + cart.subTotal,
+    user : req.user,
+    isLogin: req.isLogin,
   })
 }
 
@@ -185,7 +187,7 @@ const updateCartItem = async (req, res, next) => {
     return res.send('Sku không tồn tại')
   }
 
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user // TODO: use userId from authentication middleware
 
   const cart = await Cart.findOne({ userId })
   if (!cart) {
@@ -232,7 +234,7 @@ const updateCartItem = async (req, res, next) => {
 const deleteCartItem = async (req, res, next) => {
   const { cartItemId } = req.body
 
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user // TODO: use userId from authentication middleware
 
   const cart = await Cart.findOne({ userId })
   if (!cart) {
@@ -246,8 +248,8 @@ const deleteCartItem = async (req, res, next) => {
 
 const deleteAllCartItems = async (req, res, next) => {
   const { id: cartId } = req.params
-  // const userId = '62880eab376ac68dbeda528c' // TODO: use userId from authentication middleware
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  // const userId = req.user // TODO: use userId from authentication middleware
+  const userId = req.user // TODO: use userId from authentication middleware
 
   const cart = await Cart.findOne({ _id: cartId })
   if (!cart) {

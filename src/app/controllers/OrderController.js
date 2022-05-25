@@ -7,7 +7,7 @@ const Cart = require('../models/Cart')
 // const { checkPermissions } = require('../utils')
 
 const createOrder = async (req, res) => {
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user // TODO: use userId from authentication middleware
 
   const { name, phoneNumber, address } = req.body
   if (!name || !phoneNumber || !parseInt(phoneNumber) || !address)
@@ -116,7 +116,7 @@ const getSingleOrder = async (req, res) => {
 }
 
 const getCurrentUserOrders = async (req, res) => {
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user // TODO: use userId from authentication middleware
   let orders = await Order.find({ user: userId })
 
   orders = orders.map((order) => order.toObject())

@@ -6,6 +6,7 @@ const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const Handlebars = require("handlebars")
 const app = require('express')
+const { getPrice } = require('../../util/products/show')
 const authTokens = {};
 
 
@@ -85,18 +86,19 @@ class userController {
         const authToken = req.cookies['AuthToken'];
         req.user = authTokens[authToken];
         if (req.user) {
+            req.isLogin = true;
             next();
         } else {
             res.render('user', {
                 status : 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
-                class : 'error'
+                class : 'error',
             });
         }
     };
     requireUser(req, res, next){
         const authToken = req.cookies['AuthToken'];
         req.user = authTokens[authToken];
-        if (req.user) {
+        if (req.user == '19521352@gm.uit.edu.vn') {
             req.isLogin = true;
             next();
         } else {
@@ -104,7 +106,19 @@ class userController {
             next();
         }
     };
-
+    requireAdmin(req, res, next){
+        const authToken = req.cookies['AuthToken'];
+        req.user = authTokens[authToken];
+        if (req.user == '19521352@gm.uit.edu.vn') {
+            req.isLogin = true;
+            next();
+        } else {
+            res.render('user', {
+                status : 'Hãy đăng nhập tài khoản admin để tiếp tục',
+                class : 'error',
+            });
+        }
+    };
     accountInfo(req, res, next) {
         User.findOne({email: req.user}).then((user) => {
             // console.log(user);
