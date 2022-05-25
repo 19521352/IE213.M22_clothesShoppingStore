@@ -98,7 +98,7 @@ class userController {
     requireUser(req, res, next){
         const authToken = req.cookies['AuthToken'];
         req.user = authTokens[authToken];
-        if (req.user == '19521352@gm.uit.edu.vn') {
+        if (req.user) {
             req.isLogin = true;
             next();
         } else {
