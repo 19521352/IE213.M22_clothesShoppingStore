@@ -7,18 +7,44 @@
 
       <div class="single-products">
         <div class="productinfo text-center">
-          <a href="/products/{{this._id}}">
-            <img src="{{this.products_list.[0].image}}" alt="">
+          <a href="/products/{{this.slug}}">
+            <img style="height:400px" src="{{this.image.[0]}}" alt="">
           </a>
-          <a href="/products/{{this._id}}">
-            <h2>{{this.name}}</h2>
+          <a href="/products/{{this.slug}}">
+            <span class="product-name">{{this.name}}</span>
           </a>
-          <p>{{this.products_list.[0].price.base}} vnđ</p>
+          {{#if (or (ne this.minPrice this.minPriceBase) (ne this.maxPrice
+          this.maxPriceBase))}}
+          {{#if (ne this.minPriceBase this.maxPriceBase)}}
+          <p class="priceBefore">{{this.minPriceBase}} - {{this.maxPriceBase}}
+            {{this.skus.[0].price.currency}}</p>
+          {{else}}
+          <p class="priceBefore">{{this.maxPriceBase}} {{this.skus.[0].price.currency}}</p>
+          {{/if}}
+          {{/if}}
+
+          {{#if (ne this.minPrice this.maxPrice)}}
+          <h2 style="display:block;" class=" priceCurrent">{{this.minPrice}} - {{this.maxPrice}}
+            {{this.skus.[0].price.currency}}</h2>
+          {{else}}
+          <h2 style="display:block;" class=" priceCurrent">{{this.maxPrice}}
+            {{this.skus.[0].price.currency}}</h2>
+          {{/if}}
+          </b>
           <a href="#" class="btn btn-default add-to-cart">
             <i class="fa fa-shopping-cart"></i>
             Add to cart
           </a>
         </div>
+
+        {{#if (or (ne this.minPrice this.minPriceBase) (ne this.maxPrice
+        this.maxPriceBase))}}
+        <img src="images/home/sale.png" class="new" alt="">
+        {{else}}
+        {{#if (eq this.condition 'new')}}
+        <img src="images/home/new.png" class="new" alt="">
+        {{/if}}
+        {{/if}}
         {{!-- <div class="product-overlay">
           <div class="overlay-content">
             <h2>{{this.products_list.[0].price.base}} vnđ</h2>

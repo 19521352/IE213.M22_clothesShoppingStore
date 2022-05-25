@@ -34,18 +34,10 @@
 
 <body>
   <div class="app">
-    {{> header }}
+    {{> header}}
 
     <div class="container">
-      <div class="row">
-        <div class="col-sm-3">
-          {{> left-sidebar}}
-        </div>
-        <div class="col-sm-9">
-          {{{body}}}
-        </div>
-      </div>
-
+      {{{body}}}
     </div>
 
     {{>footer}}
