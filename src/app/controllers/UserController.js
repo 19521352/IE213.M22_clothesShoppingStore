@@ -27,7 +27,7 @@ class userController {
                     res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true })
                     .render('home',{
                         layout: 'main',
-                        clothesItems: mutipleMongooseToObject(clothesItems),
+                        clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus))),
                         user:req.body.email, 
                         isLogin: true,})
                         

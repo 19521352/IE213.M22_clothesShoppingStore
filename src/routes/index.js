@@ -1,6 +1,5 @@
 const siteRouter = require('./site')
 const productsRouter = require('./products')
-const userRouter = require('./user')
 const cartRouter = require('./cart')
 const orderRouter = require('./orders')
 const Product = require('../app/models/Product')

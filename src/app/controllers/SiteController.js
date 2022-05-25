@@ -13,6 +13,8 @@ class SiteController {
         res.render('home', {
           layout: 'main',
           title: 'Trang chủ',
+          user : req.user,
+          isLogin: req.isLogin,
           clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus)))
 
         });

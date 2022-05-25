@@ -153,5 +153,16 @@ input[type=text]#productId {
   border-left: 1px solid #ced4da;
   border-radius: 0 0.25rem 0.25rem 0;
 }
-
+.error{
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  
+}
+.success{
+  padding: 20px;
+  background-color: #00d13b;
+  color: white;
+  
+}
 /*# sourceMappingURL=app.css.map */
