@@ -36,7 +36,7 @@ const singleOrderItemSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Types.ObjectId,
+      type: String,
       ref: 'User',
     },
     shippingFee: {

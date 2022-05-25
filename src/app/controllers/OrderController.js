@@ -2,12 +2,8 @@ const Product = require('../models/Product')
 const Order = require('../models/Order')
 const Cart = require('../models/Cart')
 
-// const { StatusCodes } = require('http-status-codes')
-// const { BadRequestError, NotFoundError } = require('../errors')
-// const { checkPermissions } = require('../utils')
-
 const createOrder = async (req, res) => {
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user
 
   const { name, phoneNumber, address } = req.body
   if (!name || !phoneNumber || !parseInt(phoneNumber) || !address)
@@ -19,6 +15,8 @@ const createOrder = async (req, res) => {
     address['sub-district'],
     address.street,
   ].join(', ')
+
+  console.log(userId)
 
   const cart = await Cart.findOne({ userId })
   if (!cart) {
@@ -39,7 +37,7 @@ const createOrder = async (req, res) => {
       return res.send(`No product with id: ${item.productId}`)
     }
 
-    const dbSku = dbProduct.getSku(item.skuId.toString())
+    const dbSku = dbProduct.getSkuById(item.skuId)
     if (!dbSku) {
       return res.send(`No sku with id: ${item.skuId}`)
     }
@@ -51,17 +49,16 @@ const createOrder = async (req, res) => {
 
     const { name, _id: productId } = dbProduct
     const {
-      color: { color },
+      color: { color_type: color },
       price,
       size: { size_type: size },
-      image: [image = ''],
     } = dbSku
 
     const singleOrderItem = {
       quantity: item.quantity,
       name,
-      price: price.discount,
-      image,
+      price: price.base * (1 - price.discount),
+      image: dbProduct.image[0] || '/images/product-placeholder.png',
       color,
       size,
       product: productId,
@@ -69,7 +66,7 @@ const createOrder = async (req, res) => {
     // add item to orderItems list
     orderItems = [...orderItems, singleOrderItem]
     // calculate subtotal
-    subtotal += item.quantity * price.discount
+    subtotal += item.quantity * (price.base * (1 - price.discount))
 
     // Decrease product with sku quantity
     dbSku.quantity -= item.quantity
@@ -91,7 +88,7 @@ const createOrder = async (req, res) => {
 
   await cart.clearCart()
 
-  res.status(201).json({ order })
+  res.redirect('/order/my-order')
 }
 
 // Admin only
@@ -116,8 +113,8 @@ const getSingleOrder = async (req, res) => {
 }
 
 const getCurrentUserOrders = async (req, res) => {
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
-  let orders = await Order.find({ user: userId })
+  const userId = req.user
+  let orders = await Order.find({ user: userId }).populate('orderItems.product')
 
   orders = orders.map((order) => order.toObject())
 
