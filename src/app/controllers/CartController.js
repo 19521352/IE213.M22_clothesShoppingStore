@@ -4,101 +4,19 @@ const Product = require('../models/Product')
 const { mongooseToObject } = require('../../util/mongoose')
 const { mutipleMongooseToObject } = require('../../util/mongoose')
 
-// const createCartItem = async (req, res, next) => {
-//   try {
-//     const { productId, color, size, quantity, skuId } = req.body
-//
-//     console.log(skuId)
-//
-//     const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
-//
-//     // Check if user already has cart or not
-//     let cart = await Cart.findOne({ userId })
-//     if (!cart) {
-//       // Create new cart for the user
-//       cart = await Cart.create({
-//         userId,
-//       })
-//     }
-//
-//     // Check product existence
-//     const product = await Product.findOne({ _id: productId })
-//     if (!product) {
-//       // TODO: handle error
-//       return res.send('Not found product')
-//     }
-//
-//     // Check sku existence
-//     // const sku = product.skus.find(
-//     //   (sku) => sku.color.color === color && sku.size.size_type === size
-//     // )
-//     const sku = product.skus.find((sku) => sku._id.toString() === skuId)
-//     if (!sku) {
-//       // TODO: handle error
-//       return res.send('Not found sku')
-//     }
-//
-//     // Check quantity is valid
-//     if (quantity > sku.quantity || quantity < 1) {
-//       // TODO: handle error
-//       return res.send('Quantity is not valid')
-//     }
-//
-//     // Check if item is already in cart
-//     const itemIndex = cart.cartItems.findIndex((cartItem) => {
-//       return (
-//         cartItem.productId.toString() === productId &&
-//         cartItem.color === color &&
-//         cartItem.size === size
-//       )
-//     })
-//
-//     if (itemIndex > -1) {
-//       const newItem = { ...cart.cartItems[itemIndex]._doc }
-//
-//       const newQuantity = newItem.quantity + quantity
-//       // Check quantity is valid
-//       if (newQuantity > sku.quantity || newQuantity < 1) {
-//         // TODO: handle error
-//         return res.send('Quantity is not valid')
-//       }
-//       newItem.quantity = newQuantity
-//
-//       cart.cartItems[itemIndex] = newItem
-//     } else {
-//       // Item doesn't exists in cart
-//       const cartItem = {
-//         productId,
-//         color,
-//         size,
-//         image: sku.image[0] || '',
-//         quantity,
-//       }
-//
-//       cart.cartItems.push(cartItem)
-//     }
-//
-//     await cart.save()
-//
-//     res.json({
-//       cart,
-//     })
-//   } catch (err) {
-//     res.send(err)
-//   }
-// }
-
 const createCartItem = async (req, res, next) => {
-  const { productId, skuId, quantity } = req.body
+  const { productId, color, size, quantity } = req.body
 
+  // Validate product existence
   const product = await Product.findById(productId)
   if (!product) {
     return res.send(`No product with id: ${productId}`)
   }
 
-  const sku = product.skus.find((sku) => sku._id.toString() === skuId)
+  // Validate sku existence
+  const sku = product.getSkuByColorSize(color, size)
   if (!sku) {
-    return res.send(`No sku with id: ${skuId}`)
+    return res.send(`No sku`)
   }
 
   // Validate quality
@@ -106,7 +24,7 @@ const createCartItem = async (req, res, next) => {
     return res.send('Quantity not valid')
   }
 
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user
   let cart = await Cart.findOne({ userId })
   if (!cart) {
     cart = await Cart.create({
@@ -116,10 +34,7 @@ const createCartItem = async (req, res, next) => {
   }
 
   // Check if item is already in cart
-  const itemIndex = cart.cartItems.findIndex(
-    (item) =>
-      item.productId.toString() === productId && item.skuId.toString() === skuId
-  )
+  const itemIndex = cart.findCartItem({ productId, skuId: sku._id })
 
   // If item already exist
   if (itemIndex >= 0) {
@@ -131,36 +46,40 @@ const createCartItem = async (req, res, next) => {
 
     cart.cartItems[itemIndex].quantity = newQuantity
     cart.cartItems[itemIndex].price = sku.price
-    cart.cartItems[itemIndex].color = sku.color.color
+    cart.cartItems[itemIndex].color = sku.color.color_type
     cart.cartItems[itemIndex].size = sku.size.size_type
-    cart.cartItems[itemIndex].image = sku.image[0]
+    cart.cartItems[itemIndex].image = product.image[0]
   } else {
     cart.cartItems.push({
       productId,
-      skuId,
+      skuId: sku._id,
       quantity,
-      color: sku.color.color,
+      color: sku.color.color_type,
       size: sku.size.size_type,
       price: sku.price,
-      image: sku.image[0] || '',
+      image: product.image[0] || '/images/product-placeholder.png',
     })
   }
 
   await cart.save()
 
-  res.json({ cart })
+  res.redirect('/cart')
 }
 
 // GET /cart
 const getAllCartItems = async (req, res, next) => {
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  // const userId = req.user
+  const userId = req.user
 
-  const cart = await Cart.findOne({ userId }).populate(
+  let cart = await Cart.findOne({ userId }).populate(
     'cartItems.productId',
-    'name'
+    'name slug'
   )
   if (!cart) {
-    return res.send('Không tồn tại giỏ hàng')
+    // Create new cart for user if the cart not exist
+    cart = await Cart.create({
+      userId,
+    })
   }
 
   res.render('cart/checkout', {
@@ -172,33 +91,24 @@ const getAllCartItems = async (req, res, next) => {
 const updateCartItem = async (req, res, next) => {
   const { action, productId, color, size } = req.query
 
-  const product = await Product.findOne({ _id: productId }).lean()
+  const product = await Product.findOne({ _id: productId })
   if (!product) {
     return res.send('Sản phẩm không tồn tại')
   }
   // Check sku existence
-  const sku = product.skus.find(
-    (sku) => sku.color.color === color && sku.size.size_type === size
-  )
+  const sku = product.getSkuByColorSize(color, size)
   if (!sku) {
-    // TODO: handle error
     return res.send('Sku không tồn tại')
   }
 
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user
 
   const cart = await Cart.findOne({ userId })
   if (!cart) {
     return res.send('Giỏ hàng không tồn tại')
   }
 
-  const itemIndex = cart.cartItems.findIndex((cartItem) => {
-    return (
-      cartItem.productId.toString() === productId &&
-      cartItem.color === color &&
-      cartItem.size === size
-    )
-  })
+  const itemIndex = cart.findCartItem({ productId, skuId: sku._id })
 
   if (itemIndex < 0) {
     return res.send('Không tìm thấy sản phẩm trong giỏ hàng')
@@ -232,7 +142,7 @@ const updateCartItem = async (req, res, next) => {
 const deleteCartItem = async (req, res, next) => {
   const { cartItemId } = req.body
 
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user
 
   const cart = await Cart.findOne({ userId })
   if (!cart) {
@@ -246,8 +156,7 @@ const deleteCartItem = async (req, res, next) => {
 
 const deleteAllCartItems = async (req, res, next) => {
   const { id: cartId } = req.params
-  // const userId = '62880eab376ac68dbeda528c' // TODO: use userId from authentication middleware
-  const userId = '62890638fdc34396c526335b' // TODO: use userId from authentication middleware
+  const userId = req.user
 
   const cart = await Cart.findOne({ _id: cartId })
   if (!cart) {
