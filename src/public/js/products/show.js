@@ -58,7 +58,6 @@ function colorBtnClick(data) {
 
 function reRenderDetail(detailObj) {
   document.querySelector('#quantity').innerHTML = detailObj.quantity
-  document.querySelector('.view-product img').src = detailObj.image
   // document.querySelector('#price').innerHTML = detailObj.price.base.$numberDecimal + " " + detailObj.price.currency
   // document.querySelector('').innerHTML = detailObj
   var price = ""

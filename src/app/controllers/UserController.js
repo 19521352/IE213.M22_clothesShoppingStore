@@ -19,7 +19,7 @@ class userController {
         const authToken = crypto.randomBytes(30).toString('hex')
         User.findOne({email:emails}).exec()
         .then(data => {
-            
+
             if(bcrypt.compareSync(password, data.password))
             {
                 authTokens[authToken] = req.body.email
@@ -28,9 +28,9 @@ class userController {
                     .render('home',{
                         layout: 'main',
                         clothesItems: mutipleMongooseToObject(clothesItems),
-                        user:req.body.email, 
+                        user:req.body.email,
                         isLogin: true,})
-                        
+
                 })
 
             }
@@ -48,7 +48,7 @@ class userController {
     Register(req, res, next) {
         const usr = req.body;
         const pass = bcrypt.hashSync(usr.password,12)
-        
+
         User.findOne({email: usr.email}).exec()
         .then((data)=>
             {
@@ -64,7 +64,7 @@ class userController {
                             name : usr.name
                         }
                     );
-                    
+
                     user.save()
                     .then(data => {
                         res.render('user', {status : 'Tạo tài khoản thành công <3 ',class:'success'});
@@ -79,7 +79,7 @@ class userController {
         .catch((error) => {
             res.render('user',{status : 'Tài khoản đã tồn tại !!!!' ,class : 'error'})
         })
-    
+
     }
     requireAuth(req, res, next){
         const authToken = req.cookies['AuthToken'];
