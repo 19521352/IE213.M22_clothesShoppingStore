@@ -279,7 +279,7 @@
         
         <div class="tab-pane fade active in" id="reviews" >
                 <div class="col-sm-12">
-                    <div class="container d-flex justify-content-center mt-100 mb-100">
+                    <div class="d-flex justify-content-center mt-100 mb-100">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
@@ -291,7 +291,7 @@
                                     <div class="comment-widgets m-b-20">
                                         <div class="d-flex flex-row comment-row">
                                             <div class="p-2"><span class="round"><img src="https://www.pngkey.com/png/detail/114-1149847_avatar-unknown-dp.png" alt="user" width="50"></span></div>
-                                            <div class="comment-text w-100">
+                                            <div class="comment-text w-100" id="{{this._id}}">
                                                 <h4>{{this.name}}</h4>
                                                 <div class="comment-footer">
                                                     <ul class="mb-0">
@@ -301,7 +301,8 @@
                                                         <li>
                                                             <a href=""><i class="fa fa-calendar-o orange_color"></i>{{moment this.createdAt format="DD MMM YYYY"}}</a> 
                                                         </li>
-                                                        <span class="action-icons"> {{#if (compareString this.email ../isLogin)}}<a href="#" data-abc="true"><i class="fa fa-pencil orange_color"></i></a>{{/if}} &nbsp <a href="#" data-abc="true"><i class="fa fa-heart orange_color"></i></a> </span> 
+                                                        <span class="action-icons"> {{#if (compareString this.email ../isLogin)}}<a data-abc="true" onclick="updateComment({{json this}})"><i class="fa fa-pencil orange_color"></i></a> &nbsp <a data-abc="true" onclick="deleteComment({{json this}})"><i class="fa fa-trash-o orange_color"></i></a>{{/if}}</span> 
+                                                        {{!-- &nbsp <a href="#" data-abc="true"><i class="fa fa-heart orange_color"></i></a> --}}
                                                     </ul>
                                                 </div>
                                                 <p class="m-b-5 m-t-0">{{this.comment}}</p>
@@ -309,6 +310,25 @@
                                         </div>
                                     </div>
                                     {{/each}}
+                                    <div class="modal fade" id="confirmDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Xoá bình luận</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Bạn có chắc chắn muốn xoá bình luận này?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmDel_btn">Xoá</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

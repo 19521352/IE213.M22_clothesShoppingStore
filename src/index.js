@@ -39,6 +39,9 @@ MomentHandler.registerHelpers(Handlebars);
 Handlebars.registerHelper('compareString', function(String1, String2){
   return String1 == String2;
 })
+Handlebars.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
 
 // Route init
 route(app);

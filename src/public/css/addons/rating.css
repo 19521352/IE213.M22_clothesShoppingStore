@@ -1,5 +1,6 @@
 .rate {
     float: left;
+    display: block;
     height: 46px;
     padding: 0;
 }
@@ -36,7 +37,7 @@
 }
 
 .ratelabel{
-    float: left;
+    /* float: left; */
     padding: 5px;
 }
 
