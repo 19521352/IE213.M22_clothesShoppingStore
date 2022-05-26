@@ -36,13 +36,14 @@
     "handlebars.moment": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
-    "mongoose": "^6.3.3"
+    "mongoose": "^6.3.3",
+    "mongoose-slug-generator": "^1.0.4"
   },
   "devDependencies": {
     "morgan": "^1.10.0",
     "node-sass": "^7.0.1",
     "nodemon": "^2.0.15",
     "sass": "^1.49.9",
-    "script": "^0.0.12"
+    "script": "^0.1.4"
   }
 }

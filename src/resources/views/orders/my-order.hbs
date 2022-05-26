@@ -1,0 +1,49 @@
+<style>
+  .order-item__image {
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .order-item-list {
+    max-height: 30vh;
+    overflow-y: scroll;
+  }
+</style>
+
+<div class='container'>
+
+  <h1>{{count}}</h1>
+
+  {{#each orders as |order key|}}
+
+  <div class='card order'>
+    <ul class='order-item-list'>
+
+      {{#each this.orderItems as |item key|}}
+
+      <li class='order-item d-flex'>
+
+        <img src='{{item.image}}' class='order-item__image img-thumbnail' />
+
+      </li>
+
+      {{/each}}
+
+    </ul>
+    <div class='card-body'>
+      {{! <h5 class='card-title'>Card title</h5> }}
+      <p class='card-text'>Tên người nhận: {{order.name}}</p>
+      <p class='card-text'>Địa chỉ: {{order.address}}</p>
+      <p class='card-text'>Số điện thoại: {{order.phoneNumber}}</p>
+      <p class='card-text'>Hình thức thanh toán: {{order.paymentType}}</p>
+      <p class='card-text'>Trạng thái: {{order.status}}</p>
+      <p class='card-text'>Tổng: {{order.subtotal}}</p>
+      <p class='card-text'>Phí giao hàng: {{order.shippingFee}}</p>
+      <p class='card-text'>Thành tiền: {{order.total}}</p>
+
+      {{! <a href='#' class='btn btn-primary'>Go somewhere</a> }}
+    </div>
+  </div>
+
+  {{/each}}
+</div>
