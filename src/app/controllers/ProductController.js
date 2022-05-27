@@ -14,14 +14,19 @@ class ProductController {
   show(req, res, next) {
     Product.findOne({ slug: req.params.slug }).lean()
       .then((product) => {
-        res.render('products/show', {
-          layout: 'main',
-          title: product.name,
-          product: product,
-          colorList: groupByField(product.skus, 'color.color_type'),
-          sizeList: groupByField(product.skus, 'size.size_type'),
-          priceDetail: getPrice(product.skus),
-          totalQuantity: getTotalQuantity(product.skus)
+        Comments.find({ productId: req.params.slug })
+        .then((comment) => {
+          res.render('products/show', {
+            layout: 'main',
+            title: product.name,
+            product: product,
+            colorList: groupByField(product.skus, 'color.color_type'),
+            sizeList: groupByField(product.skus, 'size.size_type'),
+            priceDetail: getPrice(product.skus),
+            totalQuantity: getTotalQuantity(product.skus),
+            isLogin: req.user,
+            comment: mutipleMongooseToObject(comment),
+          })
         })
       },
       )
@@ -40,18 +45,42 @@ class ProductController {
     })
   }
 
+  postComment(req, res, next) {
+    // console.log(req.body);
+    User.findOne({email: req.body.email}).then((user) => {
+      const Data = req.body;
+      Data.name = user.name;
+      const comment = new Comments(Data);
+      console.log(comment)
+      comment.save();
+    }).then(() => res.redirect('/products/' + req.body.productId)) 
+      .catch(next)
+      .catch((error) => res.render('404', {
+        layout: false,
+        title: '404 error'
+      }));
+  }
+
   updateComment(req, res, next) {
     Comments.findOneAndUpdate({_id: req.body._id}, {
       comment: req.body.newComment,
       rate: req.body.rate,
     })
     .then(() => res.redirect('/products/' + req.body.productId)) 
+    .catch(next)
+    .catch((error) => res.render('404', {
+      layout: false,
+      title: '404 error'
+    }))
   }
   
   deleteComment(req, res, next) {
-    Comments.deleteOne({_id: req.body._id}).catch((error) => {
-      console.log('ko xoa dc');
-    });
+    Comments.deleteOne({_id: req.body._id})
+    .catch(next)
+    .catch((error) => res.render('404', {
+      layout: false,
+      title: '404 error'
+    }));
   }
 
   // [POST] /products/create

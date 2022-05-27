@@ -30,7 +30,6 @@
         <div class="col-md-4 clearfix">
           <div class="logo pull-left">
             <a href="/"><img src="/images/home/logo.png" alt=""></a>
-            <a href="http://localhost:3000/login"><img src="/images/home/logo.png" alt=""></a>
           </div>
           <div class="btn-group pull-right clearfix">
             <div class="btn-group">
@@ -62,7 +61,7 @@
           <div class="shop-menu clearfix pull-right">
             <ul class="nav navbar-nav">
               {{#if isLogin}}
-                <li><a href="/account"><i class="fa fa-user"></i> {{user}}</a></li>
+                <li><a href="/account"><i class="fa fa-user"></i> {{isLogin}}</a></li>
                 <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
                 <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                 <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>

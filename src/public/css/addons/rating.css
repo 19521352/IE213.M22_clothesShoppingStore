@@ -40,5 +40,10 @@
     /* float: left; */
     padding: 5px;
 }
-
+.orange_color {
+    color: orange;
+}
+.mt {
+    margin-top: 15px;
+}
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */

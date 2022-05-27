@@ -26,14 +26,13 @@ class userController {
                 authTokens[authToken] = req.body.email
                 Product.find({}).exec().then((clothesItems) =>{
                     res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true })
-                    .render('home',{
-                        layout: 'main',
-                        clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus))),
-                        user:req.body.email, 
-                        isLogin: true,})
-                        
+                    .redirect('/');
+                    // .render('home',{
+                    //     layout: 'main',
+                    //     clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus))),
+                    //     user:req.body.email, 
+                    //     isLogin: true,})
                 })
-
             }
             else {
                 res.render('user', {

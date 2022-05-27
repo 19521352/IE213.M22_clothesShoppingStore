@@ -39,7 +39,7 @@ function updateComment(comment) {
     form.setAttribute("onsubmit", "return validateFormNo2()");
     form.innerHTML = `
         <input type="hidden" name="productId" value="${comment.productId}" />
-        <input type="hidden" name="email" value="${comment.email}" />|
+        <input type="hidden" name="email" value="${comment.email}" />
         <input type="hidden" name="_id" value="${comment._id}" />
         <textarea name="newComment" id="myNewComment">${comment.comment}</textarea>
         <div class="modal fade" id="genericModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
