@@ -155,19 +155,19 @@ class ProductController {
 
   // [POST] /products/:id/update
   update(req, res, next) {
-    const product = req.body;
-    if (product.image) product.image = product.image.map((item) => "/images/product-details/" + item)
+    const obj = req.body;
+    if (obj.image) obj.image = obj.image.map((item) => "/images/product-details/" + item)
     // res.json(product)
     Product
       .findOneAndUpdate(
         { _id: req.params.id },
         {
           "$set": {
-            "name": products.name,
-            "categories": products.categories,
-            "description": products.description,
-            "condition": products.condition,
-            "image": products.image
+            "name": obj.name,
+            "categories": obj.categories,
+            "description": obj.description,
+            "condition": obj.condition,
+            "image": obj.image
           }
         }
       )
