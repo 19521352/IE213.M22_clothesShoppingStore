@@ -10,6 +10,7 @@
               </a>
               <h1>{{userInfo.name}}</h1>
               <p>{{userInfo.email}}</p>
+              <h1>{{status}}</h1>
           </div>
 
           <ul class="nav nav-pills nav-stacked">
@@ -111,7 +112,7 @@
     <div id="edit" class="fade tab-pane profile-info">
         <h3>Personal info</h3>
         <div class="col-md-9">
-            <form class="form-horizontal" role="form">
+            <form action="/login/update" method="post">
             <div class="form-group">
                 <label class="col-md-3 control-label">First name:</label>
                 <div class="col-md-7">
@@ -125,15 +126,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Mật khẩu:</label>
+                <label class="col-md-3 control-label">Mật khẩu cũ:</label>
                 <div class="col-md-7">
-                <input class="form-control" type="text" value="">
+                <input class="form-control" type="password" name="password" id="password" value="">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label">Nhập lại mật khẩu:</label>
+                <label class="col-md-3 control-label">Mật khẩu mới:</label>
                 <div class="col-md-7">
-                <input class="form-control" type="text" value="">
+                <input class="form-control" type="password" name="REpassword" id="REpassword" value="">
                 </div>
             </div>
             <div class="form-group text-center">
