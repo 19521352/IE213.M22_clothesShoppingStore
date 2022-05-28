@@ -40,7 +40,8 @@ const CartItemSchema = new mongoose.Schema({
 
 const CartSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Types.ObjectId,
+    type: String,
+    ref: 'User',
     required: true,
   },
   cartItems: {
@@ -53,7 +54,7 @@ const CartSchema = new mongoose.Schema({
   },
   shippingFee: {
     type: Number,
-    default: 2,
+    default: 2000,
   },
 })
 
@@ -74,14 +75,16 @@ CartSchema.methods.clearCart = async function () {
   return this
 }
 
-// UserSchema.pre('save', async function () {
-//   // console.log(this.modifiedPaths())
-//   // console.log(this.isModified('name'))
-//   // Avoid hashing password when changing other fields
-//   if (!this.isModified('password')) return
-//   const salt = await bcrypt.genSalt(10)
-//   this.password = await bcrypt.hash(this.password, salt)
-// })
+CartSchema.methods.findCartItem = function ({ productId, skuId }) {
+  const itemIndex = this.cartItems.findIndex((item) => {
+    return (
+      item.productId.toString() === productId.toString() &&
+      item.skuId.toString() === skuId.toString()
+    )
+  })
+
+  return itemIndex
+}
 
 CartSchema.pre('save', async function () {
   if (this.cartItems.length < 1) {
@@ -89,11 +92,10 @@ CartSchema.pre('save', async function () {
   }
 
   const subTotal = this.cartItems.reduce((total, item) => {
-    return total + item.price.discount * item.quantity
+    return total + item.price.base * (1 - item.price.discount) * item.quantity
   }, 0)
 
   this.subTotal = subTotal
-  console.log(this.subTotal)
 })
 
 module.exports = mongoose.model('Cart', CartSchema)

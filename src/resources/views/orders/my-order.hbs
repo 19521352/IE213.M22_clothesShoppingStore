@@ -21,11 +21,30 @@
 
       {{#each this.orderItems as |item key|}}
 
-      <li class='order-item d-flex'>
+      <ul class='cart__item--list'>
+        <li class='cart-item' style='display:flex; flex-direction:row; gap: 1rem'>
+          <a href='/products/{{item.product.slug}}' class='product__thumbnail' class='d-block'>
+            <img src='{{item.image}}' class='img-thumbnail cart-item__image' />
+          </a>
+          <div>
+            <h6 class='cart-item__name'>{{item.product.name}}</h6>
+            <span class='product__variation text-uppercase'>
+              <p style='text-transform: uppercase;'>{{item.color}},
+                {{item.size}}</p>
+            </span>
+            <div class='price'>
+              <p>
+                <span>Thành tiền: {{item.price}}</span>
+                <span class='currency-symbol'>VND</span>
+              </p>
+            </div>
+            <div class='add__product'>
+              <span>Số lượng: {{item.quantity}}</span>
+            </div>
+          </div>
+        </li>
 
-        <img src='{{item.image}}' class='order-item__image img-thumbnail' />
-
-      </li>
+      </ul>
 
       {{/each}}
 

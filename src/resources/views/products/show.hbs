@@ -31,6 +31,7 @@
       <span class="dot" onclick="currentSlide(3)"></span>
     </div>
   </div>
+
   <div class="col-sm-7">
     <div class="product-information" id="product-information">
       <!--/product-information-->
@@ -43,8 +44,10 @@
       {{/if}}
       {{/if}}
       <h2>{{product.name}}</h2>
+
       <form method="POST" action="/cart">
-        <p>Web ID:<input type="text" id="productId" value="{{product._id}}" disabled /></p>
+        <input type="hidden" name="productId" id="productId" value="{{product._id}}" />
+        </p>
         <p><img src="/images/product-details/rating.png" alt="" /></p>
         {{#if (or (ne priceDetail.minPrice priceDetail.minPriceBase) (ne priceDetail.maxPrice
         priceDetail.maxPriceBase))}}
@@ -70,7 +73,7 @@
 
         <p>
           <span style="margin: 0px; ">
-            <input type=" text" value="3" />
+            <input type=" text" value="1" name="quantity" />
           </span>
 
           <button type="submit" class="btn btn-fefault cart" id="cart-btn">
@@ -87,7 +90,7 @@
         <div id="size-list">
           {{#each sizeList}}
           <input class="btn-check" type="radio" value="{{this.[0].size.[size_type]}}"
-            id="size-{{this.[0].size.[size_type]}}" name="productSizeList[]" autocomplete="off"
+            id="size-{{this.[0].size.[size_type]}}" name="size" autocomplete="off"
             onchange="sizeBtnClick({{json this}})">
           <label class="btn btn-warning size-btn"
             for="size-{{this.[0].size.[size_type]}}">{{this.[0].size.[size_type]}}</label>
@@ -97,7 +100,7 @@
         <p><b>Colors:</b></p>
         <div class="colors">
           {{#each colorList}}
-          <input class="btn-check" value="{{this.[0].color.color_type}}" type="radio" name="productColorList[]"
+          <input class="btn-check" value="{{this.[0].color.color_type}}" type="radio" name="color"
             id="color-{{this.[0].color.color_type}}" autocomplete="off" onchange="colorBtnClick({{json this}})">
           <label class="btn btn-warning" style="background: {{this.[0].color.color_hex}}"
             for="color-{{this.[0].color.color_type}}">
