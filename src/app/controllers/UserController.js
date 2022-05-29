@@ -13,6 +13,7 @@ const authTokens = {};
 class userController {
     getLogin = async (req, res) => {
         res.render('user')
+        
     }
     Login = async(req, res) => {
         const password = req.body.password
@@ -81,6 +82,64 @@ class userController {
         })
     
     }
+    changePass(req, res, next){
+        const newPassword = req.body.REpassword
+        const user = req.user
+        const Password = bcrypt.hashSync(newPassword,12)  
+        User.findOne({email:user}).exec()
+        .then(data => {
+            console.log(data.password)
+            if(bcrypt.compareSync(req.body.password, data.password))
+            {
+                User.findOneAndUpdate(
+                    {
+                        email: user,
+                    },
+                    {
+                        password: Password,
+                    },
+                    {
+                        returnOriginal: false,
+                    }
+                )
+                .then((data) => {
+                    console.log(data.password)
+                    res.render('profile',{
+                        css : 'css/profile.css',
+                        status : 'Thay đổi mật khẩu thành công ',
+                        class:'success',
+                        layout: 'no-left-sidebar',
+                        userInfo: mongooseToObject(data),
+                        user:req.user, 
+                        isLogin: req.user,})
+                })
+                .catch((error) => {
+                    res.render('profile',{
+                        status : 'Something wrong BRUH' ,
+                        class : 'error',
+                        layout: 'no-left-sidebar',
+                        userInfo: mongooseToObject(error),
+                        user:req.user, 
+                        isLogin: req.user,})
+                })
+
+            }
+            else {
+                res.render('profile', {
+                    status: 'Sai password',
+                    class:'error',
+                    layout: 'no-left-sidebar',
+                    userInfo: mongooseToObject(data),
+                    user:req.user, 
+                    isLogin: req.user,
+                });
+            }
+        })
+        .catch((error) => {
+            res.render('user',{status : 'Tài khoản không tồn tại !!!!' ,class : 'error'})
+        })
+
+    }
     requireAuth(req, res, next){
         const authToken = req.cookies['AuthToken'];
         req.user = authTokens[authToken];
@@ -130,9 +189,8 @@ class userController {
           })
     }
 
-    Logout(req, res, next) {
-        res.clearCookie('AuthToken');
-        res.end()
+    logout(req, res, next) {
+        res.clearCookie('AuthToken').redirect('/');
     }
 
 }

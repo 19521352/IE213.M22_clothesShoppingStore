@@ -71,6 +71,12 @@ body {
     color: #89817f !important;
 }
 
+.profile-nav ul > li > button:hover, .profile-nav ul > li > button:focus, .profile-nav ul li.active  button {
+    background: #f8f7f5 !important;
+    border-left: 5px solid #ff9f1a;
+    color: #89817f !important;
+}
+
 .profile-nav ul > li:last-child > a:last-child {
     border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
