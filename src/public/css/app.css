@@ -4,6 +4,25 @@
   pointer-events: none;
 }
 
+.orange_color {
+  color: #ff9f1a;
+}
+
+.comment-widgets {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+}
+.success {
+  padding: 20px;
+  background-color: #009f15;
+  color: white;
+}
+.error{
+  padding: 20px;
+  background-color: #bd0101;
+  color: white;
+}
 .btn-check:disabled + .btn, .btn-check[disabled] + .btn {
   pointer-events: none;
   filter: none;
