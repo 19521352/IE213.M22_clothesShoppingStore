@@ -42,7 +42,7 @@ function updateComment(comment) {
         <input type="hidden" name="email" value="${comment.email}" />
         <input type="hidden" name="_id" value="${comment._id}" />
         <textarea name="newComment" id="myNewComment">${comment.comment}</textarea>
-        <div class="modal fade" id="genericModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal" id="genericModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header text-center">
