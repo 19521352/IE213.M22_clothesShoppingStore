@@ -19,7 +19,7 @@
               <li class="active"><a href="#profile" data-toggle="tab"> <i class="fa fa-user"></i> Profile</a></li>
               <li><a href="#oder" data-toggle="tab"> <i class="fa fa-archive"></i> Orders <span class="label label-warning pull-right r-activity">9</span></a></li>
               <li><a href="#edit" data-toggle="tab"> <i class="fa fa-edit"></i> Edit profile </a></li>
-              <li><a href="#"> <i class="fa fa-sign-out"></i> Sign out </a></li>
+              <li><a href="/account/signout"> <i class="fa fa-sign-out"></i> Sign out </a></li>
           </ul>
       </div>
   </div>
@@ -29,20 +29,17 @@
             <div class={{class}}>
                 <h2>{{status}}</h2>
             </div>
+            <div class="bio-graph-heading">
+                Thứ mà một developer làm trong 30 phút, hai developer có thể hoàn thành trong 60 phút
+            </div>
             <div class="panel-body bio-graph-info">
-                <h1>Bio Graph</h1>
+                <h1>Thông tin tài khoản</h1>
                 <div class="row">
                     <div class="bio-row">
-                        <p><span>First Name </span>: {{userInfo.name}}</p>
-                    </div>
-                    <div class="bio-row">
-                        <p><span>Last Name </span>: {{userInfo.name}}</p>
+                        <p><span>Tên người dùng </span>: {{userInfo.name}}</p>
                     </div>
                     <div class="bio-row">
                         <p><span>Email </span>: {{userInfo.email}}</p>
-                    </div>
-                    <div class="bio-row">
-                        <p><span>Phone </span>: 88 (02) 123456</p>
                     </div>
                 </div>
             </div>

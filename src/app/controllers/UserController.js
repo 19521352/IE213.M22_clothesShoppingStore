@@ -189,9 +189,8 @@ class userController {
           })
     }
 
-    Logout(req, res, next) {
-        res.clearCookie('AuthToken');
-        res.end()
+    logout(req, res, next) {
+        res.clearCookie('AuthToken').redirect('/');
     }
 
 }
