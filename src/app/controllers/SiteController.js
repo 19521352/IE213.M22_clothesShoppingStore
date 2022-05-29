@@ -14,7 +14,7 @@ class SiteController {
           layout: 'main',
           title: 'Trang chủ',
           user : req.user,
-          isLogin: req.isLogin,
+          isLogin: req.user,
           clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus)))
 
         });
