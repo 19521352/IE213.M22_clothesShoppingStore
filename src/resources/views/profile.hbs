@@ -1,5 +1,7 @@
+<head>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/profile.css">
+<link rel="stylesheet" href="css/profile.css" type="text/css">
+</head>
 <div class="container bootstrap snippets bootdey">
 <div class="row">
   <div class="profile-nav col-md-3">
@@ -10,7 +12,7 @@
               </a>
               <h1>{{userInfo.name}}</h1>
               <p>{{userInfo.email}}</p>
-              <h1>{{status}}</h1>
+
           </div>
 
           <ul class="nav nav-pills nav-stacked">
@@ -24,8 +26,8 @@
   <div class="tab-content">
     <div class="profile-info col-md-9 tab-pane fade in active" id="profile">
         <div class="panel">
-            <div class="bio-graph-heading">
-                Aliquam ac magna metus. Nam sed arcu non tellus fringilla fringilla ut vel ispum. Aliquam ac magna metus.
+            <div class={{class}}>
+                <h2>{{status}}</h2>
             </div>
             <div class="panel-body bio-graph-info">
                 <h1>Bio Graph</h1>
