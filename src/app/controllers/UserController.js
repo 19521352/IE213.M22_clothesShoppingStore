@@ -12,7 +12,7 @@ const authTokens = {};
 
 class userController {
     getLogin = async (req, res) => {
-        res.render('user')
+        res.render('user', {layout: 'no-left-sidebar'})
         
     }
     Login = async(req, res) => {
@@ -28,22 +28,22 @@ class userController {
                 Product.find({}).exec().then((clothesItems) =>{
                     res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true })
                     .redirect('/');
-                    // .render('home',{
-                    //     layout: 'main',
-                    //     clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus))),
-                    //     user:req.body.email, 
-                    //     isLogin: true,})
                 })
             }
             else {
                 res.render('user', {
                     status: 'Sai username hoặc password',
-                    class:'error'
+                    class:'error',
+                    layout: 'no-left-sidebar',
                 });
             }
         })
         .catch((error) => {
-            res.render('user',{status : 'Tài khoản không tồn tại !!!!' ,class : 'error'})
+            res.render('user',{
+                status : 'Tài khoản không tồn tại !!!!' ,
+                class : 'error',
+                layout: 'no-left-sidebar',
+            })
         })
     }
     Register(req, res, next) {
@@ -54,7 +54,11 @@ class userController {
         .then((data)=>
             {
                 if(data){
-                    res.render('user',{status : 'Tài khoản đã tồn tại !!!!' ,class : 'error'})
+                    res.render('user',{
+                        status : 'Tài khoản đã tồn tại !!!!' ,
+                        class : 'error',
+                        layout: 'no-left-sidebar',
+                    })
                 }
                 else{
                     const user = new User(
@@ -68,17 +72,29 @@ class userController {
                     
                     user.save()
                     .then(data => {
-                        res.render('user', {status : 'Tạo tài khoản thành công <3 ',class:'success'});
+                        res.render('user', {
+                            status : 'Tạo tài khoản thành công <3 ',
+                            class:'success',
+                            layout: 'no-left-sidebar',
+                        });
                     })
                     .catch((error) => {
-                        res.render('user',{status : 'Tài khoản đã tồn tại !!!!' ,class : 'error'})
+                        res.render('user',{
+                            status : 'Tài khoản đã tồn tại !!!!' ,
+                            class : 'error',
+                            layout: 'no-left-sidebar',
+                        })
                     })
                 }
             }
 
         )
         .catch((error) => {
-            res.render('user',{status : 'Tài khoản đã tồn tại !!!!' ,class : 'error'})
+            res.render('user',{
+                status : 'Tài khoản đã tồn tại !!!!' ,
+                class : 'error',
+                layout: 'no-left-sidebar',
+            })
         })
     
     }
@@ -136,7 +152,11 @@ class userController {
             }
         })
         .catch((error) => {
-            res.render('user',{status : 'Tài khoản không tồn tại !!!!' ,class : 'error'})
+            res.render('user',{
+                status : 'Tài khoản không tồn tại !!!!' ,
+                class : 'error', 
+                layout: 'no-left-sidebar',
+            })
         })
 
     }
@@ -150,6 +170,7 @@ class userController {
             res.render('user', {
                 status : 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
                 class : 'error',
+                layout: 'no-left-sidebar',
             });
         }
     };
@@ -174,6 +195,7 @@ class userController {
             res.render('user', {
                 status : 'Hãy đăng nhập tài khoản admin để tiếp tục',
                 class : 'error',
+                layout: 'no-left-sidebar',
             });
         }
     };
