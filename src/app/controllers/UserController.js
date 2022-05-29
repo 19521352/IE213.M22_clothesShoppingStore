@@ -104,17 +104,34 @@ class userController {
                 )
                 .then((data) => {
                     console.log(data.password)
-                    res.render('profile',{status : 'Thay đổi mật khẩu thành công ',class:'success'})
+                    res.render('profile',{
+                        css : 'css/profile.css',
+                        status : 'Thay đổi mật khẩu thành công ',
+                        class:'success',
+                        layout: 'no-left-sidebar',
+                        userInfo: mongooseToObject(data),
+                        user:req.user, 
+                        isLogin: req.user,})
                 })
                 .catch((error) => {
-                    res.render('profile',{status : 'Something wrong BRUH' ,class : 'error'})
+                    res.render('profile',{
+                        status : 'Something wrong BRUH' ,
+                        class : 'error',
+                        layout: 'no-left-sidebar',
+                        userInfo: mongooseToObject(error),
+                        user:req.user, 
+                        isLogin: req.user,})
                 })
 
             }
             else {
                 res.render('profile', {
                     status: 'Sai password',
-                    class:'error'
+                    class:'error',
+                    layout: 'no-left-sidebar',
+                    userInfo: mongooseToObject(data),
+                    user:req.user, 
+                    isLogin: req.user,
                 });
             }
         })
