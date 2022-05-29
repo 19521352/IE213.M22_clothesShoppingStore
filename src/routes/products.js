@@ -18,6 +18,9 @@ router.get('/:id/getUpdateSku/:skuId',userController.requireAdmin, productContro
 router.post('/:id/updateSku/:skuId',userController.requireAdmin, productController.updateSku);
 router.post('/:id/delete',userController.requireAdmin, productController.delete);
 router.post('/:id/deleteSku/:skuId',userController.requireAdmin, productController.deleteSku);
-router.get('/:slug',userController.requireUser, productController.show);
+router.get('/:slug', userController.requireUser, productController.show);
+router.post('/:slug', productController.postComment);
+router.post('/:slug/changecmt', productController.updateComment);
+router.post('/:slug/deletecmt', productController.deleteComment);
 
 module.exports = router;
