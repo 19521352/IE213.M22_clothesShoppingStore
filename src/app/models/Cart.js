@@ -54,7 +54,7 @@ const CartSchema = new mongoose.Schema({
   },
   shippingFee: {
     type: Number,
-    default: 2000,
+    default: 20000,
   },
 })
 
@@ -84,6 +84,12 @@ CartSchema.methods.findCartItem = function ({ productId, skuId }) {
   })
 
   return itemIndex
+}
+
+CartSchema.methods.getCartItemById = function (cartItemId) {
+  return this.cartItems.findIndex((item) => {
+    return item._id.toString() === cartItemId.toString()
+  })
 }
 
 CartSchema.pre('save', async function () {

@@ -1,4 +1,8 @@
 <style>
+  .cart-container {
+    min-height: 80vh;
+  }
+
   .cart-item {
     position: relative;
   }
@@ -13,87 +17,116 @@
     flex-direction: row;
     justify-content: space-between;
   }
+
+  .cart_quantity_button {
+    display: flex;
+    align-items: center;
+  }
 </style>
 
-<div class='container'>
+<div class='container cart-container'>
 
   {{#if cart}}
   <div class='row'>
 
-    <div class='col-sm-6'>
+    <section id='cart_items'>
+      <h2 class='title text-center'>Giỏ hàng của tôi</h2>
+      <div class='container'>
+        <div class='table-responsive cart_info'>
+          <table class='table table-condensed'>
+            <thead>
+              <tr class='cart_menu'>
+                <td class='image'>Sản phẩm</td>
+                <td class='description'></td>
+                <td class='price'>Giá</td>
+                <td class='quantity'>Số lượng</td>
+                <td class='total'>Tổng cộng</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
 
-      <ul class='cart__item--list'>
-        {{#each cart.cartItems}}
-        <li class='cart-item' style='display:flex; flex-direction:row; gap: 1rem'>
-          <a href='/products/{{this.productId.slug}}' class='product__thumbnail' class='d-block'>
-            <img src='{{this.image}}' class='img-thumbnail cart-item__image' />
-          </a>
-          <div>
-            <h6 class='cart-item__name'>{{this.productId.name}}</h6>
-            <span class='product__variation text-uppercase'>
-              <p style='text-transform: uppercase;'>{{this.color}},
-                {{this.size}}</p>
+              {{#each cart.cartItems as |item key|}}
+
+              <tr>
+                <td class='cart_product'>
+                  <a href='/products/{{item.productId.slug}}'><img src='{{item.image}}' /></a>
+                </td>
+                <td class='cart_description'>
+                  <h4><a href='/products/{{item.productId.slug}}'>{{item.productId.name}}</a></h4>
+                  <p style='text-transform: uppercase;'>{{item.color}},
+                    {{item.size}}</p>
+                </td>
+                <td class='cart_price'>
+                  <p style='text-decoration: line-through;'>{{item.price.base}}
+                    {{item.price.currency}}</p>
+                  <p>{{mul item.price.base (sub 1 item.price.discount)}}
+                    {{item.price.currency}}</p>
+                </td>
+
+                <td class='cart_quantity'>
+                  <div class='cart_quantity_button'>
+                    <input type='hidden' name='cartItemId' value='{{item._id}}' />
+                    <button class='cart_quantity_up btn' type='button' onclick="updateCartItem(this, 'increase')">
+                      +
+                    </button>
+                    <div class='cart_quantity_input' type='text' name='quantity'>
+                      {{item.quantity}}
+                    </div>
+                    <button class='cart_quantity_down btn' type='button' onclick="updateCartItem(this, 'decrease')">
+                      -
+                    </button>
+                  </div>
+                </td>
+
+                <td class='cart_total'>
+                  <p class='cart_total_price' id='item-total-price'>
+                    {{mul
+                    item.quantity
+                    (mul item.price.base (sub 1 item.price.discount))
+                    }}
+                    {{item.price.currency}}
+                  </p>
+                </td>
+                <td class='cart_delete'>
+                  <input type='hidden' name='cartItemId' value='{{item._id}}' />
+                  <button class='cart_quantity_delete btn btn-primary' type='button' onclick='deleteCartItem(this)'><i
+                      class='fa fa-times'></i></button>
+                </td>
+              </tr>
+
+              {{/each}}
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <div class='cart__total mt-5 p-3'>
+          <p class='total-item total-item--total'><span>Tổng:</span>
+            <span id='cart-subtotal'>{{cart.subTotal}} </span>
+          </p>
+          <p class='total-item total-item--muted text-muted'><span>Phí vận
+              chuyển:</span>
+            <span id='cart-shipping-fee'>{{cart.shippingFee}} </span>
+          </p>
+          <p class='total-item total-item--total'><span>Thành tiền:</span>
+            <span id='cart-total'>{{sum cart.subTotal cart.shippingFee}}
             </span>
-            <div class='price'>
-              <p style='text-decoration: line-through;'>
-                <span>{{this.price.base}}</span>
-                <span class='currency-symbol'>{{this.price.currency}}</span>
-              </p>
-              <p>
-                <span>{{this.price.discount}}</span>
-                <span class='currency-symbol'>{{this.price.currency}}</span>
-              </p>
-            </div>
-            <div class='add__product'>
-              <a
-                href='/cart/update?action=sub&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'><button
-                  class='btn'> - </button></a>
-              <span>{{this.quantity}}</span>
-              <a
-                href='/cart/update?action=add&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'><button
-                  class='btn'> + </button></a>
+          </p>
+        </div>
 
-              <form action='/cart/delete-item' method='post'>
-                <input type='hidden' name='cartItemId' value='{{this._id}}' />
+        <form action='/cart/delete/{{cart._id}}' method='post'>
 
-                <button class='btn btn-primary delete-item' data-id='Hwk530150L000f2SR6WvrUus0i5COTmF' data-index='0'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                    <path
-                      d='M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z'>
-                    </path>
-                  </svg>
+          <button type='submit' class='btn btn-primary'>Xoá giỏ hàng</button>
 
-                </button>
-              </form>
-            </div>
-          </div>
-        </li>
-        {{/each}}
+        </form>
 
-      </ul>
-
-      <div class='cart__total mt-5 p-3'>
-        <p class='total-item total-item--total'><span>Tổng:</span>
-          <span>${{cart.subTotal}}</span>
-        </p>
-        <p class='total-item total-item--muted text-muted'><span>Phí vận
-            chuyển:</span>
-          <span>${{cart.shippingFee}}</span>
-        </p>
-        <p class='total-item total-item--total'><span>Thành tiền:</span>
-          <span>${{total}}</span>
-        </p>
       </div>
+    </section>
 
-      <form action='/cart/delete/{{cart._id}}' method='post'>
-
-        <button type="submit" class='btn btn-primary'>Xoá giỏ hàng</button>
-
-      </form>
-
-    </div>
-    <form action='/order' class='col-sm-6 needs-validation' method='post' novalidate>
-      <h2>Thông tin giao hàng</h2>
+    <form action='/orders' class='needs-validation' method='post'>
+      <h2 class='title text-center'>Thông tin giao hàng</h2>
       <div class='mb-3'>
         <label for='name' class='form-label'>Tên người nhận</label>
         <input type='text' class='form-control' id='name' name='name' required />
@@ -128,3 +161,7 @@
 
   {{/if}}
 </div>
+
+<script src='/js/cart/cart.js'>
+
+</script>

@@ -14,8 +14,8 @@ const {
 // TODO: add authentication
 router.post('/', userController.requireAuth, createCartItem)
 router.get('/', userController.requireAuth, getAllCartItems)
-router.get('/update', userController.requireAuth, updateCartItem)
-router.post('/delete-item', userController.requireAuth, deleteCartItem)
+router.patch('/update-item/:id', userController.requireAuth, updateCartItem)
+router.delete('/delete-item/:id', userController.requireAuth, deleteCartItem)
 router.post('/delete/:id', userController.requireAuth, deleteAllCartItems)
 
 module.exports = router
