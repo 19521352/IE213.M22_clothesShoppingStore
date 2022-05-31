@@ -4,8 +4,8 @@
       <form class="mt-4" name="container-form" method="POST" action="/products/handle-form-actions">
         <h2 class="title text-center">Danh sách sản phẩm</h2>
         <div class="status alert alert-success" style="display: none"></div>
-        <a href="/products/getCreate">Thêm sản phẩm</a>
-        <div class="mt-4 d-flex align-items-center">
+        <div class="mt-4 d-flex align-items-center pull-left">
+          <a href="/products/getCreate">Thêm sản phẩm</a>
           <div class="form-check mr-2">
             <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
             <label class="form-check-label" for="flexCheckDefault">
@@ -24,36 +24,53 @@
             hiện</button>
 
         </div>
+        <div class='mainmenu pull-right'>
+          <ul class='nav navbar-nav collapse navbar-collapse'>
+            <li class='dropdown'><a href='#'>Sắp xếp<i class='fa fa-angle-down'></i></a>
+              <ul role='menu' class='sub-menu'>
+                <li style="color:white">Tên {{{sortable 'name' _sort}}}</li>
+                <li style="color:white">Trạng thái {{{sortable 'condition' _sort}}}</li>
+                <li style="color:white">Phân loại {{{sortable 'categories' _sort}}}</li>
+                <li style="color:white">Số lượng Sku {{{sortable 'skus.length' _sort}}}</li>
+                <li style="color:white">Số lượng sản phẩm {{{sortable 'total_quantity' _sort}}}</li>
+                <li style="color:white">Thời gian tạo {{{sortable 'createdAt' _sort}}}</li>
+                <li style="color:white">Lần cập nhật cuối {{{sortable 'updatedAt' _sort}}}</li>
+
+                {{!-- <li><a href='product-details.html'>Product Details</a></li>
+                <li><a href='checkout.html'>Checkout</a></li>
+                <li><a href='cart.html'>Cart</a></li>
+                <li><a href='/login'>Login</a></li> --}}
+              </ul>
+            </li>
+          </ul>
+        </div>
         <table class="table mt-4">
           <thead>
             <tr>
               <th scope="col" colspan="2"># </th>
               <th scope="col">
                 Tên sản phẩm
-                <a href="?_sort&column=name&type=desc">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-filter" viewBox="0 0 16 16">
-                    <path
-                      d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-                  </svg>
-                </a>
-                {{!-- {{{sortable 'name' _sort}}} --}}
+
+                {{{sortable 'name' _sort}}}
 
               </th>
               <th scope="col">Trạng thái
-                {{!-- {{{sortable 'type' _sort}}} --}}
+                {{{sortable 'condition' _sort}}}
               </th>
               <th scope="col">Phân loại
-                {{!-- {{{sortable 'type' _sort}}} --}}
+                {{{sortable 'categories' _sort}}}
               </th>
               <th scope="col">Số lượng Sku
-                {{!-- {{{sortable 'type' _sort}}} --}}
+                {{{sortable 'skusLength' _sort}}}
+              </th>
+              <th scope="col">Số lượng sản phẩm
+                {{{sortable 'total_quantity' _sort}}}
               </th>
               <th scope="col">Thời gian tạo
-                {{!-- {{{sortable 'createdAt' _sort}}} --}}
+                {{{sortable 'createdAt' _sort}}}
               </th>
               <th scope="col" colspan="2">Lần cập nhật cuối
-                {{!-- {{{sortable 'createdAt' _sort}}} --}}
+                {{{sortable 'updatedAt' _sort}}}
               </th>
             </tr>
           </thead>
@@ -70,6 +87,7 @@
               <td>{{this.condition}}</td>
               <td>{{this.categories}}</td>
               <td>{{this.skus.length}}</td>
+              <td>{{this.total_quantity}}</td>
               <td>{{this.createdAt}}</td>
               <td>{{this.updatedAt}}</td>
               <td>

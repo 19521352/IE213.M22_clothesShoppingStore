@@ -55,12 +55,20 @@ const Product = new Schema(
     name: { type: String, maxLength: 255, required: true },
     categories: { type: String }, // ( Shirt, skirt, jeans, accessories, shoes…. )
     description: { type: String },
-    size_list: [{ type: Size }],
-    color_list: [{ type: Color }],
+    size_list: [{ type: String }],
+    color_list: [{ type: String }],
     // price_range: {type: number},
+    price: {
+      currency: { type: String },
+      minPrice: { type: mongoose.Decimal128 },
+      maxPrice: { type: mongoose.Decimal128 },
+      minPriceBase: { type: mongoose.Decimal128 },
+      maxPriceBase: { type: mongoose.Decimal128 },
+    },
     total_quantity: { type: Number },
     condition: { type: String },
     skus: [{ type: Sku }],
+    skusLength: { type: Number },
     image: [{ type: String }],
     slug: { type: String, slug: 'name', unique: true },
   },
@@ -76,18 +84,33 @@ mongoose.plugin(slug)
 //   overrideMethods: 'all',
 // });
 
-Product.post('save', (doc) => {
-  // if (!this.skus) {
-  //   console.log(this.name)
-  //   // this.total_quantity = 0
-  // }
-  // else {
-  //   console.log('b')
-  //   this.total_quantity = (this.skus.map(d => d.quantity)).reduce((total, num) => total + num)
-  //   this.color_list = groupByField(this.skus, 'color')
-  //   this.size_list = groupByField(this.skus, 'size')
-  // }
-  console.log('post: ', doc)
+Product.pre("findOneAndUpdate", async function () {
+  console.log("I am working");
+  const docToUpdate = await this.model.findOne(this.getQuery());
+  // console.log('docToupdate:', docToUpdate);
+  if (!docToUpdate.skus) {
+    console.log('a', this.schema)
+    this.set({
+      total_quantity: 0,
+      color_list: [],
+      size_list: [],
+      price: {},
+      skusLength: 0
+    })
+  }
+  else {
+    console.log('b')
+    console.log(setPrice(docToUpdate.skus))
+    this.set({
+      total_quantity: (getTotalQuantity(docToUpdate.skus)),
+      color_list: Object.keys(groupByField(docToUpdate.skus, 'color.color_type')),
+      size_list: Object.keys(groupByField(docToUpdate.skus, 'size.size_type')),
+      price: setPrice(docToUpdate.skus),
+      skusLength: docToUpdate.skus.length
+    })
+    console.log('c')
+  }
+  // console.log('post: ', doc)
 })
 
 function groupByField(object, field) {
@@ -105,14 +128,27 @@ function groupByField(object, field) {
   }, {})
 }
 
-Product.methods.getSkuByColorSize = function (color, size) {
-  return this.skus.find(
-    (sku) => sku.color.color_type === color && sku.size.size_type === size
-  )
+function getMin(arr) {
+  return Math.min(...arr)
 }
 
-Product.methods.getSkuById = function (skuId) {
-  return this.skus.find((sku) => sku._id.toString() === skuId.toString())
+function getMax(arr) {
+  return Math.max(...arr)
+}
+
+function getTotalQuantity(obj) {
+  const quantity = (obj.map(d => d.quantity)).reduce((total, num) => total + num)
+  return quantity
+}
+
+function setPrice(obj) {
+  const minPriceBase = getMin(obj.map(d => d.price.base))
+  const maxPriceBase = getMax(obj.map(d => d.price.base))
+  const minPrice = getMin(obj.map(d => d.price.base * (1 - d.price.discount)))
+  const maxPrice = getMax(obj.map(d => d.price.base * (1 - d.price.discount)))
+  console.log(minPriceBase, maxPriceBase, minPrice, maxPrice)
+  var dataObj = Object.assign({ 'currency': obj[0].price.currency }, { 'minPrice': minPrice }, { 'maxPrice': maxPrice }, { 'minPriceBase': minPriceBase }, { 'maxPriceBase': maxPriceBase })
+  return dataObj
 }
 
 module.exports = mongoose.model('Product', Product)

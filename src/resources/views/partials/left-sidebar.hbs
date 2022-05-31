@@ -81,6 +81,17 @@
       <b class="pull-left">0K Đ</b> <b class="pull-right">1000K Đ</b>
     </div>
   </div>
+  <div class="sort">
+    <h2>Sort</h2>
+    <div class="panel-body" style="margin: 0 10px">
+      <ul>
+        <li>Tên {{{sortable 'name' _sort}}}</li>
+        <li>Giá gốc {{{sortable 'price.minPriceBase' _sort}}}</li>
+        <li>Giá sau khi giảm {{{sortable 'price.minPrice' _sort}}}</li>
+        <li>Số lượng {{{sortable 'total_quantity' _sort}}}</li>
+      </ul>
+    </div>
+  </div>
   <div class="shipping text-center">
     <img src="/images/home/shipping.jpg" alt="">
   </div>
