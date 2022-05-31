@@ -191,108 +191,107 @@
     </div>
 
     <div class="tab-pane fade active in" id="reviews" >
-                <div class="col-sm-12">
-                    <div class="d-flex justify-content-center mt-100 mb-100">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Recent Comments</h4>
-                                        <h6 class="card-subtitle">Latest Comments section by users</h6>
-                                    </div>
-                                    {{#each comment}}
-                                    <div class="comment-widgets m-b-20">
-                                        <div class="d-flex flex-row comment-row">
-                                            <div class="p-2"><span class="round"><img src="https://www.pngkey.com/png/detail/114-1149847_avatar-unknown-dp.png" alt="user" width="50"></span></div>
-                                            <div class="comment-text w-100" id="{{this._id}}">
-                                                <h4>{{this.name}}</h4>
-                                                <div class="comment-footer">
-                                                    <ul class="mb-0">
-                                                        <li>
-                                                            <a href=""><i class="fa fa-clock-o orange_color"></i>{{moment this.createdAt format="HH:mm"}}</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href=""><i class="fa fa-calendar-o orange_color"></i>{{moment this.createdAt format="DD MMM YYYY"}}</a> 
-                                                        </li>
-                                                        <span class="action-icons"> {{#if (compareString this.email ../isLogin)}}<a data-abc="true" onclick="updateComment({{json this}})"><i class="fa fa-pencil orange_color"></i></a> &nbsp <a data-abc="true" onclick="deleteComment({{json this}})"><i class="fa fa-trash-o orange_color"></i></a>{{/if}}</span> 
-                                                        {{!-- &nbsp <a href="#" data-abc="true"><i class="fa fa-heart orange_color"></i></a> --}}
-                                                    </ul>
-                                                </div>
-                                                <p class="m-b-5 m-t-0">{{this.comment}}</p>
-                                            </div>
+        <div class="col-sm-12">
+            <div class="d-flex justify-content-center mt-100 mb-100">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Recent Comments</h4>
+                                <h6 class="card-subtitle">Latest Comments section by users</h6>
+                            </div>
+                            {{#each comment}}
+                            <div class="comment-widgets m-b-20">
+                                <div class="d-flex flex-row comment-row">
+                                    <div class="p-2"><span class="round"><img src="https://www.pngkey.com/png/detail/114-1149847_avatar-unknown-dp.png" alt="user" width="50"></span></div>
+                                    <div class="comment-text w-100" id="{{this._id}}">
+                                        <h4>{{this.name}}</h4>
+                                        <div class="comment-footer">
+                                            <ul class="mb-0">
+                                                <li>
+                                                    <a href=""><i class="fa fa-clock-o orange_color"></i>{{moment this.createdAt format="HH:mm"}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href=""><i class="fa fa-calendar-o orange_color"></i>{{moment this.createdAt format="DD MMM YYYY"}}</a> 
+                                                </li>
+                                                <span class="action-icons"> {{#if (compareString this.email ../isLogin)}}<a data-abc="true" onclick="updateComment({{json this}})"><i class="fa fa-pencil orange_color"></i></a> &nbsp <a data-abc="true" onclick="deleteComment({{json this}})"><i class="fa fa-trash-o orange_color"></i></a>{{/if}}</span> 
+                                                {{!-- &nbsp <a href="#" data-abc="true"><i class="fa fa-heart orange_color"></i></a> --}}
+                                            </ul>
                                         </div>
+                                        <p class="m-b-5 m-t-0">{{this.comment}}</p>
                                     </div>
-                                    {{/each}}
-                                    <div class="modal fade" id="confirmDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Xoá bình luận</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Bạn có chắc chắn muốn xoá bình luận này?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmDel_btn">Xoá</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                            </div>
-                                            </div>
-                                        </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                            <div class="modal" id="confirmDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Xoá bình luận</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Bạn có chắc chắn muốn xoá bình luận này?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmDel_btn">Xoá</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {{#if isLogin}}
-                        <hr class="mt">
-                        <p ><b>Write Your Review</b></p>
-                        <form action="/products/{{product.slug}}" method="post" onsubmit="return validateForm()">
-                            <input type="hidden" name="productId" value="{{product.slug}}" />
-                            <input type="hidden" name="email" value="{{isLogin}}" />
-                            
-                            <textarea name="comment" id="mycomment"></textarea>
-                            <div class="modal fade" id="genericModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                    <div class="modal-header text-center">
-                                        <h5 class="modal-title">Quá ít kí tự.</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Cảm ơn bạn đã dành thời gian review. Vui lòng viết thêm vài lời review cho sản phẩm này nhé.</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rate">
-                                <span class="ratelabel"><b>Rating: </b></span>
-                                <input type="radio" id="star5" name="rate" value="5" checked/>
-                                <label for="star5" title="5 sao">5 stars</label>
-                                <input type="radio" id="star4" name="rate" value="4" />
-                                <label for="star4" title="4 sao">4 stars</label>
-                                <input type="radio" id="star3" name="rate" value="3" />
-                                <label for="star3" title="3 sao">3 stars</label>
-                                <input type="radio" id="star2" name="rate" value="2" />
-                                <label for="star2" title="2 sao">2 stars</label>
-                                <input type="radio" id="star1" name="rate" value="1" />
-                                <label for="star1" title="1 sao">1 star</label>
-                            </div>
-                            <button type="submit" class="btn btn-default pull-right" id="submit_btn" >
-                                Submit
-                            </button>
-                        </form>
-                    {{else}}
-                        <p><b>Log in to write Your Review</b></p>
-                        <a href="/login"><button type="button" class="btn btn-default btn-lg btn-block">Login here</button></a>
-                    {{/if}}
                 </div>
-            
+            </div>
+            {{#if isLogin}}
+                <hr class="mt">
+                <p ><b>Write Your Review</b></p>
+                <form action="/products/{{product.slug}}" method="post" onsubmit="return validateForm()">
+                    <input type="hidden" name="productId" value="{{product.slug}}" />
+                    <input type="hidden" name="email" value="{{isLogin}}" />
+                    
+                    <textarea name="comment" id="mycomment"></textarea>
+                    <div class="modal" id="genericModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title">Quá ít kí tự.</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p>Cảm ơn bạn đã dành thời gian review. Vui lòng viết thêm vài lời review cho sản phẩm này nhé.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rate">
+                        <span class="ratelabel"><b>Rating: </b></span>
+                        <input type="radio" id="star5" name="rate" value="5" checked/>
+                        <label for="star5" title="5 sao">5 stars</label>
+                        <input type="radio" id="star4" name="rate" value="4" />
+                        <label for="star4" title="4 sao">4 stars</label>
+                        <input type="radio" id="star3" name="rate" value="3" />
+                        <label for="star3" title="3 sao">3 stars</label>
+                        <input type="radio" id="star2" name="rate" value="2" />
+                        <label for="star2" title="2 sao">2 stars</label>
+                        <input type="radio" id="star1" name="rate" value="1" />
+                        <label for="star1" title="1 sao">1 star</label>
+                    </div>
+                    <button type="submit" class="btn btn-default pull-right" id="submit_btn" >
+                        Submit
+                    </button>
+                </form>
+            {{else}}
+                <p><b>Log in to write Your Review</b></p>
+                <a href="/login"><button type="button" class="btn btn-default btn-lg btn-block">Login here</button></a>
+            {{/if}}
         </div>
+    </div>
     <div class="tab-content">
       <div class="tab-pane fade" id="details">
         <div class="col-sm-3">
@@ -550,12 +549,12 @@
       </div>
 
     </div>
-    <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+    {{!-- <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
       <i class="fa fa-angle-left"></i>
     </a>
     <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
       <i class="fa fa-angle-right"></i>
-    </a>
+    </a> --}}
   </div>
 </div>
 <!--/recommended_items-->

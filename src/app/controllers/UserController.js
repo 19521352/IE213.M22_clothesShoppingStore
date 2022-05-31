@@ -14,7 +14,7 @@ const authTokens = {}
 
 class userController {
   getLogin = async (req, res) => {
-    res.render('user')
+    res.render('user', { layout: 'no-left-sidebar' })
   }
   Login = async (req, res) => {
     const password = req.body.password
@@ -34,16 +34,12 @@ class userController {
                   httpOnly: true,
                 })
                 .redirect('/')
-              // .render('home',{
-              //     layout: 'main',
-              //     clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus))),
-              //     user:req.body.email,
-              //     isLogin: true,})
             })
         } else {
           res.render('user', {
             status: 'Sai username hoặc password',
             class: 'error',
+            layout: 'no-left-sidebar',
           })
         }
       })
@@ -51,6 +47,7 @@ class userController {
         res.render('user', {
           status: 'Tài khoản không tồn tại !!!!',
           class: 'error',
+          layout: 'no-left-sidebar',
         })
       })
   }
@@ -65,6 +62,7 @@ class userController {
           res.render('user', {
             status: 'Tài khoản đã tồn tại !!!!',
             class: 'error',
+            layout: 'no-left-sidebar',
           })
         } else {
           const user = new User({
@@ -80,12 +78,14 @@ class userController {
               res.render('user', {
                 status: 'Tạo tài khoản thành công <3 ',
                 class: 'success',
+                layout: 'no-left-sidebar',
               })
             })
             .catch((error) => {
               res.render('user', {
                 status: 'Tài khoản đã tồn tại !!!!',
                 class: 'error',
+                layout: 'no-left-sidebar',
               })
             })
         }
@@ -94,6 +94,68 @@ class userController {
         res.render('user', {
           status: 'Tài khoản đã tồn tại !!!!',
           class: 'error',
+          layout: 'no-left-sidebar',
+        })
+      })
+  }
+  changePass(req, res, next) {
+    const newPassword = req.body.REpassword
+    const user = req.user
+    const Password = bcrypt.hashSync(newPassword, 12)
+    User.findOne({ email: user })
+      .exec()
+      .then((data) => {
+        console.log(data.password)
+        if (bcrypt.compareSync(req.body.password, data.password)) {
+          User.findOneAndUpdate(
+            {
+              email: user,
+            },
+            {
+              password: Password,
+            },
+            {
+              returnOriginal: false,
+            }
+          )
+            .then((data) => {
+              console.log(data.password)
+              res.render('profile', {
+                css: 'css/profile.css',
+                status: 'Thay đổi mật khẩu thành công ',
+                class: 'success',
+                layout: 'no-left-sidebar',
+                userInfo: mongooseToObject(data),
+                user: req.user,
+                isLogin: req.user,
+              })
+            })
+            .catch((error) => {
+              res.render('profile', {
+                status: 'Something wrong BRUH',
+                class: 'error',
+                layout: 'no-left-sidebar',
+                userInfo: mongooseToObject(error),
+                user: req.user,
+                isLogin: req.user,
+              })
+            })
+        } else {
+          res.render('profile', {
+            status: 'Sai password',
+            class: 'error',
+            layout: 'no-left-sidebar',
+            userInfo: mongooseToObject(data),
+            user: req.user,
+            isLogin: req.user,
+          })
+        }
+      })
+      .catch((error) => {
+        res.render('user', {
+          status: 'Tài khoản không tồn tại !!!!',
+          class: 'error',
+          layout: 'no-left-sidebar',
         })
       })
   }
@@ -107,6 +169,7 @@ class userController {
       res.render('user', {
         status: 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
         class: 'error',
+        layout: 'no-left-sidebar',
       })
     }
   }
@@ -131,6 +194,7 @@ class userController {
       res.render('user', {
         status: 'Hãy đăng nhập tài khoản admin để tiếp tục',
         class: 'error',
+        layout: 'no-left-sidebar',
       })
     }
   }
@@ -146,9 +210,8 @@ class userController {
     })
   }
 
-  Logout(req, res, next) {
-    res.clearCookie('AuthToken')
-    res.end()
+  logout(req, res, next) {
+    res.clearCookie('AuthToken').redirect('/')
   }
 }
 
