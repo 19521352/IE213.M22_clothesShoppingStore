@@ -83,13 +83,21 @@ mongoose.plugin(slug)
 //   deletedAt: true,
 //   overrideMethods: 'all',
 // });
-
+Product.pre('save', async function () {
+  this.set({
+    total_quantity: 0,
+    color_list: [],
+    size_list: [],
+    price: {},
+    skusLength: 0,
+  })
+})
 Product.pre('findOneAndUpdate', async function () {
   console.log('I am working')
   const docToUpdate = await this.model.findOne(this.getQuery())
   // console.log('docToupdate:', docToUpdate);
-  if (!docToUpdate.skus) {
-    console.log('a', this.schema)
+  if (!docToUpdate.skus.length) {
+    console.log('a')
     this.set({
       total_quantity: 0,
       color_list: [],
