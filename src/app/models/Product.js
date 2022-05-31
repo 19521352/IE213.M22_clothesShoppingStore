@@ -84,9 +84,9 @@ mongoose.plugin(slug)
 //   overrideMethods: 'all',
 // });
 
-Product.pre("findOneAndUpdate", async function () {
-  console.log("I am working");
-  const docToUpdate = await this.model.findOne(this.getQuery());
+Product.pre('findOneAndUpdate', async function () {
+  console.log('I am working')
+  const docToUpdate = await this.model.findOne(this.getQuery())
   // console.log('docToupdate:', docToUpdate);
   if (!docToUpdate.skus) {
     console.log('a', this.schema)
@@ -95,23 +95,34 @@ Product.pre("findOneAndUpdate", async function () {
       color_list: [],
       size_list: [],
       price: {},
-      skusLength: 0
+      skusLength: 0,
     })
-  }
-  else {
+  } else {
     console.log('b')
     console.log(setPrice(docToUpdate.skus))
     this.set({
-      total_quantity: (getTotalQuantity(docToUpdate.skus)),
-      color_list: Object.keys(groupByField(docToUpdate.skus, 'color.color_type')),
+      total_quantity: getTotalQuantity(docToUpdate.skus),
+      color_list: Object.keys(
+        groupByField(docToUpdate.skus, 'color.color_type')
+      ),
       size_list: Object.keys(groupByField(docToUpdate.skus, 'size.size_type')),
       price: setPrice(docToUpdate.skus),
-      skusLength: docToUpdate.skus.length
+      skusLength: docToUpdate.skus.length,
     })
     console.log('c')
   }
   // console.log('post: ', doc)
 })
+
+Product.methods.getSkuByColorSize = function (color, size) {
+  return this.skus.find(
+    (sku) => sku.color.color_type === color && sku.size.size_type === size
+  )
+}
+
+Product.methods.getSkuById = function (skuId) {
+  return this.skus.find((sku) => sku._id.toString() === skuId.toString())
+}
 
 function groupByField(object, field) {
   return object.reduce((r, a) => {
@@ -137,17 +148,25 @@ function getMax(arr) {
 }
 
 function getTotalQuantity(obj) {
-  const quantity = (obj.map(d => d.quantity)).reduce((total, num) => total + num)
+  const quantity = obj
+    .map((d) => d.quantity)
+    .reduce((total, num) => total + num)
   return quantity
 }
 
 function setPrice(obj) {
-  const minPriceBase = getMin(obj.map(d => d.price.base))
-  const maxPriceBase = getMax(obj.map(d => d.price.base))
-  const minPrice = getMin(obj.map(d => d.price.base * (1 - d.price.discount)))
-  const maxPrice = getMax(obj.map(d => d.price.base * (1 - d.price.discount)))
+  const minPriceBase = getMin(obj.map((d) => d.price.base))
+  const maxPriceBase = getMax(obj.map((d) => d.price.base))
+  const minPrice = getMin(obj.map((d) => d.price.base * (1 - d.price.discount)))
+  const maxPrice = getMax(obj.map((d) => d.price.base * (1 - d.price.discount)))
   console.log(minPriceBase, maxPriceBase, minPrice, maxPrice)
-  var dataObj = Object.assign({ 'currency': obj[0].price.currency }, { 'minPrice': minPrice }, { 'maxPrice': maxPrice }, { 'minPriceBase': minPriceBase }, { 'maxPriceBase': maxPriceBase })
+  var dataObj = Object.assign(
+    { currency: obj[0].price.currency },
+    { minPrice: minPrice },
+    { maxPrice: maxPrice },
+    { minPriceBase: minPriceBase },
+    { maxPriceBase: maxPriceBase }
+  )
   return dataObj
 }
 

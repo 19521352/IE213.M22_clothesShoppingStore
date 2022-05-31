@@ -4,7 +4,7 @@ const express = require('express')
 const path = require('path')
 const morgan = require('morgan')
 const { engine, create } = require('express-handlebars')
-const SortMiddleware = require('./app/middleware/SortMiddleware')
+const SortMiddleware = require('./app/middlewares/SortMiddleware')
 
 var bodyParser = require('body-parser')
 
@@ -114,9 +114,9 @@ MomentHandler.registerHelpers(Handlebars)
 Handlebars.registerHelper('compareString', function (String1, String2) {
   return String1 == String2
 })
-Handlebars.registerHelper('json', function(context) {
-  return JSON.stringify(context);
-});
+Handlebars.registerHelper('json', function (context) {
+  return JSON.stringify(context)
+})
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
