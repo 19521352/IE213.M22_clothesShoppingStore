@@ -1,0 +1,38 @@
+<style>
+  .flash-message {
+    display: flex;
+    justify-content: center;
+  }
+
+  .message-success {
+    background-color: #33c481;
+    color: white;
+    padding: 1rem;
+  }
+
+  .message-error {
+    background-color: #b20202;
+    color: white;
+    padding: 1rem
+  }
+</style>
+
+{{#if success}}
+
+<div class='flash-message'>
+  <div class='message-success'>
+    {{success}}
+  </div>
+</div>
+
+{{/if}}
+
+{{#if error}}
+
+<div class='flash-message'>
+  <div class='message-error'>
+    {{error}}
+  </div>
+</div>
+
+{{/if}}
