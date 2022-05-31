@@ -151,69 +151,91 @@
             <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">
           </div>
         </form>
-        <label for="">Skus</label>
-        <p><a href="/products/{{product._id}}/getCreateSku">Thêm Sku</a></p>
-        <table class=" table mt-4">
-          <thead>
-            <tr>
-              <th scope="col" colspan="2">#</th>
-              <th scope="col">
-                Color
-                {{!-- {{{sortable 'name' _sort}}} --}}
+        <form class="mt-4" name="container-form" method="POST"
+          action="/products/{{product._id}}/handle-skus-form-actions">
+          <label for="">Skus</label>
+          <p><a href="/products/{{product._id}}/getCreateSku">Thêm Sku</a></p>
+          <div class="mt-4 d-flex align-items-center">
+            <div class="form-check mr-2">
+              <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+              <label class="form-check-label" for="flexCheckDefault">
+                Chọn tất cả
+              </label>
+            </div>
 
-              </th>
-              <th scope="col">Size
-                {{!-- {{{sortable 'type' _sort}}} --}}
-              </th>
-              <th scope="col">Price base
-                {{!-- {{{sortable 'type' _sort}}} --}}
-              </th>
-              <th scope="col">Price currency
-                {{!-- {{{sortable 'type' _sort}}} --}}
-              </th>
-              <th scope="col">Price discount
-                {{!-- {{{sortable 'type' _sort}}} --}}
-              </th>
-              <th scope="col">Số lượng
-                {{!-- {{{sortable 'type' _sort}}} --}}
-              </th>
-              <th scope="col" colspan="2">Thời gian tạo
-                {{!-- {{{sortable 'createdAt' _sort}}} --}}
-              </th>
-            </tr>
-          </thead>
-          {{#each product.skus}}
-          <tbody>
-            <tr>
-              <td>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}">
-                </div>
-              </td>
-              <th scope="row">{{sum @index 1}}</th>
-              <td>{{this.color.color_type}}</td>
-              <td>{{this.size.size_type}}</td>
-              <td>{{this.price.base}}</td>
-              <td>{{this.price.currency}}</td>
-              <td>{{this.price.discount}}</td>
-              <td>{{this.quantity}}</td>
-              <td>{{this.createdAt}}</td>
-              <td>
-                <a href="/products/{{../this.product._id}}/getUpdateSku/{{this._id}}" class="btn btn-link">Sửa</a>
-                <a href="" class="btn btn-link" data-toggle="modal" data-id="{{../this.product._id}} {{this._id}}"
-                  data-target="#delete-sku-modal">Xóa</a>
-              </td>
-            </tr>
-            {{else}}
-            <tr>
-              <td colspan="5" class="text-center">
-                Bạn chưa tạo Sku nào.
-                <a href="/products/{{product._id}}/getCreateSku">Tạo Sku</a>
-              </td>
-            </tr>
-          </tbody>
-          {{/each}}
-        </table>
+            <select class="form-control-sm checkbox-select-all-options mr-2" name="action" required>
+              {{!-- <option value="">-- Chọn hành động --</option> --}}
+              <option value="delete">Xóa</option>
+              {{!-- <option value="2">Two</option> --}}
+              {{!-- <option value="3">Three</option> --}}
+            </select>
+
+            <button class="btn btn-primary btn-sm check-box-submit-btn" style="margin:0" disabled="disabled">Thực
+              hiện</button>
+
+          </div>
+          <table class=" table mt-4">
+            <thead>
+              <tr>
+                <th scope="col" colspan="2">#</th>
+                <th scope="col">
+                  Color
+                  {{!-- {{{sortable 'name' _sort}}} --}}
+
+                </th>
+                <th scope="col">Size
+                  {{!-- {{{sortable 'type' _sort}}} --}}
+                </th>
+                <th scope="col">Price base
+                  {{!-- {{{sortable 'type' _sort}}} --}}
+                </th>
+                <th scope="col">Price currency
+                  {{!-- {{{sortable 'type' _sort}}} --}}
+                </th>
+                <th scope="col">Price discount
+                  {{!-- {{{sortable 'type' _sort}}} --}}
+                </th>
+                <th scope="col">Số lượng
+                  {{!-- {{{sortable 'type' _sort}}} --}}
+                </th>
+                <th scope="col" colspan="2">Thời gian tạo
+                  {{!-- {{{sortable 'createdAt' _sort}}} --}}
+                </th>
+              </tr>
+            </thead>
+            {{#each product.skus}}
+            <tbody>
+              <tr>
+                <td>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="productIds[]" value="{{this._id}}">
+                  </div>
+                </td>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.color.color_type}}</td>
+                <td>{{this.size.size_type}}</td>
+                <td>{{this.price.base}}</td>
+                <td>{{this.price.currency}}</td>
+                <td>{{this.price.discount}}</td>
+                <td>{{this.quantity}}</td>
+                <td>{{this.createdAt}}</td>
+                <td>
+                  <a href="/products/{{../this.product._id}}/getUpdateSku/{{this._id}}" class="btn btn-link">Sửa</a>
+                  <a href="" class="btn btn-link" data-toggle="modal" data-id="{{../this.product._id}} {{this._id}}"
+                    data-target="#delete-sku-modal">Xóa</a>
+                </td>
+              </tr>
+              {{else}}
+              <tr>
+                <td colspan="5" class="text-center">
+                  Bạn chưa tạo Sku nào.
+                  <a href="/products/{{product._id}}/getCreateSku">Tạo Sku</a>
+                </td>
+              </tr>
+            </tbody>
+            {{/each}}
+          </table>
+        </form>
       </div>
     </div>
   </div>

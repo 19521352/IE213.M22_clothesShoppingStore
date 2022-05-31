@@ -9,6 +9,8 @@ const userController = require('../app/controllers/UserController');
 router.get('/getCreate', productController.getCreate);
 router.post('/create', productController.create);
 router.get('/stored-products', productController.storedProducts);
+router.post('/handle-form-actions', productController.handleFormActions)
+router.post('/:id/handle-skus-form-actions', productController.handleSkusFormActions)
 router.get('/:id/getCreateSku', productController.getCreateSku);
 router.post('/:id/createSku', productController.createSku);
 router.get('/:id/getUpdate', productController.getUpdate);

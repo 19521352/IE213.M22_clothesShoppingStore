@@ -122,9 +122,9 @@ class ProductController {
 
   // [GET] /products/stored-products
   storedProducts(req, res, next) {
-    Product.find({})
-      .lean()
-      .then((clothesItems) => {
+    Promise.all([Product.find({}).lean()])
+
+      .then(([clothesItems, deletedCount]) => {
         res.render('products/stored-products', {
           layout: 'subordinate',
           title: 'Cập nhật sản phẩm',
@@ -298,6 +298,40 @@ class ProductController {
           title: '404 error',
         })
       )
+  }
+
+  // [POST] /products/handle-form-actions
+  handleFormActions(req, res, next) {
+    switch (req.body.action) {
+      case 'delete':
+        Product.deleteMany({ _id: { $in: req.body.productIds } })
+          .then(() => res.redirect('back'))
+          .catch(next);
+        break
+      default:
+        res.json({ message: 'Action is invalid' })
+    }
+  }
+
+  // [POST] /products/:id/handle-skus-form-actions
+  handleSkusFormActions(req, res, next) {
+    switch (req.body.action) {
+      case 'delete':
+        Product
+          .updateOne(
+            { _id: req.params.id },
+            {
+              $pull: {
+                skus: { _id: { $in: req.body.productIds } },
+              },
+            }
+          )
+          .then(() => res.redirect('back'))
+          .catch(next);
+        break
+      default:
+        res.json({ message: 'Action is invalid' })
+    }
   }
 }
 

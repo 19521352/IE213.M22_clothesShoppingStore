@@ -1,16 +1,42 @@
 <div id="create-product-page">
   <div class="bg">
     <div class="row">
-      <div class="create-product-form">
+      <form class="mt-4" name="container-form" method="POST" action="/products/handle-form-actions">
         <h2 class="title text-center">Danh sách sản phẩm</h2>
         <div class="status alert alert-success" style="display: none"></div>
         <a href="/products/getCreate">Thêm sản phẩm</a>
+        <div class="mt-4 d-flex align-items-center">
+          <div class="form-check mr-2">
+            <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+            <label class="form-check-label" for="flexCheckDefault">
+              Chọn tất cả
+            </label>
+          </div>
+
+          <select class="form-control-sm checkbox-select-all-options mr-2" name="action" required>
+            {{!-- <option value="">-- Chọn hành động --</option> --}}
+            <option value="delete">Xóa</option>
+            {{!-- <option value="2">Two</option> --}}
+            {{!-- <option value="3">Three</option> --}}
+          </select>
+
+          <button class="btn btn-primary btn-sm check-box-submit-btn" style="margin:0" disabled="disabled">Thực
+            hiện</button>
+
+        </div>
         <table class="table mt-4">
           <thead>
             <tr>
-              <th scope="col" colspan="2">#</th>
+              <th scope="col" colspan="2"># </th>
               <th scope="col">
                 Tên sản phẩm
+                <a href="?_sort&column=name&type=desc">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-filter" viewBox="0 0 16 16">
+                    <path
+                      d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                  </svg>
+                </a>
                 {{!-- {{{sortable 'name' _sort}}} --}}
 
               </th>
@@ -36,7 +62,7 @@
             <tr>
               <td>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}">
+                  <input class="form-check-input" type="checkbox" name="productIds[]" value="{{this._id}}">
                 </div>
               </td>
               <th scope="row">{{sum @index 1}}</th>
@@ -56,13 +82,13 @@
             <tr>
               <td colspan="5" class="text-center">
                 Bạn chưa tạo sản phẩm nào.
-                <a href="/courses/create">Tạo sản phẩm</a>
+                <a href="/products/getCreate">Thêm sản phẩm</a>
               </td>
             </tr>
           </tbody>
           {{/each}}
         </table>
-      </div>
+      </form>
     </div>
   </div>
 </div>
