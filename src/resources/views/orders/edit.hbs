@@ -55,11 +55,11 @@
       <label class='card-text' for='status' val>Trạng thái:
       </label>
       <select name='status' id='status'>
-        <option value='Đang xử lý' {{#if (eq order.status Đang xử lý )}}selected{{/if}}>Đang xử lý</option>
-        <option value='Đang giao hàng' {{#if (eq order.status Đang giao hàng )}}selected{{/if}}>Đang giao hàng
+        <option value='Đang xử lý' {{#if (eq order.status 'Đang xử lý' )}}selected{{/if}}>Đang xử lý</option>
+        <option value='Đang giao hàng' {{#if (eq order.status 'Đang giao hàng' )}}selected{{/if}}>Đang giao hàng
         </option>
-        <option value='Đã hủy' {{#if (eq order.status Đã hủy )}}selected{{/if}}>Đã huỷ</option>
-        <option value='Thành công' {{#if (eq order.status Thành công )}}selected{{/if}}>Thành công</option>
+        <option value='Đã huỷ' {{#if (eq order.status 'Đã huỷ' )}}selected{{/if}}>Đã huỷ</option>
+        <option value='Thành công' {{#if (eq order.status 'Thành công' )}}selected{{/if}}>Thành công</option>
       </select>
 
       <button type='submit'>Xác nhận</button>

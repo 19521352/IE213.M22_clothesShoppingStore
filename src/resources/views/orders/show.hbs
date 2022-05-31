@@ -59,7 +59,10 @@
     <p class='card-text'><span class='order-info'>Thành tiền:</span> {{order.total}}</p>
     <p class='card-text'><span class='order-info'>Trạng thái:</span> {{order.status}}</p>
 
-    {{#if (eq order.status Đã huỷ)}}
+    {{#if (eq order.status 'Đã huỷ')}}
+
+
+    {{else}}
 
     <a href='' class='btn btn-primary' data-toggle='modal' data-id='{{order._id}}' data-target='#cancel-order-modal'>Huỷ
       đơn hàng</a>

@@ -120,11 +120,11 @@ const getSingleOrder = async (req, res) => {
 
   const userId = req.user
 
-  const hasPermissions = checkPermissions(userId, order.user)
-  if (!hasPermissions) {
-    req.flash('error', 'Bạn không có quyền xem đơn hàng này!')
-    return res.redirect('/orders/my-orders')
-  }
+  // const hasPermissions = checkPermissions(userId, order.user)
+  // if (!hasPermissions) {
+  //   req.flash('error', 'Bạn không có quyền xem đơn hàng này!')
+  //   return res.redirect('/orders/my-orders')
+  // }
 
   res.render('orders/show', {
     order: order.toObject(),
@@ -159,11 +159,11 @@ const getEdit = async (req, res) => {
   const userId = req.user
 
   //TODO: check admin
-  const hasPermissions = checkPermissions(userId, order.user)
-  if (!hasPermissions) {
-    req.flash('error', 'Bạn không có quyền xem đơn hàng này!')
-    return res.redirect('/orders/my-orders')
-  }
+  // const hasPermissions = checkPermissions(userId, order.user)
+  // if (!hasPermissions) {
+  //   req.flash('error', 'Bạn không có quyền xem đơn hàng này!')
+  //   return res.redirect('/orders/my-orders')
+  // }
 
   res.render('orders/edit', {
     order: order.toObject(),
