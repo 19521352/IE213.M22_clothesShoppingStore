@@ -108,7 +108,7 @@ class ProductController {
     delete obj.inputOtherColorHex
     delete obj.inputOtherSizeType
 
-    console.log(req.params.id)
+    // console.log(req.params.id)
     // res.json(obj.image);
     Product.findOneAndUpdate({ _id: req.params.id }, { $push: { skus: obj } })
       .then(() => res.redirect(`/products/${req.params.id}/getUpdate`))
@@ -122,9 +122,16 @@ class ProductController {
 
   // [GET] /products/stored-products
   storedProducts(req, res, next) {
-    Product.find({})
-      .lean()
-      .then((clothesItems) => {
+    let productQuery = Product.find({}).lean()
+
+    if (req.query.hasOwnProperty('_sort')) {
+      productQuery = productQuery.sort({
+        [req.query.column]: [req.query.type.split('.')]
+      })
+    }
+
+    Promise.all([productQuery])
+      .then(([clothesItems]) => {
         res.render('products/stored-products', {
           layout: 'subordinate',
           title: 'Cập nhật sản phẩm',
@@ -152,8 +159,6 @@ class ProductController {
           title: 'Cập nhật sản phẩm',
           product: product,
         })
-
-        // res.json(groupByField(product.skus, 'color.color_type'))
       })
       .catch((error) =>
         res.render('404', {
@@ -283,7 +288,7 @@ class ProductController {
 
   // [DELETE] /products/:id/deleteSku/:skuId
   deleteSku(req, res, next) {
-    Product.updateOne(
+    Product.findOneAndUpdate(
       { _id: req.params.id },
       {
         $pull: {
@@ -298,6 +303,40 @@ class ProductController {
           title: '404 error',
         })
       )
+  }
+
+  // [POST] /products/handle-form-actions
+  handleFormActions(req, res, next) {
+    switch (req.body.action) {
+      case 'delete':
+        Product.deleteMany({ _id: { $in: req.body.productIds } })
+          .then(() => res.redirect('back'))
+          .catch(next);
+        break
+      default:
+        res.json({ message: 'Action is invalid' })
+    }
+  }
+
+  // [POST] /products/:id/handle-skus-form-actions
+  handleSkusFormActions(req, res, next) {
+    switch (req.body.action) {
+      case 'delete':
+        Product
+          .findOneAndUpdate(
+            { _id: req.params.id },
+            {
+              $pull: {
+                skus: { _id: { $in: req.body.productIds } },
+              },
+            }
+          )
+          .then(() => res.redirect('back'))
+          .catch(next);
+        break
+      default:
+        res.json({ message: 'Action is invalid' })
+    }
   }
 }
 

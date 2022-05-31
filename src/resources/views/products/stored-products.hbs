@@ -1,33 +1,76 @@
 <div id="create-product-page">
   <div class="bg">
     <div class="row">
-      <div class="create-product-form">
+      <form class="mt-4" name="container-form" method="POST" action="/products/handle-form-actions">
         <h2 class="title text-center">Danh sách sản phẩm</h2>
         <div class="status alert alert-success" style="display: none"></div>
-        <a href="/products/getCreate">Thêm sản phẩm</a>
+        <div class="mt-4 d-flex align-items-center pull-left">
+          <a href="/products/getCreate">Thêm sản phẩm</a>
+          <div class="form-check mr-2">
+            <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+            <label class="form-check-label" for="flexCheckDefault">
+              Chọn tất cả
+            </label>
+          </div>
+
+          <select class="form-control-sm checkbox-select-all-options mr-2" name="action" required>
+            {{!-- <option value="">-- Chọn hành động --</option> --}}
+            <option value="delete">Xóa</option>
+            {{!-- <option value="2">Two</option> --}}
+            {{!-- <option value="3">Three</option> --}}
+          </select>
+
+          <button class="btn btn-primary btn-sm check-box-submit-btn" style="margin:0" disabled="disabled">Thực
+            hiện</button>
+
+        </div>
+        <div class='mainmenu pull-right'>
+          <ul class='nav navbar-nav collapse navbar-collapse'>
+            <li class='dropdown'><a href='#'>Sắp xếp<i class='fa fa-angle-down'></i></a>
+              <ul role='menu' class='sub-menu'>
+                <li style="color:white">Tên {{{sortable 'name' _sort}}}</li>
+                <li style="color:white">Trạng thái {{{sortable 'condition' _sort}}}</li>
+                <li style="color:white">Phân loại {{{sortable 'categories' _sort}}}</li>
+                <li style="color:white">Số lượng Sku {{{sortable 'skus.length' _sort}}}</li>
+                <li style="color:white">Số lượng sản phẩm {{{sortable 'total_quantity' _sort}}}</li>
+                <li style="color:white">Thời gian tạo {{{sortable 'createdAt' _sort}}}</li>
+                <li style="color:white">Lần cập nhật cuối {{{sortable 'updatedAt' _sort}}}</li>
+
+                {{!-- <li><a href='product-details.html'>Product Details</a></li>
+                <li><a href='checkout.html'>Checkout</a></li>
+                <li><a href='cart.html'>Cart</a></li>
+                <li><a href='/login'>Login</a></li> --}}
+              </ul>
+            </li>
+          </ul>
+        </div>
         <table class="table mt-4">
           <thead>
             <tr>
-              <th scope="col" colspan="2">#</th>
+              <th scope="col" colspan="2"># </th>
               <th scope="col">
                 Tên sản phẩm
-                {{!-- {{{sortable 'name' _sort}}} --}}
+
+                {{{sortable 'name' _sort}}}
 
               </th>
               <th scope="col">Trạng thái
-                {{!-- {{{sortable 'type' _sort}}} --}}
+                {{{sortable 'condition' _sort}}}
               </th>
               <th scope="col">Phân loại
-                {{!-- {{{sortable 'type' _sort}}} --}}
+                {{{sortable 'categories' _sort}}}
               </th>
               <th scope="col">Số lượng Sku
-                {{!-- {{{sortable 'type' _sort}}} --}}
+                {{{sortable 'skusLength' _sort}}}
+              </th>
+              <th scope="col">Số lượng sản phẩm
+                {{{sortable 'total_quantity' _sort}}}
               </th>
               <th scope="col">Thời gian tạo
-                {{!-- {{{sortable 'createdAt' _sort}}} --}}
+                {{{sortable 'createdAt' _sort}}}
               </th>
               <th scope="col" colspan="2">Lần cập nhật cuối
-                {{!-- {{{sortable 'createdAt' _sort}}} --}}
+                {{{sortable 'updatedAt' _sort}}}
               </th>
             </tr>
           </thead>
@@ -36,7 +79,7 @@
             <tr>
               <td>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}">
+                  <input class="form-check-input" type="checkbox" name="productIds[]" value="{{this._id}}">
                 </div>
               </td>
               <th scope="row">{{sum @index 1}}</th>
@@ -44,6 +87,7 @@
               <td>{{this.condition}}</td>
               <td>{{this.categories}}</td>
               <td>{{this.skus.length}}</td>
+              <td>{{this.total_quantity}}</td>
               <td>{{this.createdAt}}</td>
               <td>{{this.updatedAt}}</td>
               <td>
@@ -56,13 +100,13 @@
             <tr>
               <td colspan="5" class="text-center">
                 Bạn chưa tạo sản phẩm nào.
-                <a href="/courses/create">Tạo sản phẩm</a>
+                <a href="/products/getCreate">Thêm sản phẩm</a>
               </td>
             </tr>
           </tbody>
           {{/each}}
         </table>
-      </div>
+      </form>
     </div>
   </div>
 </div>

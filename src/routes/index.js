@@ -11,8 +11,7 @@ function route(app) {
   app.use('/login', userRouter)
   app.use('/cart', cartRouter)
   app.use('/orders', orderRouter)
-  app.use('/login', userRouter)
-  app.use('/account', account)
+  app.use('/account', account);
   app.use('/', siteRouter)
 }
 module.exports = route

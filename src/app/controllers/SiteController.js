@@ -6,9 +6,15 @@ const { getPrice } = require('../../util/products/show')
 class SiteController {
   // [GET] /home
   index(req, res, next) {
-    Product.find({})
-      .lean()
-      .then((clothesItems) => {
+    let productQuery = Product.find({}).lean()
+
+    if (req.query.hasOwnProperty('_sort')) {
+      productQuery = productQuery.sort({
+        [req.query.column]: [req.query.type.split('.')]
+      })
+    }
+    Promise.all([productQuery])
+      .then(([clothesItems]) => {
         res.render('home', {
           layout: 'main',
           title: 'Trang chủ',
