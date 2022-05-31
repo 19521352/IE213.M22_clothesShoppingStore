@@ -26,13 +26,12 @@
       </div>
     </div>
   </div>
-  <div class='header-middle'>
-    <div class='container'>
-      <div class='row'>
-        <div class='col-md-4 clearfix'>
-          <div class='logo pull-left'>
-            <a href='/'><img src='/images/home/logo.png' alt='' /></a>
-            <a href='http://localhost:3000/login'><img src='/images/home/logo.png' alt='' /></a>
+  <div class="header-middle">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 clearfix">
+          <div class="logo pull-left">
+            <a href="/"><img src="/images/home/logo.png" alt=""></a>
           </div>
           <div class='btn-group pull-right clearfix'>
             <div class='btn-group'>
@@ -64,13 +63,10 @@
           <div class='shop-menu clearfix pull-right'>
             <ul class='nav navbar-nav'>
               {{#if isLogin}}
-              <li><a href='/account'><i class='fa fa-user'></i>
-                  {{user}}</a></li>
-              <li><a href=''><i class='fa fa-star'></i> Wishlist</a></li>
-              <li><a href='checkout.html'><i class='fa fa-crosshairs'></i>
-                  Checkout</a></li>
-              <li><a href='cart.html'><i class='fa fa-shopping-cart'></i>
-                  Cart</a></li>
+                <li><a href="/account"><i class="fa fa-user"></i> {{isLogin}}</a></li>
+                <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+                <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
               {{else}}
               <li><a href=''><i class='fa fa-star'></i> Wishlist</a></li>
               <li><a href='/order/my-orders'><i class='fa fa-crosshairs'></i>
@@ -97,17 +93,15 @@
               <span class='icon-bar'></span>
             </button>
           </div>
-          <div class='mainmenu pull-left'>
-            <ul class='nav navbar-nav collapse navbar-collapse'>
-              <li><a href='/' class='active'>Home</a></li>
-              <li class='dropdown'><a href='#'>Shop<i class='fa fa-angle-down'></i></a>
-                <ul role='menu' class='sub-menu'>
-                  <li><a href='/products'>Products</a></li>
-                  <li><a href='/products/stored-products'>Edit</a></li>
-                  <li><a href='product-details.html'>Product Details</a></li>
-                  <li><a href='checkout.html'>Checkout</a></li>
-                  <li><a href='cart.html'>Cart</a></li>
-                  <li><a href='/login'>Login</a></li>
+          <div class="mainmenu pull-left">
+            <ul class="nav navbar-nav collapse navbar-collapse">
+              <li><a href="/" class="active">Home</a></li>
+              <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                <ul role="menu" class="sub-menu">
+                  <li><a href="/products/stored-products">Product</a></li>
+                  <li><a href="checkout.html">Checkout</a></li>
+                  <li><a href="cart.html">Cart</a></li>
+                  <li><a href="/login">Login</a></li>
                 </ul>
               </li>
               <li class='dropdown'><a href='#'>Blog<i class='fa fa-angle-down'></i></a>

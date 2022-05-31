@@ -18,10 +18,11 @@ class SiteController {
         res.render('home', {
           layout: 'main',
           title: 'Trang chủ',
-          clothesItems: clothesItems.map((e) =>
-            Object.assign(e, getPrice(e.skus))
-          ),
-        })
+          user : req.user,
+          isLogin: req.user,
+          clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus)))
+
+        });
       })
       .catch((error) =>
         res.render('404', {

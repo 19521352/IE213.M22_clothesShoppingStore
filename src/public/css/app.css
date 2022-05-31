@@ -158,4 +158,16 @@ input[type=text]#productId {
   width: 120px;
 }
 
+.error{
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  
+}
+.success{
+  padding: 20px;
+  background-color: #00d13b;
+  color: white;
+  
+}
 /*# sourceMappingURL=app.css.map */

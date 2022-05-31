@@ -76,8 +76,7 @@ const createCartItem = async (req, res, next) => {
 
 // GET /cart
 const getAllCartItems = async (req, res, next) => {
-  // const userId = req.user
-  const userId = req.user
+  const userId = req.user // TODO: use userId from authentication middleware
 
   let cart = await Cart.findOne({ userId }).populate(
     'cartItems.productId',
@@ -94,6 +93,8 @@ const getAllCartItems = async (req, res, next) => {
     layout: 'subordinate',
     cart: cart.cartItems.length < 1 ? null : cart.toObject(),
     total: cart.shippingFee + cart.subTotal,
+    user : req.user,
+    isLogin: req.isLogin,
   })
 }
 

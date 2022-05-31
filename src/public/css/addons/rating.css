@@ -1,5 +1,6 @@
 .rate {
     float: left;
+    display: block;
     height: 46px;
     padding: 0;
 }
@@ -36,8 +37,13 @@
 }
 
 .ratelabel{
-    float: left;
+    /* float: left; */
     padding: 5px;
 }
-
+.orange_color {
+    color: orange;
+}
+.mt {
+    margin-top: 15px;
+}
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */

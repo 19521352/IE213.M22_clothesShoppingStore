@@ -6,6 +6,7 @@ const crypto = require('crypto')
 const bcrypt = require('bcrypt')
 const Handlebars = require("handlebars")
 const app = require('express')
+const { getPrice } = require('../../util/products/show')
 const authTokens = {};
 const { getPrice } = require('../../util/products/show')
 
@@ -19,34 +20,32 @@ class userController {
         const password = req.body.password
         const emails = req.body.email
         const authToken = crypto.randomBytes(30).toString('hex')
-        User.findOne({ email: emails }).exec()
-            .then(data => {
-
-                if (bcrypt.compareSync(password, data.password)) {
-                    authTokens[authToken] = req.body.email
-                    Product.find({}).lean().exec().then((clothesItems) => {
-                        res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true })
-                            .render('home', {
-                                layout: 'main',
-                                title: 'Trang chủ',
-                                clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus))),
-                                user: req.body.email,
-                                isLogin: true,
-                            })
-
-                    })
-
-                }
-                else {
-                    res.render('user', {
-                        status: 'Sai username hoặc password',
-                        class: 'error'
-                    });
-                }
-            })
-            .catch((error) => {
-                res.render('user', { status: 'Tài khoản không tồn tại !!!!', class: 'error' })
-            })
+        User.findOne({email:emails}).exec()
+        .then(data => {
+            
+            if(bcrypt.compareSync(password, data.password))
+            {
+                authTokens[authToken] = req.body.email
+                Product.find({}).exec().then((clothesItems) =>{
+                    res.cookie('AuthToken', authToken, { maxAge: 9000000000, httpOnly: true })
+                    .redirect('/');
+                    // .render('home',{
+                    //     layout: 'main',
+                    //     clothesItems: clothesItems.map(e => Object.assign(e, getPrice(e.skus))),
+                    //     user:req.body.email, 
+                    //     isLogin: true,})
+                })
+            }
+            else {
+                res.render('user', {
+                    status: 'Sai username hoặc password',
+                    class:'error'
+                });
+            }
+        })
+        .catch((error) => {
+            res.render('user',{status : 'Tài khoản không tồn tại !!!!' ,class : 'error'})
+        })
     }
     Register(req, res, next) {
         const usr = req.body;
@@ -87,11 +86,12 @@ class userController {
         const authToken = req.cookies['AuthToken'];
         req.user = authTokens[authToken];
         if (req.user) {
+            req.isLogin = true;
             next();
         } else {
             res.render('user', {
-                status: 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
-                class: 'error'
+                status : 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
+                class : 'error',
             });
         }
     };
@@ -106,13 +106,27 @@ class userController {
             next();
         }
     };
-
+    requireAdmin(req, res, next){
+        const authToken = req.cookies['AuthToken'];
+        req.user = authTokens[authToken];
+        if (req.user == '19521352@gm.uit.edu.vn') {
+            req.isLogin = true;
+            next();
+        } else {
+            res.render('user', {
+                status : 'Hãy đăng nhập tài khoản admin để tiếp tục',
+                class : 'error',
+            });
+        }
+    };
     accountInfo(req, res, next) {
         User.findOne({ email: req.user }).then((user) => {
             // console.log(user);
             res.render('profile', {
                 layout: 'no-left-sidebar',
-                user: mongooseToObject(user),
+                userInfo: mongooseToObject(user),
+                user:req.user, 
+                isLogin: req.user,
             });
         })
     }

@@ -10,7 +10,7 @@ const {
   deleteCartItem,
   deleteAllCartItems,
 } = require('../app/controllers/CartController')
-
+const userController = require('../app/controllers/UserController');
 // TODO: add authentication
 router.post('/', userController.requireAuth, createCartItem)
 router.get('/', userController.requireAuth, getAllCartItems)
