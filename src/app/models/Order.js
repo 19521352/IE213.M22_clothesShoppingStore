@@ -54,7 +54,7 @@ const orderSchema = new mongoose.Schema(
     orderItems: [singleOrderItemSchema],
     status: {
       type: String,
-      enum: ['Đang xử lý', 'Đã huỷ', 'Thành công'],
+      enum: ['Đang xử lý', 'Đang giao hàng', 'Đã huỷ', 'Thành công'],
       default: 'Đang xử lý',
     },
     paymentType: {

@@ -1,0 +1,48 @@
+<style>
+  .order-item__image {
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .order-item-list {
+    max-height: 30vh;
+    overflow-y: scroll;
+  }
+</style>
+
+<div class='container'>
+
+  {{#if orders}}
+  <table class='table mt-4'>
+    <thead>
+      <tr>
+        <th scope='col'>Mã đơn hàng</th>
+        <th scope='col'>Hình thức thanh toán</th>
+        <th scope='col'>Thành tiền</th>
+        <th scope='col'>Trạng thái đơn hàng</th>
+        <th scope='col'>Thời gian tạo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each orders as |order key|}}
+      <tr>
+        <td>{{order._id}}</td>
+        <td>{{order.paymentType}}</td>
+        <td>{{order.total}}</td>
+        <td>{{order.status}}</td>
+        <td>{{order.createdAt}}</td>
+        <td>
+          <a href='/orders/{{order._id}}' class='btn btn-link'>Xem</a>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+
+  </table>
+  {{else}}
+  <h2>
+    Bạn không có đơn hàng
+  </h2>
+
+  {{/if}}
+</div>

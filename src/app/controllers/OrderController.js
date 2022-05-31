@@ -1,13 +1,16 @@
 const Product = require('../models/Product')
 const Order = require('../models/Order')
 const Cart = require('../models/Cart')
+const checkPermissions = require('../../util/checkPermissions')
 
 const createOrder = async (req, res) => {
   const userId = req.user
 
   const { name, phoneNumber, address } = req.body
-  if (!name || !phoneNumber || !parseInt(phoneNumber) || !address)
-    return res.send('Vui lòng điền đầy đủ và chính xác các thông tin')
+  if (!name || !phoneNumber || !parseInt(phoneNumber) || !address) {
+    req.flash('error', 'Vui lòng điền đầy đủ và chính xác các thông tin')
+    return res.redirect('/cart')
+  }
 
   const newAddress = [
     address.city,
@@ -16,16 +19,16 @@ const createOrder = async (req, res) => {
     address.street,
   ].join(', ')
 
-  console.log(userId)
-
   const cart = await Cart.findOne({ userId })
   if (!cart) {
-    return res.send('Giỏ hàng không tồn tại')
+    req.flash('error', 'Giỏ hàng không tồn tại')
+    return res.redirect('/cart')
   }
 
   const { cartItems, shippingFee } = cart
   if (!cartItems || cartItems.length < 1) {
-    return res.send('Giỏ hàng trống')
+    req.flash('error', 'Giỏ hàng trống')
+    return res.redirect('/cart')
   }
 
   let orderItems = []
@@ -34,17 +37,20 @@ const createOrder = async (req, res) => {
   for (const item of cartItems) {
     const dbProduct = await Product.findOne({ _id: item.productId })
     if (!dbProduct) {
-      return res.send(`No product with id: ${item.productId}`)
+      req.flash('error', `Không tìm thấy sản phẩm với id: ${item.productId}`)
+      return res.redirect('/cart')
     }
 
     const dbSku = dbProduct.getSkuById(item.skuId)
     if (!dbSku) {
-      return res.send(`No sku with id: ${item.skuId}`)
+      req.flash('error', `Không tìm thấy sku với id: ${item.skuId}`)
+      return res.redirect('/cart')
     }
 
     // Check quantity validation
     if (item.quantity > dbSku.quantity || item.quantity < 1) {
-      return res.send('Quantity not valid')
+      req.flash('error', 'Số lượng không hợp lệ')
+      return res.redirect('/cart')
     }
 
     const { name, _id: productId } = dbProduct
@@ -63,6 +69,7 @@ const createOrder = async (req, res) => {
       size,
       product: productId,
     }
+
     // add item to orderItems list
     orderItems = [...orderItems, singleOrderItem]
     // calculate subtotal
@@ -88,14 +95,18 @@ const createOrder = async (req, res) => {
 
   await cart.clearCart()
 
-  res.redirect('/order/my-order')
+  res.redirect('/orders/my-orders')
 }
 
 // Admin only
 const getAllOrders = async (req, res) => {
-  const orders = await Order.find({})
+  let orders = await Order.find({})
 
-  res.status(StatusCodes.OK).json({ orders, count: orders.length })
+  if (orders && orders.length > 0) {
+    orders = orders.map((order) => order.toObject())
+  }
+
+  res.render('orders/index', { orders, layout: 'subordinate' })
 }
 
 const getSingleOrder = async (req, res) => {
@@ -103,42 +114,117 @@ const getSingleOrder = async (req, res) => {
 
   const order = await Order.findOne({ _id: orderId })
   if (!order) {
-    throw new NotFoundError(`No order with id: ${order}`)
+    req.flash('error', 'Không tìm thấy đơn hàng!')
+    return res.redirect('/orders/my-orders')
   }
 
-  // TODO: check permission
-  // checkPermissions(req.user, order.user)
+  const userId = req.user
 
-  res.status(StatusCodes.OK).json({ order })
+  const hasPermissions = checkPermissions(userId, order.user)
+  if (!hasPermissions) {
+    req.flash('error', 'Bạn không có quyền xem đơn hàng này!')
+    return res.redirect('/orders/my-orders')
+  }
+
+  res.render('orders/show', {
+    order: order.toObject(),
+    layout: 'subordinate',
+  })
 }
 
 const getCurrentUserOrders = async (req, res) => {
   const userId = req.user
   let orders = await Order.find({ user: userId }).populate('orderItems.product')
 
-  orders = orders.map((order) => order.toObject())
+  if (orders && orders.length > 0) {
+    orders = orders.map((order) => order.toObject())
+  }
 
-  res.render('orders/my-order', {
-    count: orders.length,
+  res.render('orders/my-orders', {
     orders,
+    layout: 'subordinate',
+  })
+}
+
+// Admin only
+const getEdit = async (req, res) => {
+  const { id: orderId } = req.params
+
+  const order = await Order.findOne({ _id: orderId })
+  if (!order) {
+    req.flash('error', 'Không tìm thấy đơn hàng!')
+    return res.redirect('/orders/my-orders')
+  }
+
+  const userId = req.user
+
+  //TODO: check admin
+  const hasPermissions = checkPermissions(userId, order.user)
+  if (!hasPermissions) {
+    req.flash('error', 'Bạn không có quyền xem đơn hàng này!')
+    return res.redirect('/orders/my-orders')
+  }
+
+  res.render('orders/edit', {
+    order: order.toObject(),
+    layout: 'subordinate',
   })
 }
 
 // Admin only
 const updateOrder = async (req, res) => {
   const { id: orderId } = req.params
-  const { paymentIntentId } = req.body
 
   const order = await Order.findOne({ _id: orderId })
   if (!order) {
-    throw new NotFoundError(`No order with id: ${order}`)
+    req.flash('error', 'Không tìm thấy đơn hàng!')
+    return res.redirect('/orders/my-orders')
   }
 
-  order.paymentIntentId = paymentIntentId
-  order.status = 'paid'
+  const { status } = req.body
+  const validStatus = ['Đang xử lý', 'Đang giao hàng', 'Đã huỷ', 'Thành công']
+  if (!status || !validStatus.includes(status)) {
+    req.flash('error', 'Trạng thái không hợp lệ')
+    return res.redirect(`/orders/edit/${orderId}`)
+  }
+
+  //TODO: check permission
+
+  order.status = status
   await order.save()
 
-  res.status(StatusCodes.OK).json({ order })
+  req.flash('success', 'Thay đổi trạng thái đơn hàng thành công')
+  res.redirect(`/orders/edit/${orderId}`)
+}
+
+const cancelOrder = async (req, res) => {
+  const { id: orderId } = req.params
+
+  const order = await Order.findOne({ _id: orderId })
+  if (!order) {
+    req.flash('error', 'Không tìm thấy đơn hàng!')
+    return res.redirect('/orders/my-orders')
+  }
+
+  // Check permission
+  const userId = req.user
+
+  const hasPermissions = checkPermissions(userId, order.user)
+  if (!hasPermissions) {
+    req.flash('error', 'Bạn không có quyền huỷ đơn hàng này!')
+    return res.redirect('/orders/my-orders')
+  }
+
+  if (order.status !== 'Đang xử lý') {
+    req.flash('error', 'Không thể huỷ đơn hàng!')
+    return res.redirect(`/orders/${orderId}`)
+  }
+
+  order.status = 'Đã huỷ'
+  await order.save()
+
+  req.flash('success', 'Huỷ đơn hàng thành công!')
+  res.redirect(`/orders/${order._id}`)
 }
 
 module.exports = {
@@ -147,4 +233,6 @@ module.exports = {
   getCurrentUserOrders,
   createOrder,
   updateOrder,
+  cancelOrder,
+  getEdit,
 }

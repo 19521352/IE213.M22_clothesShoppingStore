@@ -1,0 +1,97 @@
+<style>
+  .order {
+    min-height: 80vh;
+  }
+
+  .order-item__image {
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .order-item-list {
+    max-height: 30vh;
+    overflow-y: scroll;
+  }
+
+  .order-info {
+    font-weight: bold;
+  }
+</style>
+
+<div class='card order'>
+  <h2 class='title text-center'>Đơn hàng</h2>
+  <ul class='order-item-list'>
+
+    {{#each order.orderItems as |item key|}}
+
+    <li class='cart-item' style='display:flex; flex-direction:row; gap: 1rem'>
+      <a href='/products/{{item.product.slug}}' class='product__thumbnail' class='d-block'>
+        <img src='{{item.image}}' class='img-thumbnail cart-item__image' />
+      </a>
+      <div>
+        <h4 class='cart-item__name'>{{item.name}}</h6>
+          <span class='product__variation text-uppercase'>
+            <p style='text-transform: uppercase;'>{{item.color}},
+              {{item.size}}</p>
+          </span>
+          <div class='price'>
+            <p>
+              <span>Thành tiền: {{item.price}}</span>
+              <span class='currency-symbol'>VND</span>
+            </p>
+          </div>
+          <div class='add__product'>
+            <span>Số lượng: {{item.quantity}}</span>
+          </div>
+      </div>
+    </li>
+
+    {{/each}}
+
+  </ul>
+  <div class='card-body'>
+    <p class='card-text'><span class='order-info'>Tên người nhận:</span> {{order.name}}</p>
+    <p class='card-text'><span class='order-info'>Địa chỉ:</span> {{order.address}}</p>
+    <p class='card-text'><span class='order-info'>Số điện thoại:</span> {{order.phoneNumber}}</p>
+    <p class='card-text'><span class='order-info'>Hình thức thanh toán:</span> {{order.paymentType}}</p>
+    <p class='card-text'><span class='order-info'>Tổng:</span> {{order.subtotal}}</p>
+    <p class='card-text'><span class='order-info'>Phí giao hàng:</span> {{order.shippingFee}}</p>
+    <p class='card-text'><span class='order-info'>Thành tiền:</span> {{order.total}}</p>
+    <p class='card-text'><span class='order-info'>Trạng thái:</span> {{order.status}}</p>
+
+    {{#if (eq order.status Đã huỷ)}}
+
+    <a href='' class='btn btn-primary' data-toggle='modal' data-id='{{order._id}}' data-target='#cancel-order-modal'>Huỷ
+      đơn hàng</a>
+    <form name='cancel-order-form' action='/orders/cancel/{{order._id}}' method='post'>
+    </form>
+
+    {{/if}}
+  </div>
+</div>
+
+{{! Confirm cancel order }}
+<div id='cancel-order-modal' class='modal fade' tabindex='-1' role='dialog'>
+  <div class='modal-dialog' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title' id='exampleModalLabel'>Huỷ đơn hàng</h5>
+        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+          <span aria-hidden='true'>&times;</span>
+        </button>
+      </div>
+      <div class='modal-body'>
+        Bạn có chắc chắn muốn huỷ đơn hàng này?
+      </div>
+      <div class='modal-footer'>
+        <button id='btn-cancel-order' type='button' class='btn btn-danger'>Huỷ
+          đơn hàng</button>
+        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Quay lại</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src='/js/orders/cancel-order.js'>
+
+</script>

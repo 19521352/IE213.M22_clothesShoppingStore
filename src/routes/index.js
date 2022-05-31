@@ -10,9 +10,9 @@ function route(app) {
   app.use('/products', productsRouter)
   app.use('/login', userRouter)
   app.use('/cart', cartRouter)
-  app.use('/order', orderRouter)
-  app.use('/login', userRouter);
-  app.use('/account', account);
+  app.use('/orders', orderRouter)
+  app.use('/login', userRouter)
+  app.use('/account', account)
   app.use('/', siteRouter)
 }
 module.exports = route
