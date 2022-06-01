@@ -4,7 +4,6 @@ const express = require('express')
 const path = require('path')
 const morgan = require('morgan')
 const { engine, create } = require('express-handlebars')
-const SortMiddleware = require('./app/middlewares/SortMiddleware')
 
 var bodyParser = require('body-parser')
 
@@ -16,6 +15,9 @@ const session = require('express-session')
 const flash = require('connect-flash')
 
 const flashMessageMiddleware = require('./app/middlewares/flashMessageMiddleware')
+const notFoundMiddleware = require('./app/middlewares/notFoundMiddleware')
+const errorHandlerMiddleware = require('./app/middlewares/errorHandlerMiddleware')
+const SortMiddleware = require('./app/middlewares/SortMiddleware')
 
 // Connect to DB
 db.connect()
@@ -118,12 +120,17 @@ Handlebars.registerHelper('json', function (context) {
   return JSON.stringify(context)
 })
 
+// Pre-routes middlewares
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(flashMessageMiddleware)
 
 // Route init
 route(app)
+
+// Post-routes middlewares
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`, `http://localhost:${port}/`)
