@@ -1,59 +1,57 @@
 <div>
   <h2>Giỏ hàng</h2>
   {{#if cart}}
-    <table class='table table-striped'>
-      <thead>
-        <tr>
-          <th scope='col'>Image</th>
-          <th scope='col'>Sản phẩm</th>
-          <th scope='col'>Màu</th>
-          <th scope='col'>Size</th>
-          <th scope='col'>Số lượng</th>
-          <th scope='col'></th>
-          <th scope='col'>Subtotal</th>
-        </tr>
-      </thead>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th scope='col'>Image</th>
+        <th scope='col'>Sản phẩm</th>
+        <th scope='col'>Màu</th>
+        <th scope='col'>Size</th>
+        <th scope='col'>Số lượng</th>
+        <th scope='col'></th>
+        <th scope='col'>Subtotal</th>
+      </tr>
+    </thead>
 
-      <tbody>
+    <tbody>
 
-        {{#each cart.cartItems}}
-          <tr>
-            <td><img src='{{this.image}}' class='img-thumbnail' /></td>
-            <td>{{this.productId.name}}</td>
-            <td>{{this.color}}</td>
-            <td>{{this.size}}</td>
-            <td>{{this.quantity}}</td>
-            <td>
-              <a
-                href='/cart/update?action=add&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'
-              >+</a>
-              <a
-                href='/cart/update?action=sub&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'
-              >-</a>
-              {{!--
+      {{#each cart.cartItems}}
+      <tr>
+        <td><img src='{{this.image}}' class='img-thumbnail' /></td>
+        <td>{{this.productId.name}}</td>
+        <td>{{this.color}}</td>
+        <td>{{this.size}}</td>
+        <td>{{this.quantity}}</td>
+        <td>
+          <a
+            href='/cart/update?action=add&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'>+</a>
+          <a
+            href='/cart/update?action=sub&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'>-</a>
+          {{!--
           <a
             href='/cart/update?action=delete&productId={{this.productId._id}}&color={{this.color}}&size={{this.size}}'>Xoá</a>
           --}}
-              <form action='/cart/delete-item' method='post'>
-                <input type='hidden' name='cartItemId' value='{{this._id}}' />
-                <button type='submit' class='btn btn-primary'>Xoá</button>
-              </form>
-            </td>
-            <td>{{this.price.currency}} {{this.price.base}}</td>
+          <form action='/cart/delete-item' method='post'>
+            <input type='hidden' name='cartItemId' value='{{this._id}}' />
+            <button type='submit' class='btn btn-primary'>Xoá</button>
+          </form>
+        </td>
+        <td>{{this.price.currency}} {{this.price.base}}</td>
 
-          </tr>
+      </tr>
 
-        {{/each}}
-      </tbody>
-    </table>
+      {{/each}}
+    </tbody>
+  </table>
 
-    <form action='/cart/delete/{{cart._id}}' method='post'>
-      <button type='submit' class='btn btn-primary'>Xoá giỏ hàng</button>
-    </form>
+  <form action='/cart/delete/{{cart._id}}' method='post'>
+    <button type='submit' class='btn btn-primary'>Xoá giỏ hàng</button>
+  </form>
 
   {{else}}
 
-    <h1>Không có sản phẩm nào trong giỏ hàng</h1>
+  <h1>Không có sản phẩm nào trong giỏ hàng</h1>
 
   {{/if}}
 </div>

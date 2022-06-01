@@ -50,6 +50,7 @@ const createOrder = async (req, res) => {
     // Check quantity validation
     if (item.quantity > dbSku.quantity || item.quantity < 1) {
       req.flash('error', 'Số lượng không hợp lệ')
+      cart.clearCart()
       return res.redirect('/cart')
     }
 
@@ -112,11 +113,15 @@ const getAllOrders = async (req, res) => {
 const getSingleOrder = async (req, res) => {
   const { id: orderId } = req.params
 
-  const order = await Order.findOne({ _id: orderId })
+  const order = await Order.findOne({ _id: orderId }).populate(
+    'orderItems.product'
+  )
   if (!order) {
     req.flash('error', 'Không tìm thấy đơn hàng!')
     return res.redirect('/orders/my-orders')
   }
+
+  console.log(order)
 
   const userId = req.user
 
