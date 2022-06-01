@@ -17,6 +17,7 @@ class userController {
     res.render('user', { layout: 'no-left-sidebar' })
   }
   Login = async (req, res) => {
+    const ogUrl = req.query.ogUrl || '/'
     const password = req.body.password
     const emails = req.body.email
     const authToken = crypto.randomBytes(30).toString('hex')
@@ -33,7 +34,7 @@ class userController {
                   maxAge: 9000000000,
                   httpOnly: true,
                 })
-                .redirect('/')
+                .redirect(ogUrl)
             })
         } else {
           res.render('user', {
@@ -160,6 +161,8 @@ class userController {
       })
   }
   requireAuth(req, res, next) {
+    const originalUrl = req.originalUrl
+    console.log(req.originalUrl)
     const authToken = req.cookies['AuthToken']
     req.user = authTokens[authToken]
     if (req.user) {
@@ -170,6 +173,7 @@ class userController {
         status: 'Hãy đăng nhập hoặc đăng kí để tiếp tục',
         class: 'error',
         layout: 'no-left-sidebar',
+        ogUrl: originalUrl,
       })
     }
   }
