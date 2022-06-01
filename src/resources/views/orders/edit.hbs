@@ -1,4 +1,8 @@
 <style>
+  .order {
+    min-height: 80vh;
+  }
+
   .order-item__image {
     max-width: 300px;
     max-height: 300px;
@@ -7,6 +11,10 @@
   .order-item-list {
     max-height: 30vh;
     overflow-y: scroll;
+  }
+
+  .order-info {
+    font-weight: bold;
   }
 </style>
 
@@ -62,7 +70,7 @@
         <option value='Thành công' {{#if (eq order.status 'Thành công' )}}selected{{/if}}>Thành công</option>
       </select>
 
-      <button type='submit'>Xác nhận</button>
+      <button type='submit' class='btn btn-primary'>Xác nhận</button>
     </form>
   </div>
 </div>

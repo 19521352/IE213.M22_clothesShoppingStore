@@ -7,9 +7,9 @@
     position: relative;
   }
 
-  .cart-item__image {
-    max-width: 300px;
-    max-height: 300px;
+  .cart-item-img {
+    width: 300px;
+    height: 300px;
   }
 
   .total-item {
@@ -50,7 +50,7 @@
 
               <tr>
                 <td class='cart_product'>
-                  <a href='/products/{{item.productId.slug}}'><img src='{{item.image}}' /></a>
+                  <a href='/products/{{item.productId.slug}}'><img class='cart-item-img' src='{{item.image}}' /></a>
                 </td>
                 <td class='cart_description'>
                   <h4><a href='/products/{{item.productId.slug}}'>{{item.productId.name}}</a></h4>
