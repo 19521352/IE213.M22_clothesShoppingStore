@@ -56,17 +56,17 @@ const createCartItem = async (req, res, next) => {
     cart.cartItems[itemIndex].color = sku.color.color_type
     cart.cartItems[itemIndex].size = sku.size.size_type
     cart.cartItems[itemIndex].image = product.image[0]
+  } else {
+    cart.cartItems.push({
+      productId,
+      skuId: sku._id,
+      quantity,
+      color: sku.color.color_type,
+      size: sku.size.size_type,
+      price: sku.price,
+      image: product.image[0] || '/images/product-placeholder.png',
+    })
   }
-
-  cart.cartItems.push({
-    productId,
-    skuId: sku._id,
-    quantity,
-    color: sku.color.color_type,
-    size: sku.size.size_type,
-    price: sku.price,
-    image: product.image[0] || '/images/product-placeholder.png',
-  })
 
   await cart.save()
 
@@ -93,7 +93,7 @@ const getAllCartItems = async (req, res, next) => {
     layout: 'subordinate',
     cart: cart.cartItems.length < 1 ? null : cart.toObject(),
     total: cart.shippingFee + cart.subTotal,
-    user : req.user,
+    user: req.user,
     isLogin: req.isLogin,
   })
 }
