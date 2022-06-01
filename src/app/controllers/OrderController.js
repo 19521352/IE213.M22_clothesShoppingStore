@@ -143,6 +143,7 @@ const getCurrentUserOrders = async (req, res) => {
   res.render('orders/my-orders', {
     orders,
     layout: 'subordinate',
+    isLogin: req.user,
   })
 }
 

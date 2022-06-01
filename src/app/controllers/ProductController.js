@@ -52,7 +52,7 @@ class ProductController {
         const Data = req.body
         Data.name = user.name
         const comment = new Comments(Data)
-        console.log(comment)
+        // console.log(comment)
         comment.save()
       })
       .then(() => res.redirect('/products/' + req.body.productId))

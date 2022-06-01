@@ -94,7 +94,7 @@ const getAllCartItems = async (req, res, next) => {
     cart: cart.cartItems.length < 1 ? null : cart.toObject(),
     total: cart.shippingFee + cart.subTotal,
     user: req.user,
-    isLogin: req.isLogin,
+    isLogin: req.user,
   })
 }
 
