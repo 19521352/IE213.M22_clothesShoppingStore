@@ -43,15 +43,10 @@
     border-color: #fe980f;
   }
 </style>
-
 <div class='container'>
   <div class='breadcrumbs'>
     <ol class='breadcrumb'>
-      {{#if isAdmin}}
       <li><a href='/orders'>Danh sách đơn hàng(Admin)</a></li>
-      {{else}}
-      <li><a href='/orders/my-orders'>Đơn hàng của tôi</a></li>
-      {{/if}}
       <li class='active'>Đơn hàng: {{order._id}}</li>
     </ol>
   </div>
@@ -127,51 +122,18 @@
       {{order.phoneNumber}}</p>
     <p class='card-text'><span class='order-info'>Hình thức thanh toán:</span>
       {{order.paymentType}}</p>
-    <p class='card-text'><span class='order-info'>Trạng thái:</span>
-      {{order.status}}</p>
+    <form action='/orders/edit-status/{{order._id}}' method='post'>
+      <label class='card-text' for='status' val>Trạng thái:
+      </label>
+      <select name='status' id='status'>
+        <option value='Đang xử lý' {{#if (eq order.status 'Đang xử lý' )}}selected{{/if}}>Đang xử lý</option>
+        <option value='Đang giao hàng' {{#if (eq order.status 'Đang giao hàng' )}}selected{{/if}}>Đang giao hàng
+        </option>
+        <option value='Đã huỷ' {{#if (eq order.status 'Đã huỷ' )}}selected{{/if}}>Đã huỷ</option>
+        <option value='Thành công' {{#if (eq order.status 'Thành công' )}}selected{{/if}}>Thành công</option>
+      </select>
 
-    {{#if (eq order.status 'Đang xử lý')}}
-    <a class='btn btn-custom' href='/orders/edit-info/{{order._id}}'>Thay đổi
-      thông tin</a>
-    {{/if}}
-
-    {{#if (ne order.status 'Đã huỷ')}}
-
-    <a href='' class='btn btn-danger' data-toggle='modal' data-id='{{order._id}}' data-target='#cancel-order-modal'>Huỷ
-      đơn hàng</a>
-    <form name='cancel-order-form' action='/orders/cancel/{{order._id}}' method='post'>
+      <button type='submit' class='btn btn-primary'>Xác nhận</button>
     </form>
-
-    {{/if}}
-
   </div>
 </div>
-
-{{! Confirm cancel order }}
-<div id='cancel-order-modal' class='modal fade' tabindex='-1' role='dialog'>
-  <div class='modal-dialog' role='document'>
-    <div class='modal-content'>
-      <div class='modal-header'>
-        <h5 class='modal-title' id='exampleModalLabel'>Huỷ đơn hàng</h5>
-        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-          <span aria-hidden='true'>&times;</span>
-        </button>
-      </div>
-      <div class='modal-body'>
-        Bạn có chắc chắn muốn huỷ đơn hàng này?
-        <p>
-          Lưu ý: Chỉ có đơn hàng ở trạng thái Đang xử lý mới được huỷ!
-        </p>
-      </div>
-      <div class='modal-footer'>
-        <button id='btn-cancel-order' type='button' class='btn btn-danger'>Huỷ
-          đơn hàng</button>
-        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Quay lại</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src='/js/orders/cancel-order.js'>
-
-</script>

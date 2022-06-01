@@ -8,8 +8,8 @@
   }
 
   .cart-item-img {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
   }
 
   .total-item {
@@ -144,8 +144,8 @@
         <input type='text' class='form-control' id='address[district]' name='address[district]' required />
       </div>
       <div class='mb-3'>
-        <label for='address[sub-district]' class='form-label'>Phường/Xã</label>
-        <input type='text' class='form-control' id='address[sub-district]' name='address[sub-district]' required />
+        <label for='address[subDistrict]' class='form-label'>Phường/Xã</label>
+        <input type='text' class='form-control' id='address[subDistrict]' name='address[subDistrict]' required />
       </div>
       <div class='mb-3'>
         <label for='address[street]' class='form-label'>Số nhà tên đường</label>
@@ -157,7 +157,10 @@
 
   {{else}}
 
-  <h1>Không có sản phẩm nào trong giỏ hàng</h1>
+  <h1>Không có sản phẩm nào trong giỏ hàng
+    <br />
+    <a href='/' class='link'>Đặt hàng ngay</a>
+  </h1>
 
   {{/if}}
 </div>

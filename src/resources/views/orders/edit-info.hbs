@@ -1,0 +1,62 @@
+<style>
+  .btn-custom {
+    color: #fff;
+    background-color: #fe980f;
+    border-color: #fe980f;
+  }
+
+  .order-edit {
+    min-height: 60vh;
+  }
+</style>
+
+<div class='container'>
+  <div class='breadcrumbs'>
+    <ol class='breadcrumb'>
+      {{#if isAdmin}}
+      <li><a href='/orders'>Danh sách đơn hàng(Admin)</a></li>
+      {{else}}
+      <li><a href='/orders/my-orders'>Đơn hàng của tôi</a></li>
+      {{/if}}
+      <li class='active'>Đơn hàng: {{order._id}}</li>
+    </ol>
+  </div>
+</div>
+<div class='container order-edit'>
+
+  <h2 class='title text-center'>Thông tin giao hàng</h2>
+  <form action='/orders/edit-info/{{order._id}}' class='needs-validation' method='post'>
+    <div class='mb-3'>
+      <label for='name' class='form-label'>Tên người nhận</label>
+      <input type='text' class='form-control' id='name' name='name' required value='{{order.name}}' />
+    </div>
+    <div class='mb-3'>
+      <label for='phoneNumber' class='form-label'>Số điện thoại</label>
+      <input type='tel' class='form-control' id='phoneNumber' name='phoneNumber' required
+        value='{{order.phoneNumber}}' />
+    </div>
+    <div class='mb-3'>
+      <label for='address[city]' class='form-label'>Thành phố</label>
+      <input type='pssword' class='form-control' id='address[city]' name='address[city]' required
+        value='{{order.address.city}}' />
+    </div>
+    <div class='mb-3'>
+      <label for='address[district]' class='form-label'>Quận/Huyện</label>
+      <input type='text' class='form-control' id='address[district]' name='address[district]' required
+        value='{{order.address.district}}' />
+    </div>
+    <div class='mb-3'>
+      <label for='address[subDistrict]' class='form-label'>Phường/Xã</label>
+      <input type='text' class='form-control' id='address[subDistrict]' name='address[subDistrict]' required
+        value='{{order.address.subDistrict}}' />
+    </div>
+    <div class='mb-3'>
+      <label for='address[street]' class='form-label'>Số nhà tên đường</label>
+      <input type='text' class='form-control' id='address[street]' name='address[street]' required
+        value='{{order.address.street}}' />
+    </div>
+    <br />
+    <button type='submit' class='btn btn-custom'>Xác nhận</button>
+    <a href='/orders/{{order._id}}' class='btn btn-secondary'>Quay lại</a>
+  </form>
+</div>

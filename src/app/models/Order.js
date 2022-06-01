@@ -7,8 +7,7 @@ const singleOrderItemSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    default:
-      'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640',
+    default: '/images/product-placeholder.png',
   },
   price: {
     type: Number,
@@ -59,8 +58,8 @@ const orderSchema = new mongoose.Schema(
     },
     paymentType: {
       type: String,
-      enum: ['COD', 'Trả trước'],
-      default: 'COD',
+      enum: ['Thanh toán khi nhận hàng', 'Trả trước'],
+      default: 'Thanh toán khi nhận hàng',
     },
     name: {
       type: String,
@@ -71,8 +70,22 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     address: {
-      type: String,
-      required: true,
+      city: {
+        type: String,
+        required: true,
+      },
+      district: {
+        type: String,
+        required: true,
+      },
+      subDistrict: {
+        type: String,
+        required: true,
+      },
+      street: {
+        type: String,
+        required: true,
+      },
     },
   },
   { timestamps: true }

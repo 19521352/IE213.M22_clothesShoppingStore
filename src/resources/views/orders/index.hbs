@@ -15,6 +15,7 @@
 </style>
 
 <div class='container order-container'>
+  <h2 class='text-center title'>Quản lý đơn hàng</h2>
 
   {{#if orders}}
   <table class='table mt-4'>
@@ -39,7 +40,7 @@
         <td>{{order.createdAt}}</td>
         <td>
           <a href='/orders/{{order._id}}' class='btn btn-link'>Xem</a>
-          <a href='/orders/edit/{{order._id}}' class='btn btn-link'>Sửa</a>
+          <a href='/orders/edit-status/{{order._id}}' class='btn btn-link'>Đổi trạng thái</a>
         </td>
       </tr>
       {{/each}}

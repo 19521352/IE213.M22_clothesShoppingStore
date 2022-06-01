@@ -15,6 +15,7 @@
 </style>
 
 <div class='container order-container'>
+  <h2 class='text-center title'>Đơn hàng của tôi</h2>
 
   {{#if orders}}
   <table class='table mt-4'>
@@ -46,6 +47,8 @@
   {{else}}
   <h2 class='order-container'>
     Bạn không có đơn hàng nào
+    <br />
+    <a href='/' class='link'>Đặt hàng ngay</a>
   </h2>
 
   {{/if}}

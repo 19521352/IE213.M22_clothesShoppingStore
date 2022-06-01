@@ -22,11 +22,6 @@ const CartItemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  quantity: {
-    type: Number,
-    required: true,
-    min: 1,
-  },
   image: {
     type: String,
     default: '',
