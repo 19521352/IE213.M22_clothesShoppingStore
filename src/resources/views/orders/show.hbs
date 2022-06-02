@@ -135,7 +135,7 @@
       thông tin</a>
     {{/if}}
 
-    {{#if (ne order.status 'Đã huỷ')}}
+    {{#if (eq order.status 'Đang xử lý')}}
 
     <a href='' class='btn btn-danger' data-toggle='modal' data-id='{{order._id}}' data-target='#cancel-order-modal'>Huỷ
       đơn hàng</a>

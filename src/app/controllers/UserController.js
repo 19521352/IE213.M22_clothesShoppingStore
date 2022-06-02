@@ -188,6 +188,7 @@ class userController {
     }
   }
   requireAdmin(req, res, next) {
+    const originalUrl = req.originalUrl
     const authToken = req.cookies['AuthToken']
     req.user = authTokens[authToken]
     if (req.user == '19521352@gm.uit.edu.vn') {
@@ -198,6 +199,7 @@ class userController {
         status: 'Hãy đăng nhập tài khoản admin để tiếp tục',
         class: 'error',
         layout: 'no-left-sidebar',
+        ogUrl: originalUrl,
       })
     }
   }

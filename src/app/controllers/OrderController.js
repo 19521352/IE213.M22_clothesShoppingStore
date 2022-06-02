@@ -306,7 +306,7 @@ const updateOrderInfo = async (req, res, next) => {
     order.address = address
     await order.save()
 
-    req.flash('Cập nhập thông tin giao hàng thành công')
+    req.flash('success', 'Cập nhập thông tin giao hàng thành công')
     res.redirect(`/orders/${orderId}`)
   } catch (err) {
     next(err)
