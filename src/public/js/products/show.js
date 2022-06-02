@@ -28,7 +28,7 @@ function setPrice(obj) {
 }
 
 function sizeBtnClick(data) {
-  const colorItemBtn = $('input[name="productColorList[]"]:checked')
+  const colorItemBtn = $('input[name="color"]:checked')
   if (colorItemBtn.length) {
     reRenderDetail(data.find(e => e.color.color_type == colorItemBtn[0].value))
   } else {
@@ -37,11 +37,11 @@ function sizeBtnClick(data) {
     reRenderDetail(dataObj)
   }
   const colorArr = data.map(e => (e.color.color_type))
-  disableBtn(colorArr, "productColorList[]")
+  disableBtn(colorArr, "color")
 }
 
 function colorBtnClick(data) {
-  const sizeItemBtn = $('input[name="productSizeList[]"]:checked')
+  const sizeItemBtn = $('input[name="size"]:checked')
   if (sizeItemBtn.length) {
     console.log(sizeItemBtn[0].value)
     reRenderDetail(data.find(e => e.size.size_type == sizeItemBtn[0].value))
@@ -53,7 +53,7 @@ function colorBtnClick(data) {
   }
   // Disable color btn
   const sizeArr = data.map(e => (e.size.size_type))
-  disableBtn(sizeArr, "productSizeList[]")
+  disableBtn(sizeArr, "size")
   // reRenderDetail(data.find(e => e.size.sizeType == sizeItemBtn[0].value))
 }
 

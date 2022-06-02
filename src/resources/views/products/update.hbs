@@ -16,7 +16,7 @@
           <div class="form-group col-md-12">
             <label for="condition">Trạng thái</label>
             <select class="form-control" id="formCondition" required="required" name="condition" required="required">
-              <option {{#if (eq product.categories '' )}}checked{{/if}}>Chọn trạng thái</option>
+              <option value=' ' {{#if (eq product.categories '' )}}checked{{/if}}>Chọn trạng thái</option>
               <option value="new" {{#if (eq product.categories 'new' )}}checked{{/if}}>Mới</option>
               <option value="out-of-stock" {{#if (eq product.categories 'out-of-stock' )}}checked{{/if}}>Hết hàng
               </option>
